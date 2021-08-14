@@ -15,85 +15,65 @@ public interface DatabaseConfig {
      * @return 데이터베이스 주소
      */
     @Nullable
-    default String getAddress(){
-        return get("address");
-    }
+    String getAddress();
 
     /**
      * 데이터베이스 주소를 설정합니다.
      * @param address 데이터베이스 주소
      */
-    default void setAddress(String address){
-        setManually("address", address);
-    }
+    void setAddress(String address);
 
     /**
      * 데이터베이스 유저를 반환합니다.
      * @return 데이터베이스 유저 이름
      */
     @Nullable
-    default String getUser(){
-        return get("user");
-    }
+    String getUser();
 
     /**
      * 데이터베이스 유저를 설정합니다.
      * @param user 데이터베이스 유저 이름
      */
-    default void setUser(String user){
-        setManually("user", user);
-    }
+    void setUser(String user);
 
     /**
      * 데이터베이스 포트를 반환합니다.
      * @return 데이터베이스 포트
      */
     @Nullable
-    default String getPort(){
-        return get("port");
-    }
+    String getPort();
 
     /**
      * 데이터베이스 포트를 설정합니다.
      * @param port 데이터베이스 포트
      */
-    default void setPort(int port){
-        setManually("port", port+"");
-    }
+    void setPort(int port);
 
     /**
      * 데이터베이스 비밀번호를 반환합니다.
      * @return 데이터베이스 비밀번호
      */
     @Nullable
-    default String getPassword(){
-        return get("password");
-    }
+    String getPassword();
 
     /**
      * 데이터베이스 비밀번호를 설정합니다.
      * @param password 데이터베이스 비밀번호
      */
-    default void setPassword(String password){
-        setManually("password", password);
-    }
+    void setPassword(String password);
 
     /**
      * 데이터베이스 이름을 반환합니다.
      * @return 데이터베이스 이름
      */
     @Nullable
-    default String getDatabase(){
-        return get("database");
-    }
+    String getDatabase();
 
     /**
      * 데이터베이스 이름을 설정합니다.
      * @param database 데이터베이스 이름
      */
-    default void setDatabase(String database){
-        setManually("database", database);
-    }
+    void setDatabase(String database);
 
     /**
      * 데이터베이스 설정 값을 직접 수정합니다.
