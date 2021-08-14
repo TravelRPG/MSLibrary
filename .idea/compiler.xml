@@ -7,25 +7,27 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bcsp-proxy" />
+        <module name="bgmsync-assembly" />
         <module name="mslibrary-inventory" />
         <module name="bcsp-global" />
         <module name="mslibrary-misc" />
         <module name="mslibrary-teleport" />
         <module name="bcsp-bukkit" />
-        <module name="mslibrary-all" />
+        <module name="bgmsync-proxy" />
         <module name="mslibrary-cache" />
         <module name="mslibrary-bootstrap" />
         <module name="bcsp-assembly" />
+        <module name="bgmsync-bukkit" />
         <module name="huni-gui" />
-        <module name="mslibrary-sync" />
         <module name="mslibrary-database" />
         <module name="mslibrary-message" />
         <module name="mslibrary-customitem" />
         <module name="mslibrary-package" />
+        <module name="bgmsync-global" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="msgui" target="1.5" />
+      <module name="msgui" target="8" />
       <module name="mslibrary-all" target="8" />
     </bytecodeTargetLevel>
   </component>

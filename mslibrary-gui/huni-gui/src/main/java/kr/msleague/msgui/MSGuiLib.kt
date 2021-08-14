@@ -2,10 +2,11 @@ package kr.msleague.msgui
 
 import kr.msleague.bootstrap.MSPlugin
 
-class MSGui: MSPlugin() {
+class MSGuiLib: MSPlugin() {
 
     override fun onEnable() {
-        println("test kotlin")
+        guiMainClass = this
+
     }
 
     override fun onDisable() {
