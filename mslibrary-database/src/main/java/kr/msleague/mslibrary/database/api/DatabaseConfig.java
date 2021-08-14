@@ -1,8 +1,8 @@
 package kr.msleague.mslibrary.database.api;
 
-import com.sun.istack.internal.Nullable;
 import lombok.NonNull;
 
+import javax.annotation.Nullable;
 import java.util.Optional;
 
 /**

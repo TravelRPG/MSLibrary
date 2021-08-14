@@ -3,6 +3,7 @@ package kr.msleague.bcsp.proxy;
 import kr.msleague.bcsp.internal.BCSPApi;
 import kr.msleague.bcsp.internal.logger.BCSPLogManager;
 import kr.msleague.bcsp.internal.netty.channel.ChannelWrapper;
+import kr.msleague.bcsp.internal.netty.channel.PacketCallBack;
 import kr.msleague.bcsp.internal.netty.packet.AbstractPacket;
 import kr.msleague.bcsp.internal.netty.packet.Direction;
 import lombok.Getter;
@@ -53,6 +54,12 @@ public class BCSPProxyAPI implements BCSPApi {
     public<T extends AbstractPacket> void addListener(Class<T> clazz, BiConsumer<T, ChannelWrapper> cons){
         Direction.INBOUND.addListener(clazz, cons);
     }
+
+    @Override
+    public <T extends AbstractPacket> void startCallBack(AbstractPacket toSend, Class<T> type, PacketCallBack<T> onRecieved) {
+
+    }
+
     public static class Unsafe{
         public static BCSPProxyChannelContainer getChannelContainer(){
             return main.channelContainer;

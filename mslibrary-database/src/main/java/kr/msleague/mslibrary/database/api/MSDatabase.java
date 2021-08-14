@@ -1,8 +1,8 @@
 package kr.msleague.mslibrary.database.api;
 
-import com.sun.istack.internal.Nullable;
 import kr.msleague.mslibrary.misc.ThrowingFunction;
 
+import javax.annotation.Nullable;
 import java.io.Closeable;
 import java.util.concurrent.Future;
 
