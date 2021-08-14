@@ -9,11 +9,11 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
+        <module>mslibrary-all</module>
         <module>mslibrary-communication</module>
         <module>mslibrary-sync</module>
         <module>mslibrary-teleport</module>
         <module>mslibrary-inventory</module>
-        <module>mslibrary-all</module>
         <module>mslibrary-database</module>
         <module>mslibrary-cache</module>
         <module>mslibrary-customitem</module>
