@@ -1,14 +1,14 @@
-package kr.msleague.bcsp.all;
+package kr.msleague.all;
 
-import net.md_5.bungee.api.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.reflections.util.ClasspathHelper;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public final class MSLibraryBungeeBootstrap extends Plugin {
-    private final Set<Plugin> plugins = new HashSet<>();
+public final class MSLibraryBukkitBootstrap extends JavaPlugin {
+    private final Set<JavaPlugin> plugins = new HashSet<>();
     @Override
     public void onEnable(){
         loadClasses();
@@ -16,17 +16,17 @@ public final class MSLibraryBungeeBootstrap extends Plugin {
     @Override
     public void onDisable(){
         getLogger().info("Shutting down MSLibrary");
-        for (Plugin plugin : plugins) {
+        for (JavaPlugin plugin : plugins) {
             plugin.onDisable();
             getLogger().info(String.format("Plugin %s Successfully disabled!", plugin.getClass().getName()));
         }
     }
     private final void loadClasses(){
         Reflections rf = new Reflections(ClasspathHelper.forPackage("kr.msleague"));
-        Set<Class<? extends Plugin>> sets = rf.getSubTypesOf(Plugin.class);
-        for (Class<? extends Plugin> pluginClass : sets) {
+        Set<Class<? extends JavaPlugin>> sets = rf.getSubTypesOf(JavaPlugin.class);
+        for (Class<? extends JavaPlugin> pluginClass : sets) {
             try{
-                Plugin plugin = pluginClass.newInstance();
+                JavaPlugin plugin = pluginClass.newInstance();
                 plugin.onEnable();
                 plugins.add(plugin);
                 getLogger().info(String.format("Plugin %s Successfully loaded!", pluginClass.getName()));
@@ -35,4 +35,5 @@ public final class MSLibraryBungeeBootstrap extends Plugin {
             }
         }
     }
+
 }
