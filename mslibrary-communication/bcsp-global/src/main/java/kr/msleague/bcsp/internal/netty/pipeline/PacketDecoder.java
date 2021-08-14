@@ -18,7 +18,7 @@ public class PacketDecoder extends MessageToMessageDecoder<ByteBuf> {
         buf.markReaderIndex();
         byte[] barr = new byte[buf.readableBytes()];
         buf.readBytes(barr);
-        System.out.println(Arrays.toString(barr));
+      //  System.out.println(Arrays.toString(barr));
 
         buf.resetReaderIndex();
         int packetId = ByteBufUtility.readVarInt(buf);

@@ -1,6 +1,7 @@
 package kr.msleague.bcsp.proxy;
 
 import kr.msleague.bcsp.internal.BCSPApi;
+import kr.msleague.bcsp.internal.logger.BCSPLogManager;
 import kr.msleague.bcsp.internal.netty.channel.ChannelWrapper;
 import kr.msleague.bcsp.internal.netty.packet.AbstractPacket;
 import kr.msleague.bcsp.internal.netty.packet.Direction;
@@ -26,6 +27,8 @@ public class BCSPProxyAPI implements BCSPApi {
         ChannelWrapper wrapper = main.channelContainer.getChannelByPort(serverPort);
         if(wrapper != null)
             wrapper.sendPacket(packet);
+        else
+            BCSPLogManager.getLogger().err("Target server not found! (Server: {0})", serverPort);
     }
 
     @Override
@@ -33,6 +36,8 @@ public class BCSPProxyAPI implements BCSPApi {
         ChannelWrapper wrapper = main.channelContainer.getChannelByServerName(serverName);
         if(wrapper != null)
             wrapper.sendPacket(packet);
+        else
+            BCSPLogManager.getLogger().err("Target server not found! (Server: {0})", serverName);
     }
 
     public void registerOuterPacket(int packetId, Class<? extends AbstractPacket> clazz){

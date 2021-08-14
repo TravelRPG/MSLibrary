@@ -3,6 +3,7 @@ package kr.msleague.bcsp.internal.netty.pipeline;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
+import kr.msleague.bcsp.internal.netty.packet.sys.PingPongPacket;
 import kr.msleague.bcsp.internal.netty.packet.sys.RelayingResult;
 import kr.msleague.bcsp.internal.netty.exception.PacketEncodeException;
 import kr.msleague.bcsp.internal.netty.packet.AbstractPacket;
@@ -28,10 +29,12 @@ public class PacketEncoder extends MessageToByteEncoder<AbstractPacket> {
         buf.writeBoolean(packet.isCallBackResult());
         packet.write(buf);
 
-        buf.markReaderIndex();
-        byte[] barr = new byte[buf.readableBytes()];
-        buf.readBytes(barr);
-        System.out.println(Arrays.toString(barr));
-        buf.resetReaderIndex();
+        if(!(packet instanceof PingPongPacket)){
+            buf.markReaderIndex();
+            byte[] barr = new byte[buf.readableBytes()];
+            buf.readBytes(barr);
+            System.out.println(Arrays.toString(barr));
+            buf.resetReaderIndex();
+        }
     }
 }
