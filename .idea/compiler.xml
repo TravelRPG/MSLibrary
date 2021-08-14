@@ -11,7 +11,6 @@
         <module name="mslibrary-misc" />
         <module name="bcsp-global" />
         <module name="mslibrary-teleport" />
-        <module name="mslibrary-communication" />
         <module name="bcsp-bukkit" />
         <module name="mslibrary-all" />
         <module name="mslibrary-cache" />
