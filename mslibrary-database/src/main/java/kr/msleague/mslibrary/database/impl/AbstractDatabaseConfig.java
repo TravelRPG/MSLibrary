@@ -1,7 +1,8 @@
 package kr.msleague.mslibrary.database.impl;
 
-import com.sun.istack.internal.Nullable;
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
+
+import javax.annotation.Nullable;
 
 public abstract class AbstractDatabaseConfig implements DatabaseConfig {
 

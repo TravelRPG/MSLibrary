@@ -1,6 +1,7 @@
 package kr.msleague.bcsp.internal;
 
 import kr.msleague.bcsp.internal.netty.channel.ChannelWrapper;
+import kr.msleague.bcsp.internal.netty.channel.PacketCallBack;
 import kr.msleague.bcsp.internal.netty.packet.AbstractPacket;
 import java.util.function.BiConsumer;
 
@@ -80,4 +81,5 @@ public interface BCSPApi {
      *
      **/
     <T extends AbstractPacket> void addListener(Class<T> clazz, BiConsumer<T, ChannelWrapper> cons);
+    <T extends AbstractPacket> void startCallBack(AbstractPacket toSend, Class<T> type, PacketCallBack<T> onRecieved);
 }
