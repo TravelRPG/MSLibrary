@@ -1,4 +1,4 @@
 name: MSLibraryBootstrapBukkit
 version: 1.0
 description: MSLibraryBootstrap for bukkit
-main: kr.meleague.bscp.all.MSLibraryBukkitBootstrap
+main: kr.msleague.all.MSLibraryBukkitBootstrap
