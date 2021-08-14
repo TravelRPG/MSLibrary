@@ -10,8 +10,10 @@ import kr.msleague.bcsp.internal.netty.channel.ChannelWrapper;
 import kr.msleague.bcsp.internal.netty.packet.Direction;
 import kr.msleague.bcsp.internal.netty.packet.sys.HandShakePacket;
 import kr.msleague.bcsp.internal.netty.pipeline.ConnectionState;
+import kr.msleague.bootstrap.loadpriority.LoadPriority;
 import lombok.Getter;
 
+@LoadPriority(priority = -999)
 public class BCSPBootstrapBukkit extends MSPlugin {
     public BCSPBootstrapBukkit(){
         GlobalProperties.setType(ServerType.BUKKIT);

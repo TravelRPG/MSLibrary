@@ -3,14 +3,18 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>MSLibrary</artifactId>
+        <artifactId>mslibrary-sync</artifactId>
         <groupId>kr.msleague</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mslibrary-package</artifactId>
+    <artifactId>bgmsync-assembly</artifactId>
 
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -29,33 +33,20 @@
             </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
     <dependencies>
         <dependency>
-            <artifactId>bcsp-assembly</artifactId>
             <groupId>kr.msleague</groupId>
+            <artifactId>bgmsync-bukkit</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <artifactId>mslibrary-bootstrap</artifactId>
-            <groupId>kr.msleague</groupId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <artifactId>huni-gui</artifactId>
-            <groupId>kr.msleague</groupId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
-            <artifactId>bgmsync-assembly</artifactId>
+            <artifactId>bgmsync-proxy</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>kr.msleague</groupId>
+            <artifactId>bgmsync-global</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

@@ -37,7 +37,13 @@ public class ChannelConnecterThread implements Runnable {
                 if(!BCSPBootstrapBukkit.isActive())
                     return;
                 Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), ()->Bukkit.getPluginManager().callEvent(new BCSPDisconnectedEvent(x, x.getHandler().getConnectionState())));
-                run();
+                BCSPLogManager.getLogger().err("BCSP Checked unexpected disconnection. Trying connect after 3 seconds.");
+                try {
+                    TimeUnit.SECONDS.sleep(3);
+                    run();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             });
             handlerBoss.setPacketPreProcessHandler((handler,wrapper)->{
                 Bukkit.getPluginManager().callEvent(new ASyncPacketReceivedEvent(handler, wrapper));
