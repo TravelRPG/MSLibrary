@@ -1,0 +1,30 @@
+package kr.msleague.bcsp.bukkit.event.packet;
+
+import kr.msleague.bcsp.internal.netty.channel.ChannelWrapper;
+import kr.msleague.bcsp.internal.netty.packet.AbstractPacket;
+import lombok.Getter;
+import org.bukkit.event.Event;
+import org.bukkit.event.HandlerList;
+
+public class ASyncPacketReceivedEvent extends Event {
+    private static final HandlerList list = new HandlerList();
+    @Getter
+    private AbstractPacket packet;
+    @Getter
+    private ChannelWrapper wrapper;
+    public ASyncPacketReceivedEvent(AbstractPacket packet, ChannelWrapper wrapper) {
+        this.packet = packet;
+        this.wrapper = wrapper;
+    }
+    private boolean isPacketOf(Class<? extends AbstractPacket> clazz){
+        return clazz.isInstance(packet);
+    }
+    @Override
+    public HandlerList getHandlers() {
+        return list;
+    }
+
+    public static HandlerList getHandlerList(){
+        return list;
+    }
+}

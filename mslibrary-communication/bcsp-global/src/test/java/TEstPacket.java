@@ -1,5 +1,5 @@
 import io.netty.buffer.ByteBuf;
-import kr.msleague.internal.netty.packet.AbstractPacket;
+import kr.msleague.bcsp.internal.netty.packet.AbstractPacket;
 
 public class TEstPacket extends AbstractPacket {
     @Override

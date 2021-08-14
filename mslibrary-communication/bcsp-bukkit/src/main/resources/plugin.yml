@@ -1,5 +1,0 @@
-name: BungeeComsoServerPlugin
-version: 1.0
-author: ChuYong
-description: Netty Packet Client Bootstrap for Bukkit
-main: kr.msleague.bukkit.BCSPBootstrapBukkit
