@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="mslibrary-sync" />
+        <module name="mslibrary-database" />
+        <module name="mslibrary-inventory" />
+        <module name="mslibrary-message" />
+        <module name="mslibrary-misc" />
+        <module name="mslibrary-teleport" />
+        <module name="mslibrary-communication" />
+        <module name="mslibrary-all" />
+        <module name="mslibrary-cache" />
+        <module name="mslibrary-customitem" />
+        <module name="mslibrary-gui" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

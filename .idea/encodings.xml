@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/mslibrary-cache/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-cache/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-communication/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-communication/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-customitem/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-customitem/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-database/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-database/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-gui/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-gui/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-inventory/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-inventory/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-message/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-message/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-misc/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-misc/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-sync/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-sync/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-teleport/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-teleport/src/main/resources" charset="UTF-8" />
+  </component>
+</project>
