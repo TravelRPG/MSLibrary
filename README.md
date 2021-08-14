@@ -1,16 +1,15 @@
 # MSLibrary
 
----
-#Site
+### Site
 > - http://msleague.kr
 
-#Authors
+### Authors
 > - Akarang
 > - BGMSound
 > - CChuYong
 > - HuNi_C
 > - Soa_
 
-#License
+### License
 > - MIT License
 > - <a href="https://github.com/TravelRPG/MSLibrary/blob/main/LICENSE">more info</a>
