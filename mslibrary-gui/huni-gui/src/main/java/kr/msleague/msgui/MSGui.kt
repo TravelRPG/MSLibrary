@@ -9,7 +9,7 @@ class MSGui: JavaPlugin() {
     }
 
     override fun onDisable() {
-        
+
     }
 
 }
