@@ -1,5 +1,6 @@
 package kr.msleague.mslibrary.database.api;
 
+import com.sun.istack.internal.Nullable;
 import kr.msleague.mslibrary.misc.ThrowingFunction;
 
 import java.io.Closeable;
@@ -21,16 +22,18 @@ public interface MSDatabase<T> {
     /**
      * 로직을 비동기로 실행합니다.
      * @param function 실행할 로직
-     * @param <R> 반환 값의 타입
+     * @param <R> 반환 값의 타입, 실행 중 문제가 발생할 경우 null
      * @return 실행 완료 시 반환 값
      */
+    @Nullable
     <R> Future<R> executeAsync(ThrowingFunction<T, R> function);
 
     /**
      * 로직을 동기로 실행합니다.
      * @param function 실행할 로직
-     * @param <R> 반환 값의 타입
+     * @param <R> 반환 값의 타입, 실행 중 문제가 발생할 경우 null
      * @return 실행 완료 시 반환 값
      */
+    @Nullable
     <R> R execute(ThrowingFunction<T, R> function);
 }
