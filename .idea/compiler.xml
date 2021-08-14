@@ -8,15 +8,16 @@
         <outputRelativeToContentRoot value="true" />
         <module name="bcsp-proxy" />
         <module name="mslibrary-inventory" />
-        <module name="mslibrary-misc" />
         <module name="bcsp-global" />
+        <module name="mslibrary-misc" />
         <module name="mslibrary-teleport" />
         <module name="bcsp-bukkit" />
         <module name="mslibrary-all" />
         <module name="mslibrary-cache" />
+        <module name="mslibrary-bootstrap" />
         <module name="bcsp-assembly" />
-        <module name="mslibrary-sync" />
         <module name="huni-gui" />
+        <module name="mslibrary-sync" />
         <module name="mslibrary-database" />
         <module name="mslibrary-message" />
         <module name="mslibrary-customitem" />
@@ -24,9 +25,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="huni-gui" target="1.8" />
-      <module name="msgui" target="1.8" />
-      <module name="mslibrary-gui" target="11.0.11" />
+      <module name="msgui" target="1.5" />
+      <module name="mslibrary-all" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
