@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bcsp-proxy" />
+        <module name="msgui" />
         <module name="mslibrary-inventory" />
         <module name="mslibrary-misc" />
         <module name="bcsp-global" />
@@ -15,7 +16,6 @@
         <module name="mslibrary-all" />
         <module name="mslibrary-cache" />
         <module name="bcsp-assembly" />
-        <module name="mslibrary-gui" />
         <module name="mslibrary-sync" />
         <module name="mslibrary-database" />
         <module name="mslibrary-message" />
