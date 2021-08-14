@@ -9,7 +9,7 @@
         <groupId>kr.msleague</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>msgui</artifactId>
+    <artifactId>huni-gui</artifactId>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

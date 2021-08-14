@@ -17,9 +17,10 @@
         <module>mslibrary-database</module>
         <module>mslibrary-cache</module>
         <module>mslibrary-customitem</module>
-        <module>mslibrary-gui</module>
+       <!-- <module>mslibrary-gui</module> -->
         <module>mslibrary-message</module>
         <module>mslibrary-misc</module>
+        <module>mslibrary-package</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -51,5 +52,12 @@
     <repositories>
 
     </repositories>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>
