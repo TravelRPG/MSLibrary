@@ -1,7 +1,7 @@
 package kr.msleague.bcsp.bukkit;
 
 import io.netty.channel.Channel;
-import kr.msleague.all.MSLibraryBukkitBootstrap;
+import kr.msleague.bootstrap.MSLibraryBukkitBootstrap;
 import kr.msleague.bcsp.bukkit.event.connection.BCSPDisconnectedEvent;
 import kr.msleague.bcsp.bukkit.event.packet.ASyncPacketReceivedEvent;
 import kr.msleague.bcsp.bukkit.event.packet.PacketReceivedEvent;
@@ -34,8 +34,16 @@ public class ChannelConnecterThread implements Runnable {
             }
             BossHandler handlerBoss = channel.pipeline().get(BossHandler.class);
             handlerBoss.setDisconnectHandler((x)->{
+                if(!BCSPBootstrapBukkit.isActive())
+                    return;
                 Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), ()->Bukkit.getPluginManager().callEvent(new BCSPDisconnectedEvent(x, x.getHandler().getConnectionState())));
-                run();
+                BCSPLogManager.getLogger().err("BCSP Checked unexpected disconnection. Trying connect after 3 seconds.");
+                try {
+                    TimeUnit.SECONDS.sleep(3);
+                    run();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             });
             handlerBoss.setPacketPreProcessHandler((handler,wrapper)->{
                 Bukkit.getPluginManager().callEvent(new ASyncPacketReceivedEvent(handler, wrapper));

@@ -1,4 +1,4 @@
-package kr.msleague.all;
+package kr.msleague.bootstrap;
 
 import lombok.Getter;
 import lombok.Setter;

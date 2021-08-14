@@ -13,11 +13,13 @@ import kr.msleague.bcsp.internal.netty.packet.sys.RelayingPacket;
 import kr.msleague.bcsp.internal.netty.packet.sys.RelayingResult;
 import kr.msleague.bcsp.internal.netty.pipeline.ConnectionState;
 import kr.msleague.bcsp.internal.netty.pipeline.TimeOutHandler;
+import kr.msleague.bootstrap.loadpriority.LoadPriority;
 import net.md_5.bungee.api.plugin.Plugin;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
+@LoadPriority(priority = -999)
 public class BCSPBootstrapProxy extends Plugin {
     public BCSPBootstrapProxy(){
         GlobalProperties.setType(ServerType.BUNGEECORD);

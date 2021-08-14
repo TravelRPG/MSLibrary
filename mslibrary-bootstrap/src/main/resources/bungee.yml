@@ -1,4 +1,4 @@
 name: MSLibraryBootstrapBungee
 version: 1.0
 description: MSLibraryBootstrap for bukkit
-main: kr.msleague.all.MSLibraryBungeeBootstrap
+main: kr.msleague.bootstrap.MSLibraryBungeeBootstrap

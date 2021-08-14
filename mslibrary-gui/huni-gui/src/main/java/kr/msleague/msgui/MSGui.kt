@@ -1,15 +1,15 @@
 package kr.msleague.msgui
 
-import org.bukkit.plugin.java.JavaPlugin
+import kr.msleague.bootstrap.MSPlugin
 
-class MSGui: JavaPlugin() {
+class MSGui: MSPlugin() {
 
     override fun onEnable() {
         println("test kotlin")
     }
 
     override fun onDisable() {
-        
+
     }
 
 }
