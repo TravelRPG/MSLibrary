@@ -1,0 +1,15 @@
+<assembly>
+    <id>all-jar</id>
+    <formats>
+        <format>jar</format> <!-- the result is a jar file -->
+    </formats>
+
+    <includeBaseDirectory>false</includeBaseDirectory> <!-- strip the module prefixes -->
+
+    <dependencySets>
+        <dependencySet>
+            <unpack>true</unpack> <!-- unpack , then repack the jars -->
+            <useTransitiveDependencies>false</useTransitiveDependencies> <!-- do not pull in any transitive dependencies -->
+        </dependencySet>
+    </dependencySets>
+</assembly>
