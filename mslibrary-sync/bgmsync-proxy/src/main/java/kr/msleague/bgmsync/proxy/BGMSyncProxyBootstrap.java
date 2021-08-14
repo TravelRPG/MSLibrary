@@ -6,10 +6,12 @@ import kr.msleague.bgmsync.global.packet.ProxyJoinPacket;
 import kr.msleague.bgmsync.global.packet.ProxyQuitPacket;
 import kr.msleague.bgmsync.global.packet.SyncRequestPacket;
 import kr.msleague.bgmsync.proxy.listener.JoinQuitListener;
+import kr.msleague.bootstrap.loadpriority.LoadPriority;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Plugin;
 
+@LoadPriority(priority = 990)
 public class BGMSyncProxyBootstrap extends Plugin {
     public void onEnable(){
         getProxy().getPluginManager().registerListener(this, new JoinQuitListener());

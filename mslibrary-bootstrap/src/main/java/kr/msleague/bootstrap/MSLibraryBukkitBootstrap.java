@@ -3,7 +3,6 @@ package kr.msleague.bootstrap;
 import com.google.common.collect.Sets;
 import kr.msleague.bootstrap.loadpriority.LoadPriority;
 import lombok.Getter;
-import net.md_5.bungee.api.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.reflections.util.ClasspathHelper;

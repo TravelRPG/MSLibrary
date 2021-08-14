@@ -9,13 +9,13 @@ import kr.msleague.bgmsync.global.packet.ProxyJoinPacket;
 import kr.msleague.bgmsync.global.packet.ProxyQuitPacket;
 import kr.msleague.bgmsync.global.packet.SyncRequestPacket;
 import kr.msleague.bootstrap.MSPlugin;
+import kr.msleague.bootstrap.loadpriority.LoadPriority;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.Arrays;
-
+@LoadPriority(priority = 990)
 public class BGMSyncBukkitBootstrap extends MSPlugin implements Listener {
     public void onEnable(){
         getServer().getPluginManager().registerEvents(this, getPlugin());
@@ -34,18 +34,5 @@ public class BGMSyncBukkitBootstrap extends MSPlugin implements Listener {
     }
     public void onDisable(){
 
-    }
-    @EventHandler
-    public void onQuit(PlayerQuitEvent event){
-        BGMSyncAPI.sendRequest(BGMSyncBukkitBootstrap.class, event.getPlayer().getUniqueId(), buf->{
-            ByteBufUtility.writeString("Umunsdjfsdfjs", buf);
-        });
-    }
-    @EventHandler
-    public void onRec(PlayerSyncReceivedEvent event){
-        if(event.isSyncOf(BGMSyncBukkitBootstrap.class)){
-            String msg = ByteBufUtility.readString(event.getBuffer());
-            System.out.println(msg);
-        }
     }
 }
