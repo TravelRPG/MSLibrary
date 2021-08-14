@@ -1,5 +1,0 @@
-name: BungeeComsoServerPlugin
-version: 1.0
-author: ChuYong
-description: Netty Packet Server Bootstrap for BungeeCord
-main: kr.msleague.proxy.BCSPBootstrapProxy
