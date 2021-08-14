@@ -1,6 +1,7 @@
 package kr.msleague.bcsp.bukkit;
 
 import io.netty.channel.Channel;
+import kr.msleague.all.MSLibraryBukkitBootstrap;
 import kr.msleague.bcsp.bukkit.event.connection.BCSPDisconnectedEvent;
 import kr.msleague.bcsp.bukkit.event.packet.ASyncPacketReceivedEvent;
 import kr.msleague.bcsp.bukkit.event.packet.PacketReceivedEvent;
@@ -33,12 +34,12 @@ public class ChannelConnecterThread implements Runnable {
             }
             BossHandler handlerBoss = channel.pipeline().get(BossHandler.class);
             handlerBoss.setDisconnectHandler((x)->{
-                Bukkit.getScheduler().runTask(BCSPBootstrapBukkit.INSTANCE, ()->Bukkit.getPluginManager().callEvent(new BCSPDisconnectedEvent(x, x.getHandler().getConnectionState())));
+                Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), ()->Bukkit.getPluginManager().callEvent(new BCSPDisconnectedEvent(x, x.getHandler().getConnectionState())));
                 run();
             });
             handlerBoss.setPacketPreProcessHandler((handler,wrapper)->{
                 Bukkit.getPluginManager().callEvent(new ASyncPacketReceivedEvent(handler, wrapper));
-                Bukkit.getScheduler().runTask(BCSPBootstrapBukkit.INSTANCE, ()->Bukkit.getPluginManager().callEvent(new PacketReceivedEvent(handler, wrapper)));
+                Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), ()->Bukkit.getPluginManager().callEvent(new PacketReceivedEvent(handler, wrapper)));
             });
             BCSPLogManager.getLogger().info("BSCP Server Initialization Success!");
             handlerBoss.setConnectionState(ConnectionState.HANDSHAKING);
