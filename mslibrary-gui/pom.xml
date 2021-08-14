@@ -15,7 +15,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>msgui</module>
+        <module>huni-gui</module>
     </modules>
 
     <properties>

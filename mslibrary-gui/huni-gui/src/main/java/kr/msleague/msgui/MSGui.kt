@@ -5,11 +5,11 @@ import org.bukkit.plugin.java.JavaPlugin
 class MSGui: JavaPlugin() {
 
     override fun onEnable() {
-        println("hi kotlin")
+        println("test kotlin")
     }
 
     override fun onDisable() {
-
+        
     }
 
 }
