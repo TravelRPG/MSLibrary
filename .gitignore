@@ -193,11 +193,7 @@ buildNumber.properties
 # Exclude maven wrapper
 !/.mvn/wrapper/maven-wrapper.jar
 
-
-### Waterfall Extras ###
-Waterfall-Proxy/
-run/
-
 # Because Github lost their minds
 .idea/
 *.iml
+
