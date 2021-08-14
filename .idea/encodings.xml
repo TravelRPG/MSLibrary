@@ -4,8 +4,9 @@
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-bukkit/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-bukkit/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-global/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-global/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-proxy/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-proxy/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-gui/msgui/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-gui/msgui/src/main/resources" charset="UTF-8" />
   </component>
 </project>
