@@ -4,15 +4,14 @@
     <file url="file://$PROJECT_DIR$/mslibrary-bootstrap/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-bootstrap/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-bukkit/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-bukkit/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-global/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-global/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-proxy/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-proxy/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-database/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-gui/huni-gui/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-gui/huni-gui/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-misc/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mslibrary-package/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mslibrary-package/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-sync/bgmsync-bukkit/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-sync/bgmsync-global/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-sync/bgmsync-proxy/src/main/java" charset="UTF-8" />
   </component>
 </project>
