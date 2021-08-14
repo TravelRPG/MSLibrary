@@ -1,12 +1,13 @@
 package kr.msleague.mslibrary.database.impl;
 
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Properties;
 
 @RequiredArgsConstructor
-public class HashDatabaseConfig implements DatabaseConfig {
+public class HashDatabaseConfig extends AbstractDatabaseConfig {
 
     private final Properties properties;
 
@@ -15,7 +16,7 @@ public class HashDatabaseConfig implements DatabaseConfig {
     }
 
     @Override
-    public void setManually(String key, String value) {
+    public void setManually(@NonNull String key, String value) {
         properties.setProperty(key, value);
     }
 
