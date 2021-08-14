@@ -32,6 +32,7 @@ public final class MSLibraryBukkitBootstrap extends JavaPlugin {
     }
     private final void loadClasses(){
         try{
+            Reflections.class.getDeclaredField("log").set(null, null);
             Reflections rf = new Reflections(ClasspathHelper.forPackage("kr.msleague"));
             Set<Class<? extends MSPlugin>> sets = rf.getSubTypesOf(MSPlugin.class);
             for (Class<? extends MSPlugin> pluginClass : sets) {

@@ -34,6 +34,8 @@ public class ChannelConnecterThread implements Runnable {
             }
             BossHandler handlerBoss = channel.pipeline().get(BossHandler.class);
             handlerBoss.setDisconnectHandler((x)->{
+                if(!BCSPBootstrapBukkit.isActive())
+                    return;
                 Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), ()->Bukkit.getPluginManager().callEvent(new BCSPDisconnectedEvent(x, x.getHandler().getConnectionState())));
                 run();
             });

@@ -17,6 +17,8 @@ public class BCSPBootstrapBukkit extends MSPlugin {
     public BCSPBootstrapBukkit(){
         GlobalProperties.setType(ServerType.BUKKIT);
     }
+    @Getter
+    private static boolean active;
     public static BCSPBootstrapBukkit INSTANCE;
     @Getter
     private static long authCodeA, authCodeB;
@@ -25,6 +27,7 @@ public class BCSPBootstrapBukkit extends MSPlugin {
     @Override
     public void onEnable(){
         INSTANCE = this;
+        active = true;
         new BCSPBukkitAPI(this);
         BCSPLogManager.setLogger(new JavaUtilLogger(getLogger()));
         GlobalProperties.loadProperties(getDataFolder(), list->{
@@ -46,5 +49,12 @@ public class BCSPBootstrapBukkit extends MSPlugin {
             }
         });
         new ChannelConnecterThread().run();
+    }
+    @Override
+    public void onDisable(){
+        active = false;
+        if(channelWrapper!=null && channelWrapper.getChannel().isOpen() && channelWrapper.getChannel().isActive()){
+            channelWrapper.getChannel().disconnect();
+        }
     }
 }
