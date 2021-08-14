@@ -7,7 +7,8 @@
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-global/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-communication/bcsp-proxy/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mslibrary-database/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mslibrary-gui/msgui/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/mslibrary-gui/msgui/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-gui/huni-gui/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-gui/huni-gui/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mslibrary-misc/src/main/java" charset="UTF-8" />
   </component>
 </project>
