@@ -1,6 +1,6 @@
 package kr.msleague.msgui
 
-import kr.msleague.all.MSPlugin
+import kr.msleague.bootstrap.MSPlugin
 
 class MSGui: MSPlugin() {
 

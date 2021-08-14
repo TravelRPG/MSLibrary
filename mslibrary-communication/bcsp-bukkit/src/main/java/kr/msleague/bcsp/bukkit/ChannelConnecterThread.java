@@ -1,7 +1,7 @@
 package kr.msleague.bcsp.bukkit;
 
 import io.netty.channel.Channel;
-import kr.msleague.all.MSLibraryBukkitBootstrap;
+import kr.msleague.bootstrap.MSLibraryBukkitBootstrap;
 import kr.msleague.bcsp.bukkit.event.connection.BCSPDisconnectedEvent;
 import kr.msleague.bcsp.bukkit.event.packet.ASyncPacketReceivedEvent;
 import kr.msleague.bcsp.bukkit.event.packet.PacketReceivedEvent;

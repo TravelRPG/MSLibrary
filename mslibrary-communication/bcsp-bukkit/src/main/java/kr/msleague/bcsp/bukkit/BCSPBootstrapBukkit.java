@@ -1,6 +1,6 @@
 package kr.msleague.bcsp.bukkit;
 
-import kr.msleague.all.MSPlugin;
+import kr.msleague.bootstrap.MSPlugin;
 import kr.msleague.bcsp.bukkit.event.connection.BCSPConnectedEvent;
 import kr.msleague.bcsp.internal.GlobalProperties;
 import kr.msleague.bcsp.internal.ServerType;
@@ -11,7 +11,6 @@ import kr.msleague.bcsp.internal.netty.packet.Direction;
 import kr.msleague.bcsp.internal.netty.packet.sys.HandShakePacket;
 import kr.msleague.bcsp.internal.netty.pipeline.ConnectionState;
 import lombok.Getter;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class BCSPBootstrapBukkit extends MSPlugin {
     public BCSPBootstrapBukkit(){

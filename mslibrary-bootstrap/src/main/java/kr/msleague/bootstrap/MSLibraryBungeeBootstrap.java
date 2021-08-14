@@ -1,4 +1,4 @@
-package kr.msleague.all;
+package kr.msleague.bootstrap;
 
 import net.md_5.bungee.api.plugin.Plugin;
 import org.reflections.Reflections;
