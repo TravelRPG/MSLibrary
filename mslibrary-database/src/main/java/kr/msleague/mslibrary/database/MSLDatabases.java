@@ -3,6 +3,7 @@ package kr.msleague.mslibrary.database;
 import com.mongodb.lang.Nullable;
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
 import kr.msleague.mslibrary.database.api.MSDatabase;
+import kr.msleague.mslibrary.database.impl.internal.DefaultHikariConfig;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -19,7 +20,9 @@ public class MSLDatabases {
     private final ConcurrentHashMap<String, MSDatabase<?>> databases = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, DatabaseConfig> defaultConfigs = new ConcurrentHashMap<>();
 
-    private MSLDatabases(){}
+    private MSLDatabases(){
+        addDefaultConfig("hikari-default", new DefaultHikariConfig());
+    }
 
     public void add(@NonNull String name, @NonNull MSDatabase<?> database) throws IllegalArgumentException{
         if(databases.containsKey("name"))
