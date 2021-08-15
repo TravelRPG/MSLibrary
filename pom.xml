@@ -20,6 +20,8 @@
         <module>mslibrary-gui</module>
         <module>mslibrary-message</module>
         <module>mslibrary-misc</module>
+        <module>mslibrary-bgmlib</module>
+        <module>mslibrary-soalib</module>
         <module>mslibrary-package</module>
     </modules>
     <packaging>pom</packaging>
