@@ -1,8 +1,7 @@
 package kr.msleague.mslibrary.customitem.api;
 
-import com.sun.istack.internal.NotNull;
-import com.sun.istack.internal.Nullable;
-
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.Future;
 
@@ -18,7 +17,7 @@ public interface ItemDatabase {
      * @param item 직렬화된 아이템
      * @return 처리 완료 시의 신규 아이템 코드
      */
-    Future<Integer> newItem(@NotNull SerializedItem item);
+    Future<Integer> newItem(@Nonnull SerializedItem item);
 
     /**
      * 아이템 정보를 로드합니다.
@@ -36,7 +35,7 @@ public interface ItemDatabase {
      * @return 비동기 완료 여부
      * @throws IllegalArgumentException 직렬화 중 오류가 발생할 경우
      */
-    Future<Void> insertItem(int itemID, @NotNull SerializedItem item, boolean override) throws IllegalArgumentException;
+    Future<Void> insertItem(int itemID, @Nonnull SerializedItem item, boolean override) throws IllegalArgumentException;
 
     /**
      * 아이템 정보를 삭제합니다.
@@ -60,5 +59,5 @@ public interface ItemDatabase {
      * @param value
      * @return
      */
-    Future<Void> modify(int itemID, @NotNull String node, @Nullable String value);
+    Future<Void> modify(int itemID, @Nonnull String node, @Nullable String value);
 }

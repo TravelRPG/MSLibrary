@@ -1,16 +1,17 @@
 package kr.msleague.msgui.java;
 
-import kr.msleague.msgui.api.events.MSGuiClickEvent;
+/*import kr.msleague.msgui.api.events.MSGuiClickEvent;
 import kr.msleague.msgui.api.interfaces.MSGui;
 import kr.msleague.msgui.api.interfaces.MSGuiButton;
 import kr.msleague.msgui.api.interfaces.MSGuiViewer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+ */
 import org.bukkit.event.Listener;
 
 public class TestListener implements Listener {
 
-    @EventHandler
+    /*@EventHandler
     public void onClick(MSGuiClickEvent e) {
         MSGuiViewer viewer = e.getViewer();
         Player player = viewer.getPlayer();
@@ -22,5 +23,6 @@ public class TestListener implements Listener {
         button.action(viewer);
         System.out.println(button.getDisplayName());
     }
+     */
 
 }
