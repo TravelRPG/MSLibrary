@@ -1,4 +1,4 @@
-package kr.msleague.msgui.utill
+package kr.msleague.msgui.managers
 
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property

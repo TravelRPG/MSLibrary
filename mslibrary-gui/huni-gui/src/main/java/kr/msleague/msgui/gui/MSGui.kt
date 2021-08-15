@@ -2,6 +2,7 @@ package kr.msleague.msgui.gui
 
 import kr.msleague.msgui.extensions.getNBTTagCompound
 import kr.msleague.msgui.gui.button.MSGuiButton
+import kr.msleague.msgui.gui.button.MSGuiButtonAction
 import kr.msleague.msgui.gui.button.MSGuiButtonData
 import kr.msleague.msgui.plugin
 import kr.msleague.msgui.pluginManager
@@ -17,6 +18,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import java.lang.IllegalArgumentException
 import java.util.*
+import kotlin.collections.HashMap
 
 abstract class MSGui(
     private val who: Player,
@@ -45,6 +47,8 @@ abstract class MSGui(
     val inventory: Inventory by lazy { if(title!=null) server.createInventory(null, size) else server.createInventory(null, size, title) }
     private lateinit var viewerUniqueId: UUID
     val player: Player? get() = server.getPlayer(viewerUniqueId)
+    private val buttonMap: MutableMap<Array<Int>, MSGuiButtonAction> = HashMap()
+    fun addButtonAction(id: Array<Int>, action: MSGuiButtonAction) { buttonMap[id] = action }
 
     init { initializer() }
     private fun initializer() {
@@ -63,7 +67,8 @@ abstract class MSGui(
         if(cancelGUI) e.isCancelled = true
         e.currentItem.guiButtonData?.apply {
             if(isCancelled) e.isCancelled = true
-            action?.action(e)
+            val actions = buttonMap.filter { it.key.contains(e.rawSlot) }.iterator()
+            while(actions.hasNext()) { actions.next().value.action(e) }
         }
     }
     open fun onClose(e: InventoryCloseEvent) {}

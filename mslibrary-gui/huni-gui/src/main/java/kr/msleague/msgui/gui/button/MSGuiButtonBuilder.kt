@@ -1,7 +1,7 @@
 package kr.msleague.msgui.gui.button
 
 import kr.msleague.msgui.extensions.addNBTTagCompound
-import kr.msleague.msgui.utill.SkullManager
+import kr.msleague.msgui.managers.SkullManager
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
@@ -123,9 +123,8 @@ class MSGuiButtonBuilder() {
                     if (glow) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
                     itemMeta = meta
                     addUnsafeEnchantment(Enchantment.LURE, 1)
-                }.run { addNBTTagCompound(MSGuiButtonData(cancel, action)) }
-
+                }.run { addNBTTagCompound(MSGuiButtonData(cancel)) }
             }
-        return MSGuiButton(type, makeFunc, cancel)
+        return MSGuiButton(type, makeFunc, action, cancel)
     }
 }
