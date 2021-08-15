@@ -12,7 +12,9 @@
         <module>mslibrary-bootstrap</module>
         <module>mslibrary-communication</module>
         <module>mslibrary-sync</module>
+        <module>mslibrary-channel</module>
         <module>mslibrary-teleport</module>
+        <module>mslibrary-bgmlib</module>
         <module>mslibrary-inventory</module>
         <module>mslibrary-database</module>
         <module>mslibrary-cache</module>
@@ -20,9 +22,9 @@
         <module>mslibrary-gui</module>
         <module>mslibrary-message</module>
         <module>mslibrary-misc</module>
-        <module>mslibrary-bgmlib</module>
         <module>mslibrary-dansolib</module>
         <module>mslibrary-package</module>
+
     </modules>
     <packaging>pom</packaging>
 
