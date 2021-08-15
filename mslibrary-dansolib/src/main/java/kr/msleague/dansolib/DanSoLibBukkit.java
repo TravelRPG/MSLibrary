@@ -1,8 +1,8 @@
-package kr.msleague.soalib;
+package kr.msleague.dansolib;
 
 import kr.msleague.bootstrap.MSPlugin;
 
-public class SOALibBukkit extends MSPlugin {
+public class DanSoLibBukkit extends MSPlugin {
     @Override
     public void onEnable(){
         //Plugin start logic
