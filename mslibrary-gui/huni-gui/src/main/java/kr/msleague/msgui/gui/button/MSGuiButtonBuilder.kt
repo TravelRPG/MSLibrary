@@ -122,7 +122,7 @@ class MSGuiButtonBuilder() {
                     if (itemFlags != null) itemFlags?.toTypedArray()?.apply { meta.addItemFlags(*this) }
                     if (glow) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
                     itemMeta = meta
-                    addUnsafeEnchantment(Enchantment.LURE, 1)
+                    if (glow) addUnsafeEnchantment(Enchantment.LURE, 1)
                 }.run { addNBTTagCompound(MSGuiButtonData(cancel)) }
             }
         return MSGuiButton(type, makeFunc, action, cancel)

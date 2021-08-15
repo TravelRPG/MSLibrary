@@ -10,10 +10,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.event.inventory.InventoryDragEvent
-import org.bukkit.event.inventory.InventoryOpenEvent
+import org.bukkit.event.inventory.*
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import java.lang.IllegalArgumentException
@@ -56,10 +53,13 @@ abstract class MSGui(
     private fun initializer() {
         if(size % 9 != 0 || size !in 0..54) throw IllegalArgumentException("inventory invalid size error : $size")
         else {
-            viewerUniqueId = who.uniqueId
-            init()
-            registerEvent(this)
-            who.openInventory(inventory)
+            val delay = if(who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
+            server.scheduler.runTaskLater(plugin , {
+                viewerUniqueId = who.uniqueId
+                init()
+                registerEvent(this)
+                who.openInventory(inventory)
+            }, delay)
         }
     }
 
