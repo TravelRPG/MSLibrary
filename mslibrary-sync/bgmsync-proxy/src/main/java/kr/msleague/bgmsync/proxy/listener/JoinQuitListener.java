@@ -30,6 +30,8 @@ public class JoinQuitListener implements Listener {
     }
     @EventHandler
     public void onQuit(PlayerDisconnectEvent event){
+        if(event.getPlayer().getServer() == null)
+            return;
         int port = event.getPlayer().getServer().getAddress().getPort();
         BCSPProxyAPI.getInst().sendPacketToSpecificServers(port, new ProxyQuitPacket(event.getPlayer().getUniqueId()));
     }

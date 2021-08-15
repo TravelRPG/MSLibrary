@@ -13,7 +13,29 @@ public final class MSLibraryBungeeBootstrap extends Plugin {
     private final Set<Plugin> plugins = new HashSet<>();
     @Override
     public void onEnable(){
+        long time = System.currentTimeMillis();
+        logo();
+        getLogger().info("MSLibrary BootUp Sequence started..");
         loadClasses();
+        getLogger().info("MSLibrary successfully bootup! eslaped time: " + (System.currentTimeMillis() - time) +"ms");
+        getLogger().info("==========================================================================================");
+    }
+    private final void logo(){
+        getLogger().info("==========================================================================================");
+        getLogger().info(" ");
+        getLogger().info(" /$$      /$$  /$$$$$$  /$$       /$$ /$$                                             ");
+        getLogger().info("| $$$    /$$$ /$$__  $$| $$      |__/| $$                                             ");
+        getLogger().info("| $$$$  /$$$$| $$  \\__/| $$       /$$| $$$$$$$   /$$$$$$  /$$$$$$   /$$$$$$  /$$   /$$");
+        getLogger().info("| $$ $$/$$ $$|  $$$$$$ | $$      | $$| $$__  $$ /$$__  $$|____  $$ /$$__  $$| $$  | $$");
+        getLogger().info("| $$  $$$| $$ \\____  $$| $$      | $$| $$  \\ $$| $$  \\__/ /$$$$$$$| $$  \\__/| $$  | $$");
+        getLogger().info("| $$\\  $ | $$ /$$  \\ $$| $$      | $$| $$  | $$| $$      /$$__  $$| $$      | $$  | $$");
+        getLogger().info("| $$ \\/  | $$|  $$$$$$/| $$$$$$$$| $$| $$$$$$$/| $$     |  $$$$$$$| $$      |  $$$$$$$");
+        getLogger().info("|__/     |__/ \\______/ |________/|__/|_______/ |__/      \\_______/|__/       \\____  $$");
+        getLogger().info("                                                                             /$$  | $$");
+        getLogger().info("                                                                            |  $$$$$$/");
+        getLogger().info("                                                                             \\______/ ");
+        getLogger().info(" ");
+        getLogger().info("==========================================================================================");
     }
     @Override
     public void onDisable(){
@@ -24,12 +46,15 @@ public final class MSLibraryBungeeBootstrap extends Plugin {
         }
     }
     private final void loadClasses(){
+        getLogger().info("Started loadup plugin&modules...");
         try{
             Reflections.class.getDeclaredField("log").set(null, null);
             Reflections rf = new Reflections(ClasspathHelper.forPackage("kr.msleague"));
 
             //Classes which extends Plugin.class
             Set<Class<? extends Plugin>> clazzes = rf.getSubTypesOf(Plugin.class);
+            getLogger().info("System found total " + clazzes.size() +" modules.");
+            getLogger().info("Calculating modules priority order..");
             //Classes which annotated with LoadPriority.class
             Set<Class<?>> hasAnnotation = rf.getTypesAnnotatedWith(LoadPriority.class);
             Set<Class<? extends Plugin>> x = Sets.intersection(clazzes, hasAnnotation);
@@ -55,6 +80,7 @@ public final class MSLibraryBungeeBootstrap extends Plugin {
                         f.setAccessible(true);
                         f.set(loader, null);
 
+                        //Dependency injection to use Plugin class as active
                         Plugin plugin = pluginClass.newInstance();
                         f = Plugin.class.getDeclaredField("description");
                         f.setAccessible(true);

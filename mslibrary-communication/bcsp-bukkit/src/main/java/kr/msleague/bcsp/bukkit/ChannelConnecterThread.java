@@ -17,9 +17,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 public class ChannelConnecterThread implements Runnable {
+    private static boolean bootup = true;
     @Override
     public void run(){
-        CompletableFuture<Channel> future = BungeeComsoServerBootStrap.initClient();
+        CompletableFuture<Channel> future = BungeeComsoServerBootStrap.initClient(bootup);
+        bootup = false;
         future.whenCompleteAsync((channel,throwable)->{
             if(throwable != null){
                 BCSPLogManager.getLogger().err("BCSP Failed to bootup successfully. Check following stack trace. Trying connect after 3 seconds");

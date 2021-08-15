@@ -15,6 +15,9 @@ public final class MSLibraryBukkitBootstrap extends JavaPlugin {
     private static MSLibraryBukkitBootstrap plugin;
     @Override
     public void onEnable(){
+        long time = System.currentTimeMillis();
+        logo();
+        getLogger().info("MSLibrary BootUp Sequence started..");
         MSPlugin.setServer(getServer());
         MSPlugin.setLogger(getLogger());
         MSPlugin.setDataFolder(getDataFolder());
@@ -22,6 +25,25 @@ public final class MSLibraryBukkitBootstrap extends JavaPlugin {
         MSPlugin.setPlugin(this);
         plugin = this;
         loadClasses();
+        getLogger().info("MSLibrary successfully bootup! eslaped time: " + (System.currentTimeMillis() - time) +"ms");
+        getLogger().info("==========================================================================================");
+    }
+    private final void logo(){
+        getLogger().info("==========================================================================================");
+        getLogger().info(" ");
+        getLogger().info(" /$$      /$$  /$$$$$$  /$$       /$$ /$$                                             ");
+        getLogger().info("| $$$    /$$$ /$$__  $$| $$      |__/| $$                                             ");
+        getLogger().info("| $$$$  /$$$$| $$  \\__/| $$       /$$| $$$$$$$   /$$$$$$  /$$$$$$   /$$$$$$  /$$   /$$");
+        getLogger().info("| $$ $$/$$ $$|  $$$$$$ | $$      | $$| $$__  $$ /$$__  $$|____  $$ /$$__  $$| $$  | $$");
+        getLogger().info("| $$  $$$| $$ \\____  $$| $$      | $$| $$  \\ $$| $$  \\__/ /$$$$$$$| $$  \\__/| $$  | $$");
+        getLogger().info("| $$\\  $ | $$ /$$  \\ $$| $$      | $$| $$  | $$| $$      /$$__  $$| $$      | $$  | $$");
+        getLogger().info("| $$ \\/  | $$|  $$$$$$/| $$$$$$$$| $$| $$$$$$$/| $$     |  $$$$$$$| $$      |  $$$$$$$");
+        getLogger().info("|__/     |__/ \\______/ |________/|__/|_______/ |__/      \\_______/|__/       \\____  $$");
+        getLogger().info("                                                                             /$$  | $$");
+        getLogger().info("                                                                            |  $$$$$$/");
+        getLogger().info("                                                                             \\______/ ");
+        getLogger().info(" ");
+        getLogger().info("==========================================================================================");
     }
     @Override
     public void onDisable(){
@@ -32,19 +54,20 @@ public final class MSLibraryBukkitBootstrap extends JavaPlugin {
         }
     }
     private final void loadClasses(){
+        getLogger().info("Started loadup plugin&modules...");
         try{
             Reflections.class.getDeclaredField("log").set(null, null);
             Reflections rf = new Reflections(ClasspathHelper.forPackage("kr.msleague"));
 
             Set<Class<? extends MSPlugin>> clazzes = rf.getSubTypesOf(MSPlugin.class);
+            getLogger().info("System found total " + clazzes.size() +" modules.");
+            getLogger().info("Calculating modules priority order..");
             Set<Class<?>> hasAnnotation = rf.getTypesAnnotatedWith(LoadPriority.class);
             Set<Class<? extends MSPlugin>> x = Sets.intersection(clazzes, hasAnnotation);
             HashSet<Class<? extends MSPlugin>> clo = new HashSet<>(clazzes);
             clo.removeAll(x);
             clazzes = clo;
 
-            //x -> annotated
-            //clazzes -> unannotated
             TreeMap<Integer, List<Class<? extends MSPlugin>>> map = new TreeMap<>();
             map.computeIfAbsent(0, xa->new ArrayList<>()).addAll(clazzes);
             for(Class<? extends MSPlugin> annoClass : x){
