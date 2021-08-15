@@ -1,4 +1,6 @@
 name: MSLibraryBootstrapBukkit
 version: 1.0
+author: HuNi_C, BGMSound, Arkarang, ChuYong, Dan_So
+website: http://msleague.kr
 description: MSLibraryBootstrap for bukkit
 main: kr.msleague.bootstrap.MSLibraryBukkitBootstrap

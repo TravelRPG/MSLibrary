@@ -6,10 +6,16 @@ import java.util.Set;
 
 public class ReflectionsTest {
     public static void main(String[] args){
-        Reflections rf = new Reflections(ClasspathHelper.forPackage("kr.msleague"));
-        Set<Class<? extends JavaPlugin>> sets = rf.getSubTypesOf(JavaPlugin.class);
-        for (Class<? extends JavaPlugin> set : sets) {
-            System.out.println(set.getName());
-        }
+        System.out.println(" /$$      /$$  /$$$$$$  /$$       /$$ /$$                                             ");
+        System.out.println("| $$$    /$$$ /$$__  $$| $$      |__/| $$                                             ");
+        System.out.println("| $$$$  /$$$$| $$  \\__/| $$       /$$| $$$$$$$   /$$$$$$  /$$$$$$   /$$$$$$  /$$   /$$");
+        System.out.println("| $$ $$/$$ $$|  $$$$$$ | $$      | $$| $$__  $$ /$$__  $$|____  $$ /$$__  $$| $$  | $$");
+        System.out.println("| $$  $$$| $$ \\____  $$| $$      | $$| $$  \\ $$| $$  \\__/ /$$$$$$$| $$  \\__/| $$  | $$");
+        System.out.println("| $$\\  $ | $$ /$$  \\ $$| $$      | $$| $$  | $$| $$      /$$__  $$| $$      | $$  | $$");
+        System.out.println("| $$ \\/  | $$|  $$$$$$/| $$$$$$$$| $$| $$$$$$$/| $$     |  $$$$$$$| $$      |  $$$$$$$");
+        System.out.println("|__/     |__/ \\______/ |________/|__/|_______/ |__/      \\_______/|__/       \\____  $$");
+        System.out.println("                                                                             /$$  | $$");
+        System.out.println("                                                                            |  $$$$$$/");
+        System.out.println("                                                                             \\______/ ");
     }
 }

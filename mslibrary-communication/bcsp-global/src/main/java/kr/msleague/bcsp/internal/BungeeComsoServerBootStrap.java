@@ -30,15 +30,17 @@ public class BungeeComsoServerBootStrap {
         Direction.INBOUND.registerPacket(0x9001, PingPongPacket.class);
         Direction.OUTBOUND.registerPacket(0x9001, PingPongPacket.class);
     }
-    public static CompletableFuture<Channel> initClient(){
-        Direction.OUTBOUND.registerPacket(0x9002, RelayingPacket.class);
-        Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper)->{
-            if(packet.getRecievedTime() == -1L){
-                AbstractPacket rt = new PingPongPacket(packet.getTime(), System.currentTimeMillis());
-                rt.setCallBackResult(true);
-                wrapper.startCallBack(rt, PingPongPacket.class, rtPack-> wrapper.getPingCalculator().processPing(System.currentTimeMillis() - rtPack.getRecievedTime()));
-            }
-        });
+    public static CompletableFuture<Channel> initClient(boolean isBootup){
+        if(isBootup){
+            Direction.OUTBOUND.registerPacket(0x9002, RelayingPacket.class);
+            Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper)->{
+                if(packet.getRecievedTime() == -1L){
+                    AbstractPacket rt = new PingPongPacket(packet.getTime(), System.currentTimeMillis());
+                    rt.setCallBackResult(true);
+                    wrapper.startCallBack(rt, PingPongPacket.class, rtPack-> wrapper.getPingCalculator().processPing(System.currentTimeMillis() - rtPack.getRecievedTime()));
+                }
+            });
+        }
         CompletableFuture<Channel> future = new CompletableFuture<>();
         Bootstrap bs = new Bootstrap();
         bs.channel(NioSocketChannel.class)
