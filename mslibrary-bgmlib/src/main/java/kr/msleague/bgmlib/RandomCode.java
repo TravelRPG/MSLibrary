@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 public class RandomCode {
-
-    public static String codeSize(Integer codeSize) {
-        List<String> codeString = new ArrayList<>();
+    static List<String> codeString = new ArrayList<>();
+    static {
         for(char a = 'A'; a <= 'Z'; a++) {
             codeString.add(Character.toString(a));
         }
@@ -17,6 +16,8 @@ public class RandomCode {
         for(int i = 0; i<10 ; i++) {
             codeString.add(Integer.toString(i));
         }
+    }
+    public static String codeSize(Integer codeSize) {
         Random random = new Random();
         String code = "";
         int maxInt = codeString.size()-1;
