@@ -16,9 +16,9 @@ class MSGuiButton(
         server.scheduler.runTaskAsynchronously(plugin) {
             if (slots.isNotEmpty()) {
                 val itemStack = makeFunc()
-                if (action != null) gui.addButtonAction(slots.toTypedArray(), action)
                 slots.forEach {
                     if (gui.size <= it) return@forEach
+                    if (action != null) gui.addButtonAction(it, action)
                     gui.inventory.setItem(it, itemStack.clone())
                 }
             }
