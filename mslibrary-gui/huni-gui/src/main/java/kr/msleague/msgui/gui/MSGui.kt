@@ -48,7 +48,7 @@ abstract class MSGui(
 
     init { initializer() }
     private fun initializer() {
-        if(size / 9 != 0 || size !in 0..54) throw IllegalArgumentException("inventory invalid size error : $size")
+        if(size % 9 != 0 || size !in 0..54) throw IllegalArgumentException("inventory invalid size error : $size")
         else {
             viewerUniqueId = who.uniqueId
             init()
