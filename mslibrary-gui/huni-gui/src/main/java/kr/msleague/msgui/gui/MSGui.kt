@@ -13,6 +13,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent
+import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import java.lang.IllegalArgumentException
@@ -36,7 +37,9 @@ abstract class MSGui(
                 @EventHandler fun onDrag(e: InventoryDragEvent) { if(gui.viewerUniqueId == e.whoClicked.uniqueId) gui.onDrag(e) }
                 @EventHandler fun onClose(e: InventoryCloseEvent) {
                     if(gui.viewerUniqueId == e.player.uniqueId) {
-                        e.handlers.unregister(this)
+                        InventoryClickEvent.getHandlerList().unregister(this)
+                        InventoryCloseEvent.getHandlerList().unregister(this)
+                        InventoryOpenEvent.getHandlerList().unregister(this)
                         gui.onClose(e)
                     }
                 }
