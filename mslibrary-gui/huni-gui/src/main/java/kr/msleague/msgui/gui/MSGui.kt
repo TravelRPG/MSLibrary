@@ -43,7 +43,7 @@ abstract class MSGui(
             }, plugin)
         }
     }
-    val inventory: Inventory by lazy { if(title!=null) server.createInventory(null, size) else server.createInventory(null, size, title) }
+    val inventory: Inventory by lazy { if(title!=null) server.createInventory(null, size,title) else server.createInventory(null, size) }
     private lateinit var viewerUniqueId: UUID
     val player: Player? get() = server.getPlayer(viewerUniqueId)
     private val buttonMap: MutableMap<Int, MSGuiButtonAction> = HashMap()
