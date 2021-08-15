@@ -5,8 +5,7 @@ import kr.msleague.bootstrap.MSPlugin
 class MSGuiLib: MSPlugin() {
 
     override fun onEnable() {
-        guiMainClass = this
-
+        plugin = getPlugin()
     }
 
     override fun onDisable() {
