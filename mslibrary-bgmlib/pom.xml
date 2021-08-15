@@ -22,6 +22,11 @@
             <artifactId>mslibrary-bootstrap</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>kr.msleague</groupId>
+            <artifactId>huni-gui</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
