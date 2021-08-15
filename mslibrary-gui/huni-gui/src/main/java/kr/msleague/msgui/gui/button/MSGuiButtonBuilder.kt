@@ -14,7 +14,7 @@ import kotlin.collections.HashSet
 class MSGuiButtonBuilder() {
     var type: MSGuiButtonType = MSGuiButtonType.ITEM_STACK
         private set
-    var material: Material? = null
+    var material: Material = Material.AIR
         private set
     var durability: Int = 0
         private set

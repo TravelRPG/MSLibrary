@@ -24,6 +24,10 @@ abstract class MSGui(
     val title: String? = null
 ) {
 
+    var cancelGUI: Boolean = false
+
+    constructor(who: Player, size: Int, title: String? = null, cancel: Boolean): this(who, size, title) { this.cancelGUI = cancel }
+
     companion object {
         fun registerEvent(gui: MSGui) {
             pluginManager.registerEvents(object: Listener {
@@ -53,16 +57,17 @@ abstract class MSGui(
         }
     }
 
-    open fun init(){}
+    abstract fun init()
 
     open fun onClick(e: InventoryClickEvent) {
+        if(cancelGUI) e.isCancelled = true
         e.currentItem.guiButtonData?.apply {
             if(isCancelled) e.isCancelled = true
             action?.action()
         }
     }
     open fun onClose(e: InventoryCloseEvent) {}
-    open fun onDrag(e: InventoryDragEvent) { e.isCancelled = true }
+    open fun onDrag(e: InventoryDragEvent) { if(cancelGUI) e.isCancelled = true }
 
     private val ItemStack?.guiButtonData: MSGuiButtonData? get() = if(this == null || type == Material.AIR) null else getNBTTagCompound(MSGuiButtonData::class.java)
 
