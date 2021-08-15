@@ -24,7 +24,7 @@ public class ByteBufUtility {
             throw new ByteBufException(String.format("Cannot receive string longer than Short.MAX_VALUE (got %s characters)", new Object[] { Integer.valueOf(len) }));
         byte[] b = new byte[len];
         buf.readBytes(b);
-        return new String(b, Charset.forName("UTF-8"));
+        return new String(b, StandardCharsets.UTF_8);
     }
 
     public static void writeArray(byte[] b, ByteBuf buf) {
