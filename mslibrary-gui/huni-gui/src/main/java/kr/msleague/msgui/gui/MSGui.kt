@@ -48,7 +48,7 @@ abstract class MSGui(
 
     init { initializer() }
     private fun initializer() {
-        if(size / 9 != 0 || size in 0..54) throw IllegalArgumentException("inventory invalid size error : $size")
+        if(size / 9 != 0 || size !in 0..54) throw IllegalArgumentException("inventory invalid size error : $size")
         else {
             viewerUniqueId = who.uniqueId
             init()
@@ -63,7 +63,7 @@ abstract class MSGui(
         if(cancelGUI) e.isCancelled = true
         e.currentItem.guiButtonData?.apply {
             if(isCancelled) e.isCancelled = true
-            action?.action()
+            action?.action(e)
         }
     }
     open fun onClose(e: InventoryCloseEvent) {}
