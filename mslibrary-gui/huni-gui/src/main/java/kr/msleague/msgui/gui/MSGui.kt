@@ -34,7 +34,7 @@ abstract class MSGui<V> (
     private var objs: List<V>? = null
     private var pages: List<Method>? = null
     val page: Int get() = currentPage - 1
-    val hasNextPage: Boolean get() = page in 0 until maxPage
+    val hasNextPage: Boolean get() = page in 0 until maxPage - 1
     val hasPrevPage: Boolean get() = page > 0
     val maxPage: Int get() = pages?.size?: 0
 
