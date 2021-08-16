@@ -12,7 +12,7 @@ class MSGuiButton(
     val cancellable: Boolean,
 ) {
 
-    fun setSlot(gui: MSGui, vararg slots: Int) {
+    fun setSlot(gui: MSGui<*>, vararg slots: Int) {
         server.scheduler.runTaskAsynchronously(plugin) {
             if (slots.isNotEmpty()) {
                 val itemStack = makeFunc()

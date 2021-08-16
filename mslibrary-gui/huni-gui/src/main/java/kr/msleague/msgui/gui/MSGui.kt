@@ -17,23 +17,23 @@ import java.lang.IllegalArgumentException
 import java.util.*
 import kotlin.collections.HashMap
 
-abstract class MSGui<T> (
+abstract class MSGui<V> (
     private val who: Player,
     val size: Int = 0,
     val title: String? = null
 ) {
 
     var cancelGUI: Boolean = false
-    private var map: Map<String,T>? = null
+    private var map: Map<String,V>? = null
 
     constructor(who: Player, size: Int, title: String? = null, cancel: Boolean): this(who, size, title) { this.cancelGUI = cancel }
 
-    constructor(who: Player, size: Int, title: String? = null, cancel: Boolean, map: Map<String,T>): this(who, size, title) {
+    constructor(who: Player, size: Int, title: String? = null, cancel: Boolean, map: HashMap<String,V>): this(who, size, title) {
         this.cancelGUI = cancel
         this.map = map
     }
-
-    fun getObject(key: String): T? = map?.get(key)
+    
+    fun getObject(key: String): V? = map?.get(key)
 
     companion object {
         fun registerEvent(gui: MSGui<*>) {
