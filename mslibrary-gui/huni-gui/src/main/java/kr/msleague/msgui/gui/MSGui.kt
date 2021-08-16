@@ -81,7 +81,10 @@ abstract class MSGui<V> (
                 pages = javaClass.declaredMethods.filter { it.getAnnotation(MSGuiPage::class.java) != null }.toList().sortedBy { it.getAnnotation(MSGuiPage::class.java).pagePriority }
                 viewerUniqueId = who.uniqueId
                 init()
-                if(maxPage > 0) openNextPage(clear = false, async = false)
+                if(maxPage > 0) {
+                    currentPage = 1
+                    pages?.get(page)?.invoke(this)
+                }
                 registerEvent(this)
                 who.openInventory(inventory)
                 pluginManager.callEvent(MSGuiOpenedEvent(who, this, System.currentTimeMillis()))
