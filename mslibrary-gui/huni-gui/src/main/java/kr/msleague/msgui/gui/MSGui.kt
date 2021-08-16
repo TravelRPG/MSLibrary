@@ -1,5 +1,6 @@
 package kr.msleague.msgui.gui
 
+import kr.msleague.msgui.api.annotations.MSGuiPage
 import kr.msleague.msgui.extensions.getNBTTagCompound
 import kr.msleague.msgui.gui.button.MSGuiButtonAction
 import kr.msleague.msgui.gui.button.MSGuiButtonData
@@ -14,6 +15,7 @@ import org.bukkit.event.inventory.*
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import java.lang.IllegalArgumentException
+import java.lang.reflect.Method
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -23,17 +25,23 @@ abstract class MSGui<V> (
     val title: String? = null
 ) {
 
+    private var currentPage: Int = 0
     var cancelGUI: Boolean = false
-    private val objs: MutableList<V> = ArrayList()
+    private var objs: List<V>? = null
+    private var pages: List<Method>? = null
+    val page: Int get() = currentPage - 1
+    val hasNextPage: Boolean get() = page in 0 until maxPage
+    val hasPrevPage: Boolean get() = page > 0
+    val maxPage: Int get() = pages?.size?: 0
 
     constructor(who: Player, size: Int, title: String? = null, cancel: Boolean): this(who, size, title) { this.cancelGUI = cancel }
 
     constructor(who: Player, size: Int, title: String? = null, cancel: Boolean, vararg args: V): this(who, size, title) {
         this.cancelGUI = cancel
-        args.forEach { objs.add(it) }
+        objs = args.toList()
     }
 
-    fun getObject(index: Int): V? = if(objs.size <= index || index < 0) null else objs[index]
+    fun getObject(index: Int): V? = try { objs?.get(index) } catch (e: IndexOutOfBoundsException) { null }
 
     companion object {
         fun registerEvent(gui: MSGui<*>) {
@@ -63,32 +71,53 @@ abstract class MSGui<V> (
         else {
             val delay = if(who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
             server.scheduler.runTaskLater(plugin , {
+                pages = javaClass.declaredMethods.filter { it.getAnnotation(MSGuiPage::class.java) != null }.toList().sortedBy { it.getAnnotation(MSGuiPage::class.java).pagePriority }
                 viewerUniqueId = who.uniqueId
-                noneRefreshInitializer()
                 init()
+                if(maxPage > 0) openNextPage(clear = false, async = false)
                 registerEvent(this)
                 who.openInventory(inventory)
             }, delay)
         }
     }
 
-    open fun noneRefreshInitializer() {}
     abstract fun init()
 
-    fun refresh() {
-        inventory.clear()
-        init()
+    fun refresh() { if(page in 0 until maxPage) pages?.get(page)?.invoke(this) }
+    fun refresh(clear: Boolean) {
+        if(clear) {
+            buttonMap.forEach {
+                val index = it.key
+                inventory.getItem(index).guiButtonData?.apply { if(!isCleanable) return@forEach }
+                inventory.setItem(index, null)
+                buttonMap.remove(index)
+            }
+        }
+        refresh()
+    }
+    fun asyncRefresh() { server.scheduler.runTaskAsynchronously(plugin) { refresh() } }
+    fun asyncRefresh(clear: Boolean) { server.scheduler.runTaskAsynchronously(plugin) { refresh(clear) } }
+
+    fun openNextPage(clear: Boolean, async: Boolean): Boolean {
+        if(!hasNextPage) return false
+        currentPage++
+        if(async) asyncRefresh(clear)
+        else refresh(clear)
+        return true
     }
 
-    fun asyncRefresh() {
-        inventory.clear()
-        server.scheduler.runTaskAsynchronously(plugin) { init() }
+    fun openPrevPage(clear: Boolean, async: Boolean): Boolean {
+        if(!hasPrevPage) return false
+        currentPage--
+        if(async) asyncRefresh(clear)
+        else refresh(clear)
+        return true
     }
 
     open fun onClick(e: InventoryClickEvent) {
         if(cancelGUI) e.isCancelled = true
         e.currentItem.guiButtonData?.apply {
-            if(isCancelled) e.isCancelled = true
+            if(isCancellable) e.isCancelled = true
             buttonMap[e.rawSlot]?.action(e)
         }
     }

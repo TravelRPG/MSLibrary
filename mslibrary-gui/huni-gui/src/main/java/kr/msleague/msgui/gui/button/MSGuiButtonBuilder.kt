@@ -98,9 +98,16 @@ class MSGuiButtonBuilder() {
 
     var cancel: Boolean = false
         private set
+    var cleanable: Boolean = false
+        private set
 
     fun setCancellable(cancel: Boolean): MSGuiButtonBuilder {
         this.cancel = cancel
+        return this
+    }
+
+    fun setCleanable(clean: Boolean): MSGuiButtonBuilder {
+        this.cleanable = clean
         return this
     }
 
@@ -123,7 +130,7 @@ class MSGuiButtonBuilder() {
                     if (glow) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
                     itemMeta = meta
                     if (glow) addUnsafeEnchantment(Enchantment.LURE, 1)
-                }.run { addNBTTagCompound(MSGuiButtonData(cancel)) }
+                }.run { addNBTTagCompound(MSGuiButtonData(cancel,cleanable)) }
             }
         return MSGuiButton(type, makeFunc, action, cancel)
     }
