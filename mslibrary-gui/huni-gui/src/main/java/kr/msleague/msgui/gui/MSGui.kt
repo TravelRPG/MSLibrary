@@ -24,16 +24,16 @@ abstract class MSGui<V> (
 ) {
 
     var cancelGUI: Boolean = false
-    private var map: Map<String,V>? = null
+    private val objs: MutableList<V> = ArrayList()
 
     constructor(who: Player, size: Int, title: String? = null, cancel: Boolean): this(who, size, title) { this.cancelGUI = cancel }
 
-    constructor(who: Player, size: Int, title: String? = null, cancel: Boolean, map: HashMap<String,V>): this(who, size, title) {
+    constructor(who: Player, size: Int, title: String? = null, cancel: Boolean, vararg args: V): this(who, size, title) {
         this.cancelGUI = cancel
-        this.map = map
+        args.forEach { objs.add(it) }
     }
-    
-    fun getObject(key: String): V? = map?.get(key)
+
+    fun getObject(index: Int): V? = if(objs.size <= index || index < 0) null else objs[index]
 
     companion object {
         fun registerEvent(gui: MSGui<*>) {
