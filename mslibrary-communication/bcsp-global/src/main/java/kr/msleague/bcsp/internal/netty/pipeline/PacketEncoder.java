@@ -28,13 +28,5 @@ public class PacketEncoder extends MessageToByteEncoder<AbstractPacket> {
         ByteBufUtility.writeVarInt(packetId, buf);
         buf.writeBoolean(packet.isCallBackResult());
         packet.write(buf);
-
-        if(!(packet instanceof PingPongPacket)){
-            buf.markReaderIndex();
-            byte[] barr = new byte[buf.readableBytes()];
-            buf.readBytes(barr);
-            System.out.println(Arrays.toString(barr));
-            buf.resetReaderIndex();
-        }
     }
 }
