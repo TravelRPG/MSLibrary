@@ -17,18 +17,26 @@ import java.lang.IllegalArgumentException
 import java.util.*
 import kotlin.collections.HashMap
 
-abstract class MSGui(
+abstract class MSGui<T> (
     private val who: Player,
     val size: Int = 0,
     val title: String? = null
 ) {
 
     var cancelGUI: Boolean = false
+    private var map: Map<String,T>? = null
 
     constructor(who: Player, size: Int, title: String? = null, cancel: Boolean): this(who, size, title) { this.cancelGUI = cancel }
 
+    constructor(who: Player, size: Int, title: String? = null, cancel: Boolean, map: Map<String,T>): this(who, size, title) {
+        this.cancelGUI = cancel
+        this.map = map
+    }
+
+    fun getObject(key: String): T? = map?.get(key)
+
     companion object {
-        fun registerEvent(gui: MSGui) {
+        fun registerEvent(gui: MSGui<*>) {
             pluginManager.registerEvents(object: Listener {
                 @EventHandler fun onClick(e: InventoryClickEvent) { if(gui.viewerUniqueId == e.whoClicked.uniqueId) gui.onClick(e) }
                 @EventHandler fun onDrag(e: InventoryDragEvent) { if(gui.viewerUniqueId == e.whoClicked.uniqueId) gui.onDrag(e) }
