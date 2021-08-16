@@ -19,6 +19,9 @@ public class ChannelWrapper {
     @Getter
     private PingCalculator pingCalculator = new PingCalculator();
     private CallBackContainer callBackContainer = new CallBackContainer();
+    @Getter
+    @Setter
+    private boolean enabled = true;
     public ChannelWrapper(BossHandler handler, Channel channel){
         this.handler = handler;
         this.channel = channel;
@@ -32,6 +35,8 @@ public class ChannelWrapper {
         callBackContainer.addOnQueue(this, toSend, type, onRecieved);
     }
     public void sendPacket(AbstractPacket packet){
+        if(!enabled)
+            return;
         if(handler.getConnectionState() != ConnectionState.CONNECTED)
         {
             BCSPLogManager.getLogger().err("Some logic tried to send packet before connection established or disconnected. (Packet: {0})", packet.getClass().getSimpleName());
