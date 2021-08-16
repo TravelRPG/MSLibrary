@@ -9,7 +9,7 @@ class MSGuiButton(
     val type: MSGuiButtonType,
     private val makeFunc: () -> ItemStack,
     private val action: MSGuiButtonAction?,
-    val cancellable: Boolean,
+    private val cancellable: Boolean,
 ) {
 
     fun setSlot(gui: MSGui<*>, vararg slots: Int) {

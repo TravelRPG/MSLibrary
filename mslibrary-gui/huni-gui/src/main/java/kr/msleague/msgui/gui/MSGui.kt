@@ -1,6 +1,10 @@
 package kr.msleague.msgui.gui
 
 import kr.msleague.msgui.api.annotations.MSGuiPage
+import kr.msleague.msgui.api.event.MSGuiButtonClickEvent
+import kr.msleague.msgui.api.event.MSGuiCloseEvent
+import kr.msleague.msgui.api.event.MSGuiOpenEvent
+import kr.msleague.msgui.api.event.MSGuiOpenedEvent
 import kr.msleague.msgui.extensions.getNBTTagCompound
 import kr.msleague.msgui.gui.button.MSGuiButtonAction
 import kr.msleague.msgui.gui.button.MSGuiButtonData
@@ -69,6 +73,9 @@ abstract class MSGui<V> (
     private fun initializer() {
         if(size % 9 != 0 || size !in 0..54) throw IllegalArgumentException("inventory invalid size error : $size")
         else {
+            val preOpenEvent = MSGuiOpenEvent(who, this, System.currentTimeMillis())
+            pluginManager.callEvent(preOpenEvent)
+            if(preOpenEvent.isCancelled) return
             val delay = if(who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
             server.scheduler.runTaskLater(plugin , {
                 pages = javaClass.declaredMethods.filter { it.getAnnotation(MSGuiPage::class.java) != null }.toList().sortedBy { it.getAnnotation(MSGuiPage::class.java).pagePriority }
@@ -77,6 +84,7 @@ abstract class MSGui<V> (
                 if(maxPage > 0) openNextPage(clear = false, async = false)
                 registerEvent(this)
                 who.openInventory(inventory)
+                pluginManager.callEvent(MSGuiOpenedEvent(who, this, System.currentTimeMillis()))
             }, delay)
         }
     }
@@ -114,14 +122,19 @@ abstract class MSGui<V> (
         return true
     }
 
-    open fun onClick(e: InventoryClickEvent) {
+    private fun onClick(e: InventoryClickEvent) {
         if(cancelGUI) e.isCancelled = true
         e.currentItem.guiButtonData?.apply {
-            if(isCancellable) e.isCancelled = true
-            buttonMap[e.rawSlot]?.action(e)
+            val event = MSGuiButtonClickEvent(e.whoClicked as Player, this@MSGui, e.click, e.action, e.slotType, e.slot, e.rawSlot, e.currentItem?: ItemStack(Material.AIR), e.hotbarButton, e.cursor?: ItemStack(Material.AIR))
+            pluginManager.callEvent(event)
+            if(event.isCancelled) e.isCancelled = true
+            else {
+                if (isCancellable) e.isCancelled = true
+                buttonMap[e.rawSlot]?.action(e)
+            }
         }
     }
-    open fun onClose(e: InventoryCloseEvent) {}
+    open fun onClose(e: InventoryCloseEvent) { pluginManager.callEvent(MSGuiCloseEvent(e.player as Player, this, System.currentTimeMillis())) }
     open fun onDrag(e: InventoryDragEvent) { if(cancelGUI) e.isCancelled = true }
 
     private val ItemStack?.guiButtonData: MSGuiButtonData? get() = if(this == null || type == Material.AIR) null else getNBTTagCompound(MSGuiButtonData::class.java)
