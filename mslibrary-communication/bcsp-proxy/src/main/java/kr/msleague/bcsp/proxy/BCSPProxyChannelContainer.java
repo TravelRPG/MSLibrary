@@ -1,8 +1,10 @@
 package kr.msleague.bcsp.proxy;
 
 import com.google.common.base.Preconditions;
+import kr.msleague.bcsp.internal.GlobalProperties;
 import kr.msleague.bcsp.internal.logger.BCSPLogManager;
 import kr.msleague.bcsp.internal.netty.channel.ChannelWrapper;
+import kr.msleague.bcsp.internal.netty.packet.sys.ShutdownPacket;
 import kr.msleague.bcsp.internal.netty.pipeline.BossHandler;
 import kr.msleague.bcsp.proxy.event.connection.BCSPProxyClientConnectedEvent;
 import kr.msleague.bcsp.proxy.event.connection.BCSPProxyClientDisconnectedEvent;
@@ -35,7 +37,9 @@ public class BCSPProxyChannelContainer {
         serverNameChannelContainer.entrySet().removeIf(i -> i.getValue() == wrapper);
     }
     public void onShutdown(){
+        boolean shutdownServers = Boolean.parseBoolean(GlobalProperties.getProperties("bcsp.shutdownOnDisable", "true"));
         portChannelContainer.values().forEach(x->{
+            x.getChannel().writeAndFlush(new ShutdownPacket(shutdownServers));
             if(x.getChannel().isActive() && x.getChannel().isOpen())
                 x.getChannel().close();
         });

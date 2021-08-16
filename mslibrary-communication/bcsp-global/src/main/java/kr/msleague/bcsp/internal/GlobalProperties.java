@@ -50,6 +50,10 @@ public class GlobalProperties {
     public static String getProperties(String key){
         return propertiesMap.get(key);
     }
+    public static String getProperties(String key, String def){
+        String s = propertiesMap.get(key);
+        return s == null ? def : s;
+    }
     private static void load() throws IOException{
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;

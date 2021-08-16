@@ -9,6 +9,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
+import kr.msleague.bcsp.internal.netty.packet.sys.ShutdownPacket;
 import kr.msleague.bcsp.internal.netty.pipeline.BossHandler;
 import kr.msleague.bcsp.internal.netty.pipeline.PacketDecoder;
 import kr.msleague.bcsp.internal.netty.pipeline.PacketEncoder;
@@ -32,6 +33,7 @@ public class BungeeComsoServerBootStrap {
     }
     public static CompletableFuture<Channel> initClient(boolean isBootup){
         if(isBootup){
+            Direction.INBOUND.registerPacket(0x9003, ShutdownPacket.class);
             Direction.OUTBOUND.registerPacket(0x9002, RelayingPacket.class);
             Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper)->{
                 if(packet.getRecievedTime() == -1L){
@@ -70,6 +72,7 @@ public class BungeeComsoServerBootStrap {
     }
     public static CompletableFuture<Channel> initServer(){
         Direction.INBOUND.registerPacket(0x9002, RelayingPacket.class);
+        Direction.OUTBOUND.registerPacket(0x9003, ShutdownPacket.class);
         Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper)->{
             //Proxy->Bukkit->Proxy last->curr == bungeeping
             wrapper.getChannel().writeAndFlush(new PingPongPacket(packet.getTime(), -1L));

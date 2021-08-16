@@ -35,6 +35,7 @@ public class BCSPBootstrapProxy extends Plugin {
             list.add("netty.server.port=9090");
             list.add("handshake.id.a=123901248128");
             list.add("handshake.id.b=436894693468");
+            list.add("bcsp.shutdownOnDisable=true");
         });
         this.authCodeA = Long.parseLong(GlobalProperties.getProperties("handshake.id.a"));
         this.authCodeB = Long.parseLong(GlobalProperties.getProperties("handshake.id.b"));
