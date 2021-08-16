@@ -64,6 +64,7 @@ abstract class MSGui<V> (
             val delay = if(who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
             server.scheduler.runTaskLater(plugin , {
                 viewerUniqueId = who.uniqueId
+                noneRefreshInitializer()
                 init()
                 registerEvent(this)
                 who.openInventory(inventory)
@@ -71,7 +72,18 @@ abstract class MSGui<V> (
         }
     }
 
+    open fun noneRefreshInitializer() {}
     abstract fun init()
+
+    fun refresh() {
+        inventory.clear()
+        init()
+    }
+
+    fun asyncRefresh() {
+        inventory.clear()
+        server.scheduler.runTaskAsynchronously(plugin) { init() }
+    }
 
     open fun onClick(e: InventoryClickEvent) {
         if(cancelGUI) e.isCancelled = true
