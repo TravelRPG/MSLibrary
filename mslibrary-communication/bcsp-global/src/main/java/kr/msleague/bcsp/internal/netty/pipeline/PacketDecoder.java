@@ -15,12 +15,6 @@ import java.util.List;
 public class PacketDecoder extends MessageToMessageDecoder<ByteBuf> {
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf buf, List<Object> list) throws Exception {
-        buf.markReaderIndex();
-        byte[] barr = new byte[buf.readableBytes()];
-        buf.readBytes(barr);
-      //  System.out.println(Arrays.toString(barr));
-
-        buf.resetReaderIndex();
         int packetId = ByteBufUtility.readVarInt(buf);
         boolean callBackResult = buf.readBoolean();
         Class<? extends AbstractPacket> clazz = PacketMapper.getPacketById(Direction.INBOUND, packetId);
