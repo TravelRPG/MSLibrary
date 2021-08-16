@@ -27,10 +27,8 @@ public abstract class MSPlugin {
     @Setter
     private static JavaPlugin plugin;
     public void onEnable(){
-
     }
     public void onDisable(){
-
     }
     public void saveResource(String resourcePath, boolean a){
         plugin.saveResource(resourcePath, a);
