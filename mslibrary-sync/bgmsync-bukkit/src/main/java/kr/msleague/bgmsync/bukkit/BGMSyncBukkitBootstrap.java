@@ -28,7 +28,4 @@ public class BGMSyncBukkitBootstrap extends MSPlugin {
             ev.release();
         });
     }
-    public void onDisable(){
-
-    }
 }

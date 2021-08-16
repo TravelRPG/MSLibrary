@@ -17,7 +17,7 @@ public class PlayerSyncReceivedEvent extends Event {
     private UUID uuid;
     private ByteBuf buffer;
     private String clazz;
-    public PlayerSyncReceivedEvent(UUID uuid, String clazz,byte[] buf){
+    public PlayerSyncReceivedEvent(UUID uuid, String clazz, byte[] buf){
         this.uuid = uuid;
         this.buffer = Unpooled.directBuffer(buf.length);
         this.clazz = clazz;

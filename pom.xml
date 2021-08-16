@@ -10,9 +10,9 @@
 
     <modules>
         <module>mslibrary-misc</module>
+        <module>mslibrary-bootstrap</module>
         <module>mslibrary-bgmlib</module>
         <module>mslibrary-dansolib</module>
-        <module>mslibrary-bootstrap</module>
         <module>mslibrary-communication</module>
         <module>mslibrary-sync</module>
         <module>mslibrary-channel</module>

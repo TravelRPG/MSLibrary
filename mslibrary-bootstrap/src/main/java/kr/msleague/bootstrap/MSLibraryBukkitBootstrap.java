@@ -54,7 +54,7 @@ public final class MSLibraryBukkitBootstrap extends JavaPlugin {
         }
     }
     private final void loadClasses(){
-        getLogger().info("Started loadup plugin&modules...");
+        getLogger().info("Started loadup plugin & modules...");
         try{
             Reflections.class.getDeclaredField("log").set(null, null);
             Reflections rf = new Reflections(ClasspathHelper.forPackage("kr.msleague"));
@@ -90,7 +90,7 @@ public final class MSLibraryBukkitBootstrap extends JavaPlugin {
                 });
             });
         }catch(Throwable ex){
-
+            ex.printStackTrace();
         }
     }
 
