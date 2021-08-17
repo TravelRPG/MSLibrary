@@ -30,14 +30,6 @@ public class RedisDatabase implements MSDatabase<RedisCommands<String, String>> 
     @Override
     public <R> R execute(ThrowingFunction<RedisCommands<String, String>, R> function) {
         throw new UnsupportedOperationException("not implemented");
-        /*
-        try {
-            return function.acceptThrowing(syncCommands);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return null;
-         */
     }
 
     @Override
