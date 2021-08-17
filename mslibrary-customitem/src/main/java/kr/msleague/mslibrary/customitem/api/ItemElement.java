@@ -24,4 +24,15 @@ public interface ItemElement {
     @Nonnull
     String getPath();
 
+    String getName();
+
+    //todo: documents this
+    ItemNode asNode();
+
+    //todo: documents this
+    ItemNodeArray asArray();
+
+    //todo: documents this
+    ItemNodeValue asValue();
+
 }

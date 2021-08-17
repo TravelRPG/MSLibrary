@@ -1,6 +1,6 @@
 package kr.msleague.mslibrary.customitem.impl;
 
-import kr.msleague.mslibrary.customitem.api.HubItem;
+import kr.msleague.mslibrary.customitem.api.MSItem;
 import kr.msleague.mslibrary.customitem.api.ItemCenter;
 import kr.msleague.mslibrary.customitem.api.ItemDatabase;
 import kr.msleague.mslibrary.customitem.api.ItemFactory;
@@ -19,23 +19,23 @@ public class ItemCenterImpl implements ItemCenter {
 
     @Nullable
     @Override
-    public <T extends HubItem> ItemFactory<T> getFactory(Class<T> clazz) {
+    public <T extends MSItem> ItemFactory<T> getFactory(Class<T> clazz) {
         return null;
     }
 
     @Override
-    public <T extends HubItem> void registerFactory(Class<T> clazz, @Nonnull ItemFactory<T> factory) throws IllegalArgumentException {
+    public <T extends MSItem> void registerFactory(Class<T> clazz, @Nonnull ItemFactory<T> factory) throws IllegalArgumentException {
 
     }
 
     @Override
-    public <T extends HubItem> Future<Optional<T>> getItem(int id, @Nonnull Class<T> clazz) {
+    public <T extends MSItem> Future<Optional<T>> getItem(int id, @Nonnull Class<T> clazz) {
         return null;
     }
 
     @Nonnull
     @Override
-    public <T extends HubItem> Future<List<T>> getItems(@Nonnull Class<T> clazz, @Nonnull String path, @Nonnull String value) {
+    public <T extends MSItem> Future<List<T>> getItems(@Nonnull Class<T> clazz, @Nonnull String path, @Nonnull String value) {
         return null;
     }
 

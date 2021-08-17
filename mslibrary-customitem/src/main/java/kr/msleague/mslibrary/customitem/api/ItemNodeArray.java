@@ -1,17 +1,22 @@
 package kr.msleague.mslibrary.customitem.api;
 
-//todo: implements / documents this.
-public interface ItemNodeArray {
+import java.util.List;
 
-    void add(ItemNode node);
+//todo: documents this
+public interface ItemNodeArray extends ItemElement{
 
-    void add(ItemNodeValue value);
+    //todo: documents this
+    void add(ItemElement node);
 
-    void add(int index, ItemNode node);
+    //todo: documents this
+    void add(int index, ItemElement value);
 
-    void add(int index, ItemNodeValue value);
-
+    //todo: documents this
     void remove(int index);
 
+    //todo: documents this
+    List<ItemElement> contents();
+
+    //todo: documents this
     int size();
 }

@@ -1,7 +1,6 @@
 package kr.msleague.mslibrary.customitem.impl;
 
 import kr.msleague.mslibrary.customitem.api.ItemDatabase;
-import kr.msleague.mslibrary.customitem.api.SerializedItem;
 
 import java.util.List;
 import java.util.concurrent.Future;
