@@ -18,7 +18,6 @@
     </properties>
 
     <dependencies>
-
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-message</artifactId>
