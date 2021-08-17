@@ -45,10 +45,22 @@ public interface ItemNodeValue extends ItemElement{
     double getAsDouble();
 
     /**
+     * long 값을 가져옵니다.
+     * @return long 값
+     */
+    long getAsLong();
+
+    /**
      * String 값을 가져옵니다.
      * @return double 값
      */
     String getAsString();
+
+    /**
+     * Number 값을 가져옵니다.
+     * @return Number 값
+     */
+    Number getAsNumber();
 
     /**
      * byte 값을 설정합니다.
@@ -81,6 +93,12 @@ public interface ItemNodeValue extends ItemElement{
     void set(double b);
 
     /**
+     * long 값을 설정합니다.
+     * @param l 값
+     */
+    void set(long l);
+
+    /**
      * 값이 Number 인지 확인합니다.
      * @return Number 인지 여부
      */
@@ -92,6 +110,10 @@ public interface ItemNodeValue extends ItemElement{
      */
     boolean isBoolean();
 
+    /**
+     * 값이 String 인지 확인합니다.
+     * @return String 인지 여부
+     */
     boolean isString();
 
 }

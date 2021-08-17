@@ -25,11 +25,23 @@ public interface ItemNode extends ItemElement {
      * 아이템의 하위 노드를 설정합니다.
      * @param path 아이템의 노드 경로
      * @param node 아이템의 설정 노드 값 null 일 경우 해당 노드 삭제.
-     * @return 실행 성공 여부
-     */
-    boolean set(@Nonnull String path, @Nullable ItemElement node);
 
-    //todo: documents this
+     */
+    void set(@Nonnull String path, @Nullable ItemElement node);
+
+    /**
+     * 해당 키를 직접적으로 가지고 있는지 여부를 확인합니다.
+     * @param key 찾고자 하는 키
+     * @return 포함 여부
+     */
+    boolean has(@Nonnull String key);
+
+    /**
+     * 아이템이 가지고 있는 키를 반환합니다.
+     * 하위 노드까지 체크하지 않습니다.
+     * @return 직접적으로 가지고 있는 키 목록
+     */
+    @Nonnull
     List<String> getKeys();
 
 }

@@ -2,6 +2,7 @@ package kr.msleague.mslibrary.customitem.impl.node;
 
 import kr.msleague.mslibrary.customitem.api.ItemElement;
 import kr.msleague.mslibrary.customitem.api.ItemNodeValue;
+import kr.msleague.mslibrary.customitem.impl.NumberParser;
 
 public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValue{
 
@@ -43,6 +44,11 @@ public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValu
     }
 
     @Override
+    public long getAsLong() {
+        return value instanceof Long ? (Long)value : Long.parseLong((String)value);
+    }
+
+    @Override
     public String getAsString() {
         if(value instanceof Number){
             return value.toString();
@@ -52,6 +58,11 @@ public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValu
             }else
                 return (String)value;
         }
+    }
+
+    @Override
+    public Number getAsNumber() {
+        return value instanceof Number ? (Number)value : new NumberParser((String)value);
     }
 
     @Override
@@ -77,6 +88,26 @@ public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValu
     @Override
     public void set(double b) {
         setValue(b);
+    }
+
+    @Override
+    public void set(long l) {
+
+    }
+
+    @Override
+    public boolean isNumber() {
+        return value instanceof Number;
+    }
+
+    @Override
+    public boolean isBoolean() {
+        return value instanceof Boolean;
+    }
+
+    @Override
+    public boolean isString() {
+        return value instanceof String;
     }
 
     private void setValue(Object obj){

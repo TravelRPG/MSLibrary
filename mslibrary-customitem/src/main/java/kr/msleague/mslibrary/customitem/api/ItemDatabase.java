@@ -35,7 +35,7 @@ public interface ItemDatabase<T> {
      * @return 비동기 완료 여부
      * @throws IllegalArgumentException 직렬화 중 오류가 발생할 경우
      */
-    Future<Void> insertItem(int itemID, @Nonnull SerializedItem item, boolean override) throws IllegalArgumentException;
+    Future<Void> insertItem(int itemID, @Nonnull MSItem item, boolean override) throws IllegalArgumentException;
 
     /**
      * 아이템 정보를 삭제합니다.
