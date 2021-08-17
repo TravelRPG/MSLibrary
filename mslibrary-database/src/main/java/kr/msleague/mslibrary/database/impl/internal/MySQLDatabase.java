@@ -55,21 +55,26 @@ public class MySQLDatabase implements MSDatabase<Connection> {
 
     @Override
     public <R> Future<R> executeAsync(ThrowingFunction<Connection, R> function) {
-        try (Connection con = dataSource.getConnection()){
-            return service.submit(() -> function.acceptThrowing(con));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return service.submit(()->{
+            try (Connection con = dataSource.getConnection()){
+                return function.acceptThrowing(con);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return null;
+        });
     }
 
     @Override
     public void executeAsync(ThrowingConsumer<Connection> consumer) {
-        try (Connection con = dataSource.getConnection()){
-            consumer.acceptThrowing(con);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        service.submit(()-> {
+            try (Connection connection = dataSource.getConnection()){
+                consumer.acceptThrowing(connection);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 
     @Override

@@ -69,16 +69,23 @@ public class BCSPProxyAPI implements BCSPApi {
         lock.readLock().lock();
     }
     private void processFinished(Class<? extends AbstractPacket> type, ChannelWrapper wrapper, AbstractPacket packet){
-        wrapper.sendPacket(packet);
         ReadWriteLock lock = lockMap.computeIfAbsent(wrapper, x->new HashMap<>()).computeIfAbsent(type, y->new ReentrantReadWriteLock());
-        lock.readLock().unlock();
+        try{
+            wrapper.sendPacket(packet);
+        }finally {
+            lock.readLock().unlock();
+        }
     }
     public<T extends AbstractPacket> void registerCallBackProcessor(int port, Class<T> targetPacket, Function<T, AbstractPacket> func){
         BCSPProxyAPI.getInst().registerInnerPacket(port, targetPacket, (pack,wrap)->{
-            processCallBackResult(targetPacket, wrap);
-            AbstractPacket res = func.apply(pack);
-            res.setCallBackResult(true);
-            processFinished(targetPacket, wrap, res);
+            AbstractPacket res = null;
+            try{
+                processCallBackResult(targetPacket, wrap);
+                res = func.apply(pack);
+                res.setCallBackResult(true);
+            }finally{
+                processFinished(targetPacket, wrap, res);
+            }
         });
     }
     public static class Unsafe{

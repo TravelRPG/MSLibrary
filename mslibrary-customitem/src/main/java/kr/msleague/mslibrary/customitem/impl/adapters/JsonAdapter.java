@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import kr.msleague.mslibrary.customitem.api.*;
+import kr.msleague.mslibrary.customitem.impl.node.HashItem;
 import kr.msleague.mslibrary.customitem.impl.node.ListItemNodeArray;
 import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;
 import kr.msleague.mslibrary.customitem.impl.node.ObjectItemNodeValue;
@@ -18,7 +19,7 @@ public class JsonAdapter implements ItemAdapter<JsonObject> {
     public MSItem deserialize(@Nonnull JsonObject serialized) throws IllegalArgumentException {
         HashItemNode node = new HashItemNode(null, "");
         read(node, serialized);
-        return null;
+        return new HashItem(node);
     }
 
     private void read(ItemNode parent, JsonObject element){
@@ -73,15 +74,16 @@ public class JsonAdapter implements ItemAdapter<JsonObject> {
         return null;
     }
 
+    @Nonnull
     @Override
     public JsonObject serialize(MSItem item) throws IllegalArgumentException {
+        if(!item.getNodes().has("id") || !item.getNodes().has("version"))
+            throw new IllegalArgumentException("target item has not 'id' or 'version' key");
         JsonObject root = new JsonObject();
-        root.addProperty("id", item.getID());
-        root.addProperty("version", item.getVersion());
         for (String key : item.getNodes().getKeys()) {
             write(root, item.getNodes().get(key, false));
         }
-        return null;
+        return root;
     }
 
     private void write(JsonObject parent, ItemElement node){
@@ -96,18 +98,38 @@ public class JsonAdapter implements ItemAdapter<JsonObject> {
             write(array, node.asArray());
             parent.add(node.getName(), array);
         }else if(node instanceof ItemNodeValue){
-            //todo: 원시타입 가져오기
-            JsonPrimitive primitive = new JsonPrimitive();
+            JsonPrimitive primitive = getPrimitive(node.asValue());
+            parent.add(node.getName(), primitive);
         }
     }
 
-
-
-    private void write(JsonArray array, ItemElement element){
-
+    private JsonPrimitive getPrimitive(ItemNodeValue node){
+        JsonPrimitive primitive;
+        ItemNodeValue nodeValue = node.asValue();
+        if(nodeValue.isBoolean()){
+            primitive = new JsonPrimitive(nodeValue.getAsBoolean());
+        }else if(nodeValue.isNumber()){
+            primitive = new JsonPrimitive(nodeValue.getAsNumber());
+        }else {
+            primitive = new JsonPrimitive(nodeValue.getAsString());
+        }
+        return primitive;
     }
 
-    private void writePrimitive(){
-
+    private void write(JsonArray array, ItemElement node){
+        if(node instanceof ItemNode){
+            JsonObject obj = new JsonObject();
+            write(obj, node.asNode());
+            array.add(obj);
+        }else if(node instanceof ItemNodeArray){
+            JsonArray jsonArray = new JsonArray();
+            for (ItemElement element : node.asArray().contents()) {
+                write(jsonArray, element);
+            }
+            array.add(jsonArray);
+        }else if(node instanceof ItemNodeValue){
+            JsonPrimitive primitive = getPrimitive(node.asValue());
+            array.add(primitive);
+        }
     }
 }

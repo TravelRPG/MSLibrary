@@ -3,11 +3,13 @@ package kr.msleague.mslibrary.customitem.impl.node;
 import kr.msleague.mslibrary.customitem.api.MSItem;
 import kr.msleague.mslibrary.customitem.api.ItemNodeValue;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class HashItem implements MSItem {
 
     @Getter
-    HashItemNode nodes;
+    final HashItemNode nodes;
 
     @Override
     public int getID() {
