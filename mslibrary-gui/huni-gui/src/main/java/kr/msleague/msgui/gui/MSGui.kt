@@ -75,7 +75,7 @@ abstract class MSGui<V> (
     private lateinit var viewerUniqueId: UUID
     val player: Player? get() = server.getPlayer(viewerUniqueId)
     private val buttonMap: MutableMap<Int, MSGuiButtonAction> = HashMap()
-    fun addButtonAction(id: Int, action: MSGuiButtonAction) { buttonMap[id] = action }
+    internal fun addButtonAction(id: Int, action: MSGuiButtonAction) { buttonMap[id] = action }
 
     init { initializer() }
     private fun initializer() {

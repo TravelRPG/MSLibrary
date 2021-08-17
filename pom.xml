@@ -25,6 +25,7 @@
         <module>mslibrary-message</module>
         <module>mslibrary-package</module>
         <module>mslibrary-commands</module>
+        <module>mslibrary-kotlindocs</module>
     </modules>
     <packaging>pom</packaging>
 

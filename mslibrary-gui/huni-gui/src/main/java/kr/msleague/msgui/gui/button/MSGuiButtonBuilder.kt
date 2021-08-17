@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.SkullMeta
 import kotlin.collections.ArrayList
 import kotlin.collections.HashSet
 
-class MSGuiButtonBuilder() {
+class MSGuiButtonBuilder {
     var type: MSGuiButtonType = MSGuiButtonType.ITEM_STACK
         private set
     var material: Material = Material.AIR
@@ -22,12 +22,12 @@ class MSGuiButtonBuilder() {
     var durability: Int = 0
         private set
 
-    constructor(material: Material) : this() {
+    constructor(material: Material) {
         type = MSGuiButtonType.ITEM_STACK
         this.material = material
     }
 
-    constructor(material: Material, durability: Int) : this() {
+    constructor(material: Material, durability: Int) {
         type = MSGuiButtonType.ITEM_STACK
         this.material = material
         this.durability = durability
@@ -35,14 +35,14 @@ class MSGuiButtonBuilder() {
 
     private var url: String? = null
 
-    constructor(url: String) : this() {
+    constructor(url: String) {
         type = MSGuiButtonType.CUSTOM_HEAD
         this.url = url
     }
 
     private var owner: OfflinePlayer? = null
 
-    constructor(offlinePlayer: OfflinePlayer) : this() {
+    constructor(offlinePlayer: OfflinePlayer) {
         type = MSGuiButtonType.PLAYER_HEAD
         this.owner = offlinePlayer
     }
@@ -53,7 +53,7 @@ class MSGuiButtonBuilder() {
         private set
     private val baseLore: MutableList<String> get() = lore ?: ArrayList<String>().apply { lore = this }
     fun setDisplayName(displayName: String?): MSGuiButtonBuilder {
-        this.display = display
+        this.display = displayName
         return this
     }
 
