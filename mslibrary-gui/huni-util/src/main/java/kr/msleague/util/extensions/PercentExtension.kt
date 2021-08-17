@@ -6,11 +6,12 @@ import java.util.AbstractMap
 import kotlin.math.ln
 import kotlin.random.Random
 
+val random: Random by lazy { Random }
+
 fun Double.percent(): Boolean {
     val temp = this
     if(temp >= 100.0) return true
     else if(temp <= 0.0) return false
-    val random = Random
     val suc = BigDecimal(this)
     var fail = BigDecimal("100.0")
     fail = fail.subtract(suc)
