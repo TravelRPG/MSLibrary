@@ -20,9 +20,9 @@
         <module>mslibrary-inventory</module>
         <module>mslibrary-database</module>
         <module>mslibrary-cache</module>
-        <!-- <module>mslibrary-customitem</module>
-         <module>mslibrary-gui</module>
-        <module>mslibrary-message</module>-->
+        <module>mslibrary-customitem</module>
+        <module>mslibrary-gui</module>
+        <module>mslibrary-message</module>
         <module>mslibrary-package</module>
     </modules>
     <packaging>pom</packaging>
