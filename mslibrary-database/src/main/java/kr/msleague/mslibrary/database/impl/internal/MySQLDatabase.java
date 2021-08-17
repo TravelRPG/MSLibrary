@@ -66,7 +66,13 @@ public class MySQLDatabase implements MSDatabase<Connection> {
     @Override
     public void executeAsync(ThrowingConsumer<Connection> consumer) {
         try (Connection con = dataSource.getConnection()){
-            consumer.acceptThrowing(con);
+            service.submit(()-> {
+                try {
+                    consumer.acceptThrowing(con);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

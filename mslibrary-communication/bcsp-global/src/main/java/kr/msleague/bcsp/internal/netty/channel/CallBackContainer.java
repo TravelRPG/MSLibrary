@@ -15,24 +15,29 @@ public class CallBackContainer {
     protected final void addOnQueue(ChannelWrapper wrapper, AbstractPacket packet, Class<? extends AbstractPacket> targetClass, PacketCallBack<? extends AbstractPacket> callback)
     {
         Preconditions.checkNotNull(packet, "Packet cannot be null");
-        lock.writeLock().lock();
-        wrapper.sendPacket(packet);
-        callBackMap.computeIfAbsent(targetClass, k->new LinkedList<>()).add(callback);
-        lock.writeLock().unlock();
+        try{
+            lock.writeLock().lock();
+            wrapper.sendPacket(packet);
+            callBackMap.computeIfAbsent(targetClass, k->new LinkedList<>()).add(callback);
+        }finally{
+            lock.writeLock().unlock();
+        }
     }
     public boolean complete(AbstractPacket packet){
         Preconditions.checkNotNull(packet, "Packet cannot be null");
-        lock.readLock().lock();
-        Queue<PacketCallBack<? extends AbstractPacket>> queue = callBackMap.get(packet.getClass());
-        if(queue != null && !queue.isEmpty()){
-            PacketCallBack<AbstractPacket> x = (PacketCallBack<AbstractPacket>) queue.poll();
-            if(x == null)
-                return false;
-            x.onCallBackRecieved(packet);
+        try{
+            lock.readLock().lock();
+            Queue<PacketCallBack<? extends AbstractPacket>> queue = callBackMap.get(packet.getClass());
+            if(queue != null && !queue.isEmpty()){
+                PacketCallBack<AbstractPacket> x = (PacketCallBack<AbstractPacket>) queue.poll();
+                if(x == null)
+                    return false;
+                x.onCallBackRecieved(packet);
+                return true;
+            }
+            return false;
+        }finally{
             lock.readLock().unlock();
-            return true;
         }
-        lock.readLock().unlock();
-        return false;
     }
 }
