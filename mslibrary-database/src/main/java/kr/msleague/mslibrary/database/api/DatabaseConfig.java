@@ -20,8 +20,9 @@ public interface DatabaseConfig {
     /**
      * 데이터베이스 주소를 설정합니다.
      * @param address 데이터베이스 주소
+     * @return 설정 인스턴스
      */
-    void setAddress(String address);
+    DatabaseConfig setAddress(String address);
 
     /**
      * 데이터베이스 유저를 반환합니다.
@@ -33,8 +34,9 @@ public interface DatabaseConfig {
     /**
      * 데이터베이스 유저를 설정합니다.
      * @param user 데이터베이스 유저 이름
+     * @return 설정 인스턴스
      */
-    void setUser(String user);
+    DatabaseConfig setUser(String user);
 
     /**
      * 데이터베이스 포트를 반환합니다.
@@ -46,8 +48,9 @@ public interface DatabaseConfig {
     /**
      * 데이터베이스 포트를 설정합니다.
      * @param port 데이터베이스 포트
+     * @return 설정 인스턴스
      */
-    void setPort(int port);
+    DatabaseConfig setPort(int port);
 
     /**
      * 데이터베이스 비밀번호를 반환합니다.
@@ -59,8 +62,9 @@ public interface DatabaseConfig {
     /**
      * 데이터베이스 비밀번호를 설정합니다.
      * @param password 데이터베이스 비밀번호
+     * @return 설정 인스턴스
      */
-    void setPassword(String password);
+    DatabaseConfig setPassword(String password);
 
     /**
      * 데이터베이스 이름을 반환합니다.
@@ -73,14 +77,15 @@ public interface DatabaseConfig {
      * 데이터베이스 이름을 설정합니다.
      * @param database 데이터베이스 이름
      */
-    void setDatabase(String database);
+    DatabaseConfig setDatabase(String database);
 
     /**
      * 데이터베이스 설정 값을 직접 수정합니다.
      * @param key 설정 이름
      * @param value 설정 값
+     * @return 설정 인스턴스
      */
-    void setManually(@NonNull String key, @Nullable String value);
+    DatabaseConfig setManually(@NonNull String key, @Nullable String value);
 
     /**
      * 데이터베이스 설정 값을 받아옵니다.
