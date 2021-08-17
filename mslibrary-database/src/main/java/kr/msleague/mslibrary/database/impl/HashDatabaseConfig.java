@@ -16,8 +16,9 @@ public class HashDatabaseConfig extends AbstractDatabaseConfig {
     }
 
     @Override
-    public void setManually(@NonNull String key, String value) {
+    public DatabaseConfig setManually(@NonNull String key, String value) {
         properties.setProperty(key, value);
+        return this;
     }
 
     @Override
