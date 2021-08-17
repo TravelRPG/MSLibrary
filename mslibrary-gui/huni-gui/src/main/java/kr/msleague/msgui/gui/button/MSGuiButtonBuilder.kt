@@ -1,10 +1,12 @@
 package kr.msleague.msgui.gui.button
 
-import kr.msleague.msgui.extensions.addNBTTagCompound
+import kr.msleague.util.extensions.addNBTTagCompound
 import kr.msleague.msgui.managers.SkullManager
+import kr.msleague.msgui.plugin
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
@@ -93,6 +95,11 @@ class MSGuiButtonBuilder() {
 
     fun setAction(action: MSGuiButtonAction): MSGuiButtonBuilder {
         this.action = action
+        return this
+    }
+
+    fun setAction(ktFunc: (InventoryClickEvent)->Unit): MSGuiButtonBuilder {
+        this.action = object: MSGuiButtonAction { override fun action(e: InventoryClickEvent) { ktFunc(e) } }
         return this
     }
 
