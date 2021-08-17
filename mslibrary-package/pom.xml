@@ -63,56 +63,67 @@
             <groupId>kr.msleague</groupId>
             <artifactId>bgmsync-assembly</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-bgmlib</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-dansolib</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>teleport-assembly</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-inventory</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-channel</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-customitem</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-misc</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-message</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-database</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-cache</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
