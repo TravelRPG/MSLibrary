@@ -17,6 +17,8 @@ import java.util.concurrent.Executors;
  */
 public class MSLDatabases {
 
+    public static final DatabaseConfig HIKARI = new DefaultHikariConfig();
+
     @Getter
     private static final MSLDatabases inst = new MSLDatabases();
 
@@ -25,7 +27,7 @@ public class MSLDatabases {
 
 
     private MSLDatabases(){
-        addDefaultConfig("hikari-default", new DefaultHikariConfig());
+        addDefaultConfig("hikari-default", HIKARI);
     }
 
     public void add(@NonNull String name, @NonNull MSDatabase<?> database) throws IllegalArgumentException{
