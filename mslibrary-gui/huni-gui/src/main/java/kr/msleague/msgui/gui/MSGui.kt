@@ -36,9 +36,19 @@ abstract class MSGui<V> (
     val maxPage: Int get() = pages?.size?: 0
 
     constructor(who: Player, size: Int, title: String? = null, cancel: Boolean): this(who, size, title) { this.cancelGUI = cancel }
-
+    constructor(who: Player, size: Int, title: String? = null, vararg args: V): this(who, size, title) { objs = args.toList() }
+    constructor(who: Player, size: Int, title: String? = null, inventory: Inventory): this(who, size, title) { baseInventory = inventory }
+    constructor(who: Player, cancel: Boolean, inventory: Inventory): this(who, inventory.size, inventory.title) {
+        this.cancelGUI = cancel
+        baseInventory = inventory
+    }
     constructor(who: Player, size: Int, title: String? = null, cancel: Boolean, vararg args: V): this(who, size, title) {
         this.cancelGUI = cancel
+        objs = args.toList()
+    }
+    constructor(who: Player, cancel: Boolean, inventory: Inventory, vararg args: V): this(who, inventory.size, inventory.title) {
+        this.cancelGUI = cancel
+        baseInventory = inventory
         objs = args.toList()
     }
 
@@ -60,7 +70,8 @@ abstract class MSGui<V> (
             }, plugin)
         }
     }
-    val inventory: Inventory by lazy { if(title!=null) server.createInventory(null, size,title) else server.createInventory(null, size) }
+    private var baseInventory: Inventory? = null
+    val inventory: Inventory by lazy { if(baseInventory!=null) baseInventory!! else if(title!=null) server.createInventory(null, size,title) else server.createInventory(null, size) }
     private lateinit var viewerUniqueId: UUID
     val player: Player? get() = server.getPlayer(viewerUniqueId)
     private val buttonMap: MutableMap<Int, MSGuiButtonAction> = HashMap()
