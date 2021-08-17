@@ -4,7 +4,6 @@ import kr.msleague.mslibrary.misc.ThrowingConsumer;
 import kr.msleague.mslibrary.misc.ThrowingFunction;
 
 import javax.annotation.Nullable;
-import java.io.Closeable;
 import java.util.concurrent.Future;
 
 /**

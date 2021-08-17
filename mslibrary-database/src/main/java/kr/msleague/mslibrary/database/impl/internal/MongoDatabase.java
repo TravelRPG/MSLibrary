@@ -2,6 +2,7 @@ package kr.msleague.mslibrary.database.impl.internal;
 
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
 import kr.msleague.mslibrary.database.api.MSDatabase;
+import kr.msleague.mslibrary.misc.ThrowingConsumer;
 import kr.msleague.mslibrary.misc.ThrowingFunction;
 import lombok.RequiredArgsConstructor;
 
@@ -25,7 +26,17 @@ public class MongoDatabase implements MSDatabase<com.mongodb.client.MongoDatabas
     }
 
     @Override
+    public void executeAsync(ThrowingConsumer<com.mongodb.client.MongoDatabase> consumer) {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    @Override
     public <R> R execute(ThrowingFunction<com.mongodb.client.MongoDatabase, R> function) {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    @Override
+    public void execute(ThrowingConsumer<com.mongodb.client.MongoDatabase> consumer) {
         throw new UnsupportedOperationException("not implemented");
     }
 }
