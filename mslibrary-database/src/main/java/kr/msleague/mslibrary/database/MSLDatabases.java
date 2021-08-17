@@ -4,10 +4,13 @@ import com.mongodb.lang.Nullable;
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
 import kr.msleague.mslibrary.database.api.MSDatabase;
 import kr.msleague.mslibrary.database.impl.internal.DefaultHikariConfig;
+import kr.msleague.mslibrary.database.impl.internal.MySQLDatabase;
 import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 데이터베이스 모음
@@ -19,6 +22,7 @@ public class MSLDatabases {
 
     private final ConcurrentHashMap<String, MSDatabase<?>> databases = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, DatabaseConfig> defaultConfigs = new ConcurrentHashMap<>();
+
 
     private MSLDatabases(){
         addDefaultConfig("hikari-default", new DefaultHikariConfig());
@@ -41,6 +45,11 @@ public class MSLDatabases {
     @Nullable
     public MSDatabase<?> get(String name){
         return databases.get(name);
+    }
+
+    @Nullable
+    public <T> MSDatabase<T> get(Class<T> clazz, String name){
+        return (MSDatabase<T>) databases.get(name);
     }
 
     @Nullable
