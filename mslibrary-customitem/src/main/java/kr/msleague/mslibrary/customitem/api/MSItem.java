@@ -8,7 +8,7 @@ package kr.msleague.mslibrary.customitem.api;
  * @since 1.0
  * @author Arkarang
  */
-public interface HubItem {
+public interface MSItem {
 
     /**
      * 아이템 아이디를 리턴합니다.
@@ -21,4 +21,7 @@ public interface HubItem {
      * @return 아이템 버전
      */
     long getVersion();
+
+    //todo: documents this
+    ItemNode getNodes();
 }

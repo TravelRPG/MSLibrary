@@ -10,14 +10,14 @@ import java.util.concurrent.Future;
  * @since 1.0
  * @author Arkarang
  */
-public interface ItemDatabase {
+public interface ItemDatabase<T> {
 
     /**
      * 직렬화된 아이템을 새로운 아이템으로서 데이터베이스에 등록합니다.
      * @param item 직렬화된 아이템
      * @return 처리 완료 시의 신규 아이템 코드
      */
-    Future<Integer> newItem(@Nonnull SerializedItem item);
+    Future<Integer> newItem(@Nonnull MSItem item);
 
     /**
      * 아이템 정보를 로드합니다.
@@ -25,7 +25,7 @@ public interface ItemDatabase {
      * @return 직렬화 된 아이템 데이터
      * @throws IllegalStateException 역직렬화 중 오류가 발생할 경우
      */
-    Future<SerializedItem> load(int itemID) throws IllegalStateException;
+    Future<MSItem> load(int itemID) throws IllegalStateException;
 
     /**
      * 아이템 정보를 삽입합니다.

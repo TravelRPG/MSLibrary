@@ -26,6 +26,8 @@ public class CallBackContainer {
         Queue<PacketCallBack<? extends AbstractPacket>> queue = callBackMap.get(packet.getClass());
         if(queue != null && !queue.isEmpty()){
             PacketCallBack<AbstractPacket> x = (PacketCallBack<AbstractPacket>) queue.poll();
+            if(x == null)
+                return false;
             x.onCallBackRecieved(packet);
             lock.readLock().unlock();
             return true;

@@ -14,14 +14,17 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class MSLDatabases {
 
+    public static final DatabaseConfig HIKARI = new DefaultHikariConfig();
+
     @Getter
     private static final MSLDatabases inst = new MSLDatabases();
 
     private final ConcurrentHashMap<String, MSDatabase<?>> databases = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, DatabaseConfig> defaultConfigs = new ConcurrentHashMap<>();
 
+
     private MSLDatabases(){
-        addDefaultConfig("hikari-default", new DefaultHikariConfig());
+        addDefaultConfig("hikari-default", HIKARI);
     }
 
     public void add(@NonNull String name, @NonNull MSDatabase<?> database) throws IllegalArgumentException{
@@ -41,6 +44,12 @@ public class MSLDatabases {
     @Nullable
     public MSDatabase<?> get(String name){
         return databases.get(name);
+    }
+
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public <T> MSDatabase<T> get(Class<T> clazz, String name){
+        return (MSDatabase<T>) databases.get(name);
     }
 
     @Nullable

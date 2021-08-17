@@ -1,14 +1,17 @@
 package kr.msleague.mslibrary.customitem.impl;
 
 import kr.msleague.mslibrary.customitem.api.ItemDatabase;
+import kr.msleague.mslibrary.customitem.api.MSItem;
 import kr.msleague.mslibrary.customitem.api.SerializedItem;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.Future;
 
 public class MySQLItemDatabase implements ItemDatabase {
+
     @Override
-    public Future<Integer> newItem(SerializedItem item) {
+    public Future<Integer> newItem(@Nonnull MSItem item) {
         return null;
     }
 

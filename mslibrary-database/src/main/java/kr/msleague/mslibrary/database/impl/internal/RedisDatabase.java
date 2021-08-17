@@ -3,6 +3,7 @@ package kr.msleague.mslibrary.database.impl.internal;
 import io.lettuce.core.api.sync.RedisCommands;
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
 import kr.msleague.mslibrary.database.api.MSDatabase;
+import kr.msleague.mslibrary.misc.ThrowingConsumer;
 import kr.msleague.mslibrary.misc.ThrowingFunction;
 
 import java.util.concurrent.Future;
@@ -22,6 +23,11 @@ public class RedisDatabase implements MSDatabase<RedisCommands<String, String>> 
     }
 
     @Override
+    public void executeAsync(ThrowingConsumer<RedisCommands<String, String>> consumer) {
+
+    }
+
+    @Override
     public <R> R execute(ThrowingFunction<RedisCommands<String, String>, R> function) {
         throw new UnsupportedOperationException("not implemented");
         /*
@@ -32,6 +38,11 @@ public class RedisDatabase implements MSDatabase<RedisCommands<String, String>> 
         }
         return null;
          */
+    }
+
+    @Override
+    public void execute(ThrowingConsumer<RedisCommands<String, String>> consumer) {
+
     }
 
 }

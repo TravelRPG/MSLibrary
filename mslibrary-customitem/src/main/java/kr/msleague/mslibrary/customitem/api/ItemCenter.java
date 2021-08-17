@@ -29,7 +29,7 @@ public interface ItemCenter {
      * @return 아이템 팩토리 인스턴스. 존재하지 않을 경우 null
      */
     @Nullable
-    <T extends HubItem> ItemFactory<T> getFactory(Class<T> clazz);
+    <T extends MSItem> ItemFactory<T> getFactory(Class<T> clazz);
 
     /**
      * 아이템 팩토리를 등록합니다.
@@ -38,7 +38,7 @@ public interface ItemCenter {
      * @param <T> 아이템 타입
      * @throws IllegalArgumentException 이미 해당 클래스로 등록된 팩토리가 있을 경우
      */
-    <T extends HubItem> void registerFactory(Class<T> clazz, @Nonnull ItemFactory<T> factory) throws IllegalArgumentException;
+    <T extends MSItem> void registerFactory(Class<T> clazz, @Nonnull ItemFactory<T> factory) throws IllegalArgumentException;
 
     /**
      * 아이템을 해당 아이템 인스턴스로 찾습니다.
@@ -48,7 +48,7 @@ public interface ItemCenter {
      * @param <T> 얻고자 하는 아이템 타입
      * @return 비동기 처리 값
      */
-    <T extends HubItem> Future<Optional<T>> getItem(int id, @Nonnull Class<T> clazz);
+    <T extends MSItem> Future<Optional<T>> getItem(int id, @Nonnull Class<T> clazz);
 
     /**
      * 아이템을 주어진 경로와 피라미터를 통해 찾습니다.
@@ -59,7 +59,7 @@ public interface ItemCenter {
      * @return 찾은 결과 값 리스트의 비동기 값
      */
     @Nonnull
-    <T extends HubItem> Future<List<T>> getItems(@Nonnull Class<T> clazz, @Nonnull String path, @Nonnull String value);
+    <T extends MSItem> Future<List<T>> getItems(@Nonnull Class<T> clazz, @Nonnull String path, @Nonnull String value);
 
     /**
      * 데이터베이스의 모든 아이템을 로드합니다.

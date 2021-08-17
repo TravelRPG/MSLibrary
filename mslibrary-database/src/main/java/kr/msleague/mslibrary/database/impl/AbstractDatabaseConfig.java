@@ -12,8 +12,9 @@ public abstract class AbstractDatabaseConfig implements DatabaseConfig {
     }
 
     @Override
-    public void setAddress(String address){
+    public DatabaseConfig setAddress(String address){
         setManually("address", address);
+        return this;
     }
 
     @Nullable
@@ -23,8 +24,9 @@ public abstract class AbstractDatabaseConfig implements DatabaseConfig {
     }
 
     @Override
-    public void setUser(String user){
+    public DatabaseConfig setUser(String user){
         setManually("user", user);
+        return this;
     }
 
     @Nullable
@@ -34,8 +36,9 @@ public abstract class AbstractDatabaseConfig implements DatabaseConfig {
     }
 
     @Override
-    public void setPort(int port){
+    public DatabaseConfig setPort(int port){
         setManually("port", port+"");
+        return this;
     }
 
     @Nullable
@@ -45,8 +48,9 @@ public abstract class AbstractDatabaseConfig implements DatabaseConfig {
     }
 
     @Override
-    public void setPassword(String password){
+    public DatabaseConfig setPassword(String password){
         setManually("password", password);
+        return this;
     }
 
 
@@ -57,7 +61,8 @@ public abstract class AbstractDatabaseConfig implements DatabaseConfig {
     }
 
     @Override
-    public void setDatabase(String database){
+    public DatabaseConfig setDatabase(String database){
         setManually("database", database);
+        return this;
     }
 }

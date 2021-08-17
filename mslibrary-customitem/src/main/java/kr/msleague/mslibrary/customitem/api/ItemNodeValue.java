@@ -6,7 +6,7 @@ package kr.msleague.mslibrary.customitem.api;
  * @since 1.0
  * @author Arkarang
  */
-public interface ItemNodeValue {
+public interface ItemNodeValue extends ItemElement{
 
     /**
      * boolean 값을 가져옵니다.
@@ -79,5 +79,19 @@ public interface ItemNodeValue {
      * @param b 값
      */
     void set(double b);
+
+    /**
+     * 값이 Number 인지 확인합니다.
+     * @return Number 인지 여부
+     */
+    boolean isNumber();
+
+    /**
+     * 값이 Boolean 인지 확인합니다.
+     * @return Boolean 인지 여부
+     */
+    boolean isBoolean();
+
+    boolean isString();
 
 }

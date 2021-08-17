@@ -11,7 +11,7 @@ import java.util.Map;
  * @since 1.0
  * @author Arkarang
  */
-public interface ItemFactory<T extends HubItem> {
+public interface ItemFactory<T> {
 
     /**
      * 현재 등록되어 있는 Adapter 목록을 확인합니다.
@@ -34,5 +34,5 @@ public interface ItemFactory<T extends HubItem> {
      * @throws IllegalArgumentException 아이템 직렬화 중 오류가 발생할 경우
      */
     @Nonnull
-    T build(@Nonnull SerializedItem item) throws IllegalArgumentException;
+    T build(@Nonnull MSItem item) throws IllegalArgumentException;
 }

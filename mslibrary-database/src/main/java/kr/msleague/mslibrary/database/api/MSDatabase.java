@@ -1,9 +1,9 @@
 package kr.msleague.mslibrary.database.api;
 
+import kr.msleague.mslibrary.misc.ThrowingConsumer;
 import kr.msleague.mslibrary.misc.ThrowingFunction;
 
 import javax.annotation.Nullable;
-import java.io.Closeable;
 import java.util.concurrent.Future;
 
 /**
@@ -29,6 +29,12 @@ public interface MSDatabase<T> {
     <R> Future<R> executeAsync(ThrowingFunction<T, R> function);
 
     /**
+     * 로직을 비동기로 실행합니다.
+     * @param consumer 실행할 로직
+     */
+    void executeAsync(ThrowingConsumer<T> consumer);
+
+    /**
      * 로직을 동기로 실행합니다.
      * @param function 실행할 로직
      * @param <R> 반환 값의 타입, 실행 중 문제가 발생할 경우 null
@@ -36,4 +42,10 @@ public interface MSDatabase<T> {
      */
     @Nullable
     <R> R execute(ThrowingFunction<T, R> function);
+
+    /**
+     * 로직을 동기로 실행합니다.
+     * @param consumer 실행할 로직
+     */
+    void execute(ThrowingConsumer<T> consumer);
 }
