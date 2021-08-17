@@ -1,4 +1,4 @@
-package kr.msleague.msgui.extensions
+package kr.msleague.util.extensions
 
 import com.google.gson.Gson
 import net.minecraft.server.v1_12_R1.NBTTagCompound
