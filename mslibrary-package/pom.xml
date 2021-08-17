@@ -47,7 +47,7 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <artifactId>huni-gui</artifactId>
             <groupId>kr.msleague</groupId>
             <version>1.0-SNAPSHOT</version>
@@ -59,6 +59,19 @@
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>kr.msleague</groupId>
+            <artifactId>mslibrary-customitem</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>kr.msleague</groupId>
+            <artifactId>mslibrary-message</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        -->
         <dependency>
             <groupId>kr.msleague</groupId>
             <artifactId>bgmsync-assembly</artifactId>
@@ -97,19 +110,7 @@
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
-            <artifactId>mslibrary-customitem</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>kr.msleague</groupId>
             <artifactId>mslibrary-misc</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>kr.msleague</groupId>
-            <artifactId>mslibrary-message</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

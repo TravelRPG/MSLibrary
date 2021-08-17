@@ -4,13 +4,10 @@ import com.mongodb.lang.Nullable;
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
 import kr.msleague.mslibrary.database.api.MSDatabase;
 import kr.msleague.mslibrary.database.impl.internal.DefaultHikariConfig;
-import kr.msleague.mslibrary.database.impl.internal.MySQLDatabase;
 import lombok.Getter;
 import lombok.NonNull;
 
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * 데이터베이스 모음

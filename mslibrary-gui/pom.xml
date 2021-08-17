@@ -15,8 +15,8 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>huni-gui</module>
         <module>huni-util</module>
+        <module>huni-gui</module>
     </modules>
 
     <properties>
