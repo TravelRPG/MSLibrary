@@ -75,13 +75,13 @@ abstract class MSGui<V> (
             if(preOpenEvent.isCancelled) return
             val delay = if(who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
             server.scheduler.runTaskLater(plugin , {
-                pages = javaClass.declaredMethods.filter { it.getAnnotation(MSGuiPage::class.java) != null }.toList().sortedBy { it.getAnnotation(MSGuiPage::class.java).pagePriority }
-                viewerUniqueId = who.uniqueId
                 init()
+                pages = javaClass.declaredMethods.filter { it.getAnnotation(MSGuiPage::class.java) != null }.toList().sortedBy { it.getAnnotation(MSGuiPage::class.java).pagePriority }
                 if(maxPage > 0) {
                     currentPage = 1
                     pages?.get(page)?.invoke(this)
                 }
+                viewerUniqueId = who.uniqueId
                 registerEvent(this)
                 who.openInventory(inventory)
                 pluginManager.callEvent(MSGuiOpenedEvent(who, this, System.currentTimeMillis()))
@@ -91,7 +91,7 @@ abstract class MSGui<V> (
 
     abstract fun init()
 
-    fun refresh() { if(page in 0 until maxPage) pages?.get(page)?.invoke(this) }
+    fun refresh() { if(page in 0 until maxPage) pages?.get(page)?.invoke(this) else init() }
     fun refresh(clear: Boolean) {
         if(clear) {
             buttonMap.forEach {

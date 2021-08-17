@@ -1,7 +1,5 @@
 package kr.msleague.message.api
 
-import kr.msleague.message.adapter.ItemStackAdapter
-import kr.msleague.message.adapter.PlayerAdapter
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 
@@ -9,7 +7,7 @@ object MSMessageRegistry {
 
     private val adapterMap: MutableMap<String,MutableMap<MSMessageAdapter<*>,Method>> = HashMap()
 
-    fun registerAdapters(vararg adapter: MSMessageAdapter<*>) {
+    internal fun registerAdapters(vararg adapter: MSMessageAdapter<*>) {
         adapter.forEach {
             val superClassIterator = it.javaClass.genericInterfaces.iterator()
             while(superClassIterator.hasNext()) {
@@ -28,7 +26,7 @@ object MSMessageRegistry {
         }
     }
 
-    fun reformat(origin: String, vararg objs: Any): String {
+    internal fun reformat(origin: String, vararg objs: Any): String {
         var result = origin
         objs.forEach {
             adapterMap[it::class.java.typeName]

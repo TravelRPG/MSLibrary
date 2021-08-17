@@ -3,6 +3,7 @@ package kr.msleague.msgui.gui.button
 import kr.msleague.util.extensions.addNBTTagCompound
 import kr.msleague.msgui.managers.SkullManager
 import kr.msleague.msgui.plugin
+import kr.msleague.msgui.server
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
@@ -122,11 +123,7 @@ class MSGuiButtonBuilder() {
         val makeFunc: () -> ItemStack =
             {
                 (when (type) {
-                    MSGuiButtonType.PLAYER_HEAD -> ItemStack(Material.SKULL_ITEM, 1, 3).apply {
-                        val meta = itemMeta as SkullMeta
-                        meta.owningPlayer = owner
-                        itemMeta = meta
-                    }
+                    MSGuiButtonType.PLAYER_HEAD -> ItemStack(Material.SKULL_ITEM, 1, 3)
                     MSGuiButtonType.CUSTOM_HEAD -> SkullManager.getSkull(url!!)
                     else -> ItemStack(material, 1, durability.toShort())
                 }).apply {
@@ -137,6 +134,13 @@ class MSGuiButtonBuilder() {
                     if (glow) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
                     itemMeta = meta
                     if (glow) addUnsafeEnchantment(Enchantment.LURE, 1)
+                    if(this@MSGuiButtonBuilder.type == MSGuiButtonType.PLAYER_HEAD) {
+                        server.scheduler.runTaskAsynchronously(plugin) {
+                            val skullMeta = itemMeta as SkullMeta
+                            skullMeta.owningPlayer = owner
+                            itemMeta = skullMeta
+                        }
+                    }
                 }.run { addNBTTagCompound(MSGuiButtonData(cancel,cleanable)) }
             }
         return MSGuiButton(type, makeFunc, action, cancel)

@@ -29,7 +29,7 @@ object LocaleQuery {
     }
     private val langYaml: FileConfiguration by lazy { YamlConfiguration.loadConfiguration(file) }
 
-    fun getItemKey(material: Material, durability: Short, default: String): String =
+    internal fun getItemKey(material: Material, durability: Short, default: String): String =
         langYaml.getString(if (material.isBlock) blockMap[material.name + "." + durability] ?: blockMap[material.name] ?: default
         else {
             val i = ItemStack(material, 1, durability)
