@@ -50,6 +50,7 @@ public class MSLDatabases {
     }
 
     @Nullable
+    @SuppressWarnings("unchecked")
     public <T> MSDatabase<T> get(Class<T> clazz, String name){
         return (MSDatabase<T>) databases.get(name);
     }
