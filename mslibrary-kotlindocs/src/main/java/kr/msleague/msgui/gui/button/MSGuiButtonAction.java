@@ -8,4 +8,7 @@ public interface MSGuiButtonAction {
      * @param e InventoryClickEvent
      */
     public void action(InventoryClickEvent e);
+
 }
+
+

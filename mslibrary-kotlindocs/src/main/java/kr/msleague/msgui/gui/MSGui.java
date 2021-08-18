@@ -181,7 +181,7 @@ public abstract class MSGui<V> {
      * MSGui 의 초기 설정 메서드입니다.
      * 페이지가 있는 gui 의 refresh() 에서는 호출되지 않습니다.
      */
-    abstract void init();
+    abstract public void init();
 
     /**
      * MSGui 를 새로 고칩니다.

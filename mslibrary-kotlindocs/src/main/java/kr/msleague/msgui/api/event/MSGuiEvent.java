@@ -1,4 +1,4 @@
-package kr.msleague.msgui.gui.api.event;
+package kr.msleague.msgui.api.event;
 
 import kr.msleague.msgui.gui.MSGui;
 import lombok.AllArgsConstructor;
