@@ -43,6 +43,7 @@ public class InventorySerializer {
                 slot = dis.readInt();
                 arrSize = dis.readInt();
                 byte[] itemArr = new byte[arrSize];
+                dis.read(itemArr);
                 dump.setItem(slot, adapter.deserialize(itemArr));
             }
             return dump;

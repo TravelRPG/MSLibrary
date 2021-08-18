@@ -28,7 +28,7 @@ public class BukkitInventory implements MInventory{
     public Inventory asBukkitInventory(InventoryHolder owner, String name) {
         Inventory inv = Bukkit.createInventory(owner, getSize(), name);
         items.forEach(inv::setItem);
-        return null;
+        return inv;
     }
 
     public static BukkitInventory fromBukkitInventory(Inventory inv){

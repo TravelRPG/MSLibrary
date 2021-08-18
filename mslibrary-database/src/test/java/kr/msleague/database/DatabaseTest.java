@@ -1,10 +1,5 @@
 package kr.msleague.database;
 
-import kr.msleague.mslibrary.database.MSLDatabases;
-import kr.msleague.mslibrary.database.api.DatabaseConfig;
-import kr.msleague.mslibrary.database.impl.internal.MySQLDatabase;
-import org.junit.Assert;
-import org.junit.Test;
 
 import java.sql.ResultSet;
 import java.util.concurrent.Executors;
