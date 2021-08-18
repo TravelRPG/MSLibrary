@@ -19,6 +19,9 @@ public class WarningMessage {
         Inventory inv = player.getOpenInventory().getTopInventory();
         if(inv == null) return;
         if(inv.getType() != InventoryType.CHEST) return;
+        if(inv.getItem(i).getType() == Material.BARRIER) 
+            return;
+
         ItemStack warning = new ItemBuild(Material.BARRIER).displayname("§c[Error] §f"+msg).build();
         ItemStack oitem = inv.getItem(i);
         inv.setItem(i, warning);
