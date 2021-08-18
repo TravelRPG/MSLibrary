@@ -17,5 +17,6 @@ public class DefaultHikariConfig extends HashDatabaseConfig {
         this.setManually("cacheServerConfiguration", "true");
         this.setManually("elideSetAutoCommits", "true");
         this.setManually("maintainTimeStats", "false");
+        this.setManually("allowMultiQueries", "true");
     }
 }
