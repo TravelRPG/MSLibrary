@@ -1,5 +1,17 @@
 package kr.msleague.msgui.gui.button;
 
+
 public enum MSGuiButtonType {
-    ITEM_STACK, CUSTOM_HEAD,PLAYER_HEAD;
+    /**
+     * 일반적인 아이템 스택.
+     */
+    ITEM_STACK,
+    /**
+     * 커스텀 머리.
+     */
+    CUSTOM_HEAD,
+    /**
+     * 유저의 머리.
+     */
+    PLAYER_HEAD;
 }

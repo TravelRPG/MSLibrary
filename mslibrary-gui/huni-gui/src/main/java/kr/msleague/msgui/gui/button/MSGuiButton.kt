@@ -5,11 +5,11 @@ import kr.msleague.msgui.plugin
 import kr.msleague.msgui.server
 import org.bukkit.inventory.ItemStack
 
-class MSGuiButton(
+class MSGuiButton internal constructor(
     val type: MSGuiButtonType,
     private val makeFunc: () -> ItemStack,
     private val action: MSGuiButtonAction?,
-    private val cancellable: Boolean,
+    private val cancellable: Boolean
 ) {
 
     fun setSlot(gui: MSGui<*>, vararg slots: Int) {
