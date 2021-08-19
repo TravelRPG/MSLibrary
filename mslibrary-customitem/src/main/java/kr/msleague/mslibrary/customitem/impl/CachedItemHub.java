@@ -11,8 +11,6 @@ import java.util.Optional;
 
 public class CachedItemHub<T> implements ItemCenter<T> {
 
-    LoadingCache<K, V> cache;
-
     @Override
     public ItemDatabase getDatabase() {
         return null;
