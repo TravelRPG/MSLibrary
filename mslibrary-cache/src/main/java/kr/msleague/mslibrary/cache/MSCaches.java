@@ -1,7 +1,6 @@
 package kr.msleague.mslibrary.cache;
 
 import com.github.benmanes.caffeine.cache.AsyncLoadingCache;
-import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import kr.msleague.bootstrap.MSPlugin;
@@ -9,12 +8,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 //https://github.com/ben-manes/caffeine/wiki
 public class MSCaches extends MSPlugin {
@@ -51,7 +47,6 @@ public class MSCaches extends MSPlugin {
             asyncCaches.put(name, cache);
         }
     }
-
 
     @SuppressWarnings("unchecked")
     public static ItemStack getHead(UUID uuid){
