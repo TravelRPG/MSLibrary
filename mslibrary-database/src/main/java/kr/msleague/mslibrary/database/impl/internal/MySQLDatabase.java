@@ -16,7 +16,7 @@ import java.util.concurrent.Future;
 @RequiredArgsConstructor
 public class MySQLDatabase implements MSDatabase<Connection> {
 
-    final ExecutorService service;
+    protected final ExecutorService service;
     HikariDataSource dataSource;
 
     @Override

@@ -1,25 +1,25 @@
-package kr.msleague.mslibrary.customitem.impl.adapters;
+package kr.msleague.mslibrary.customitem.impl.serializers;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import kr.msleague.mslibrary.customitem.api.*;
-import kr.msleague.mslibrary.customitem.impl.node.HashItem;
 import kr.msleague.mslibrary.customitem.impl.node.ListItemNodeArray;
 import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;
+import kr.msleague.mslibrary.customitem.impl.node.MSLItemData;
 import kr.msleague.mslibrary.customitem.impl.node.ObjectItemNodeValue;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class JsonAdapter implements ItemAdapter<JsonObject> {
+public class JsonSerializer implements ItemSerializer<JsonObject> {
 
     @Override
-    public MSItem deserialize(@Nonnull JsonObject serialized) throws IllegalArgumentException {
+    public MSItemData deserialize(@Nonnull JsonObject serialized) throws IllegalArgumentException {
         HashItemNode node = new HashItemNode(null, "");
         read(node, serialized);
-        return new HashItem(node);
+        return new MSLItemData(node);
     }
 
     private void read(ItemNode parent, JsonObject element){
@@ -76,7 +76,7 @@ public class JsonAdapter implements ItemAdapter<JsonObject> {
 
     @Nonnull
     @Override
-    public JsonObject serialize(MSItem item) throws IllegalArgumentException {
+    public JsonObject serialize(MSItemData item) throws IllegalArgumentException {
         if(!item.getNodes().has("id") || !item.getNodes().has("version"))
             throw new IllegalArgumentException("target item has not 'id' or 'version' key");
         JsonObject root = new JsonObject();
@@ -122,11 +122,9 @@ public class JsonAdapter implements ItemAdapter<JsonObject> {
             write(obj, node.asNode());
             array.add(obj);
         }else if(node instanceof ItemNodeArray){
-            JsonArray jsonArray = new JsonArray();
             for (ItemElement element : node.asArray().contents()) {
-                write(jsonArray, element);
+                write(array, element);
             }
-            array.add(jsonArray);
         }else if(node instanceof ItemNodeValue){
             JsonPrimitive primitive = getPrimitive(node.asValue());
             array.add(primitive);
