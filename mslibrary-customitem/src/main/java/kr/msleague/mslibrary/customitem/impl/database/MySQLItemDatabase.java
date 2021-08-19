@@ -20,19 +20,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
-public class MySQLItemDatabase extends MySQLDatabase implements ItemDatabase {
+public class MySQLItemDatabase implements ItemDatabase {
 
     YamlSerializer yamlSerializer = new YamlSerializer();
     MappingSerializer remapper = new MappingSerializer();
+    MySQLDatabase database;
     String table;
 
-    public MySQLItemDatabase(ExecutorService service, String table) {
-        super(service);
+    public MySQLItemDatabase(MySQLDatabase database, String table) {
+        this.database = database;
         this.table = table;
-        execute(connection -> {
+        database.execute(connection -> {
             PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS "+table+
                     " ( " +
                     "`column_id` INT AUTO_INCREAMENT UNIQUE, " +
@@ -47,7 +47,7 @@ public class MySQLItemDatabase extends MySQLDatabase implements ItemDatabase {
 
     @Override
     public Future<List<MSItemData>> loadAll() {
-        return executeAsync(connection->{
+        return database.executeAsync(connection->{
             List<MSItemData> list = new ArrayList<>();
             PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM "+table);
             ResultSet rs = ps.executeQuery();
@@ -70,7 +70,7 @@ public class MySQLItemDatabase extends MySQLDatabase implements ItemDatabase {
 
     @Override
     public Future<Boolean> newItem(int id, @Nonnull MSItemData item) {
-        return executeAsync(connection->{
+        return database.executeAsync(connection->{
             PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM "+table+" WHERE `item_id`=?");
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
@@ -84,7 +84,7 @@ public class MySQLItemDatabase extends MySQLDatabase implements ItemDatabase {
 
     @Override
     public Future<MSItemData> load(int itemID) throws IllegalStateException {
-        return executeAsync(connection -> {
+        return database.executeAsync(connection -> {
             PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM "+table+" WHERE `item_id`=?");
             ResultSet rs = ps.executeQuery();
             ItemNode node = new HashItemNode(null, "");
@@ -98,7 +98,7 @@ public class MySQLItemDatabase extends MySQLDatabase implements ItemDatabase {
 
     @Override
     public Future<Void> insertItem(int itemID, @Nonnull MSItemData item) throws IllegalArgumentException {
-        return executeAsync(connection -> {
+        return database.executeAsync(connection -> {
             insertItem(itemID, item, connection);
             return null;
         });
@@ -134,7 +134,7 @@ public class MySQLItemDatabase extends MySQLDatabase implements ItemDatabase {
 
     @Override
     public Future<Void> deleteItem(int itemID) {
-        return executeAsync(connection -> {
+        return database.executeAsync(connection -> {
             PreparedStatement ps = connection.prepareStatement("DELETE FROM "+table+" WHERE `item_id`=?");
             ps.setInt(1, itemID);
             ps.execute();
@@ -144,7 +144,7 @@ public class MySQLItemDatabase extends MySQLDatabase implements ItemDatabase {
 
     @Override
     public Future<List<Integer>> search(String path, String value) {
-        return executeAsync(connection -> {
+        return database.executeAsync(connection -> {
             List<Integer> list = new ArrayList<>();
             PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM "+table+" WHERE `key`=? AND `value`=?");
             ps.setString(1, path);
@@ -159,7 +159,7 @@ public class MySQLItemDatabase extends MySQLDatabase implements ItemDatabase {
 
     @Override
     public Future<Void> modify(int itemID, @Nonnull String node, @Nullable String value) {
-        return executeAsync(connection -> {
+        return database.executeAsync(connection -> {
             PreparedStatement ps2 = connection.prepareStatement("INSERT INTO "+table+" (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
             ps2.setInt(1, itemID);
             ps2.setString(2, node);
