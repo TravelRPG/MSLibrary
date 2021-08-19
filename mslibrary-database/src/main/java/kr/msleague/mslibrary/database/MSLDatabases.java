@@ -1,12 +1,12 @@
 package kr.msleague.mslibrary.database;
 
-import com.mongodb.lang.Nullable;
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
 import kr.msleague.mslibrary.database.api.MSDatabase;
 import kr.msleague.mslibrary.database.impl.internal.DefaultHikariConfig;
 import lombok.Getter;
 import lombok.NonNull;
 
+import javax.annotation.Nullable;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
