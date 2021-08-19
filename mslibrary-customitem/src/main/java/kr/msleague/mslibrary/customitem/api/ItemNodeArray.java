@@ -12,6 +12,9 @@ public interface ItemNodeArray extends ItemElement{
     void add(int index, ItemElement value);
 
     //todo: documents this
+    void addPrimitive(Object primitive);
+
+    //todo: documents this
     void remove(int index);
 
     //todo: documents this

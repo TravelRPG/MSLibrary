@@ -4,12 +4,18 @@ import kr.msleague.mslibrary.customitem.api.ItemElement;
 import kr.msleague.mslibrary.customitem.api.ItemNodeValue;
 import kr.msleague.mslibrary.customitem.impl.NumberParser;
 
+
 public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValue{
 
     Object value;
 
     public ObjectItemNodeValue(ItemElement parents, String name, Object value) {
         super(parents, name);
+        this.value = value;
+    }
+
+    public ObjectItemNodeValue(ItemElement parents, Object value) {
+        super(parents);
         this.value = value;
     }
 
@@ -119,10 +125,4 @@ public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValu
             this.value = obj;
         }
     }
-
-    @Override
-    public String getPath() {
-        return parents.getPath();
-    }
-
 }

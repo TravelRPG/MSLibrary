@@ -27,12 +27,15 @@ public interface ItemElement {
     String getName();
 
     //todo: documents this
-    ItemNode asNode();
+    @Nonnull
+    ItemNode asNode() throws UnsupportedOperationException;
 
     //todo: documents this
-    ItemNodeArray asArray();
+    @Nonnull
+    ItemNodeArray asArray() throws UnsupportedOperationException;
 
     //todo: documents this
-    ItemNodeValue asValue();
+    @Nonnull
+    ItemNodeValue asValue() throws UnsupportedOperationException;
 
 }

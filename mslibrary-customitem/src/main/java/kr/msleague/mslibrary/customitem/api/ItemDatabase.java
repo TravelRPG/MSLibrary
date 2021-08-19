@@ -10,14 +10,21 @@ import java.util.concurrent.Future;
  * @since 1.0
  * @author Arkarang
  */
-public interface ItemDatabase<T> {
+public interface ItemDatabase {
+
+    /**
+     * 로드 할 수 있는 모든 아이템 데이터를 로드합니다.
+     * @return 로드된 아이템 목록
+     */
+    Future<List<MSItemData>> loadAll();
 
     /**
      * 직렬화된 아이템을 새로운 아이템으로서 데이터베이스에 등록합니다.
+     * @param id 넣고자 하는 아이템 아이디
      * @param item 직렬화된 아이템
-     * @return 처리 완료 시의 신규 아이템 코드
+     * @return 등록 완료 여부
      */
-    Future<Integer> newItem(@Nonnull MSItem item);
+    Future<Boolean> newItem(int id, @Nonnull MSItemData item);
 
     /**
      * 아이템 정보를 로드합니다.
@@ -25,17 +32,16 @@ public interface ItemDatabase<T> {
      * @return 직렬화 된 아이템 데이터
      * @throws IllegalStateException 역직렬화 중 오류가 발생할 경우
      */
-    Future<MSItem> load(int itemID) throws IllegalStateException;
+    Future<MSItemData> load(int itemID) throws IllegalStateException;
 
     /**
      * 아이템 정보를 삽입합니다.
      * @param itemID 삽입할 아이템 아이디
      * @param item 아이템 이름
-     * @param override 전체 덮어씌우기 여부 (true 일 경우, 디비에서 기존 데이터 삭제 후 진행)
      * @return 비동기 완료 여부
      * @throws IllegalArgumentException 직렬화 중 오류가 발생할 경우
      */
-    Future<Void> insertItem(int itemID, @Nonnull MSItem item, boolean override) throws IllegalArgumentException;
+    Future<Void> insertItem(int itemID, @Nonnull MSItemData item) throws IllegalArgumentException;
 
     /**
      * 아이템 정보를 삭제합니다.

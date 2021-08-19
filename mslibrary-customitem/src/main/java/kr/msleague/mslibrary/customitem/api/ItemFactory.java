@@ -1,5 +1,7 @@
 package kr.msleague.mslibrary.customitem.api;
 
+import kr.msleague.mslibrary.customitem.impl.MSItemStack;
+
 import javax.annotation.Nonnull;
 import java.util.Map;
 
@@ -29,10 +31,10 @@ public interface ItemFactory<T> {
 
     /**
      * 아이템을 생성합니다.
-     * @param item 생성할 아이템 직렬화 데이터
-     * @return 아이템 객체
+     * @param item 생성할 아이템 데이터
+     * @return 커스텀 아이템 객체
      * @throws IllegalArgumentException 아이템 직렬화 중 오류가 발생할 경우
      */
     @Nonnull
-    T build(@Nonnull MSItem item) throws IllegalArgumentException;
+    T build(@Nonnull MSItemData item) throws IllegalArgumentException;
 }
