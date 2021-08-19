@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 //https://github.com/ben-manes/caffeine/wiki
 public class MSCaches extends MSPlugin {
@@ -59,6 +60,17 @@ public class MSCaches extends MSPlugin {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    public static String getName(UUID uuid){
+        LoadingCache<UUID, String> nameCache = ((LoadingCache<UUID, String>) caches.get("player-name"));
+        if(nameCache != null) {
+            String name = nameCache.get(uuid);
+            if(name != null)
+                return name;
+        }
+        return null;
+    }
+
     @Override
     public void onEnable() {
         LoadingCache<UUID, ItemStack> headCache = Caffeine.newBuilder().build(uuid -> {
@@ -68,6 +80,10 @@ public class MSCaches extends MSPlugin {
             meta.setOwningPlayer(Bukkit.getOfflinePlayer(uuid));
             return item;
         });
+        LoadingCache<UUID, String> nameCache = Caffeine.newBuilder().expireAfterAccess(10, TimeUnit.HOURS).build(uuid -> {
+            return Bukkit.getOfflinePlayer(uuid).getName();
+        });
         caches.put("player-head", headCache);
+        caches.put("player-name", nameCache);
     }
 }
