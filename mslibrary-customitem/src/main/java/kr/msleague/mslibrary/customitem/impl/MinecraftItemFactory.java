@@ -6,6 +6,8 @@ import kr.msleague.mslibrary.customitem.api.ItemElement;
 import kr.msleague.mslibrary.customitem.api.ItemFactory;
 import kr.msleague.mslibrary.customitem.api.MSItemData;
 import kr.msleague.mslibrary.customitem.impl.adapters.*;
+import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;
+import kr.msleague.mslibrary.customitem.impl.node.MSLItemData;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -48,10 +50,30 @@ public class MinecraftItemFactory implements ItemFactory<ItemStack> {
     @Override
     public ItemStack build(@Nonnull MSItemData data) throws IllegalArgumentException {
         ItemStack itemStack = new ItemStack(Material.DIAMOND_SWORD, 1);
+        return build(data, itemStack);
+    }
+
+    @Nonnull
+    @Override
+    public ItemStack build(@Nonnull MSItemData data, ItemStack target) throws IllegalArgumentException {
         for (ItemAdapter<ItemStack> adapter : adapters.values()) {
-            adapter.read(itemStack, data);
+            adapter.read(target, data);
         }
-        return itemStack;
+        return target;
+    }
+
+    @Override
+    public MSItemData parse(ItemStack item) throws IllegalArgumentException {
+        MSItemData data = new MSLItemData(new HashItemNode(null, ""));
+        return parse(item, data);
+    }
+
+    @Override
+    public MSItemData parse(ItemStack item, MSItemData data) throws IllegalArgumentException {
+        for (ItemAdapter<ItemStack> adapter : adapters.values()) {
+            adapter.write(data, item);
+        }
+        return data;
     }
 
 }
