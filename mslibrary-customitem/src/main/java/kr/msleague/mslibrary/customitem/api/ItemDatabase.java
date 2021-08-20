@@ -73,4 +73,10 @@ public interface ItemDatabase {
      * @return 존재 여부 비동기 값
      */
     Future<Boolean> has(int itemID);
+
+    /**
+     * 등록된 아이템의 개수를 조회합니다.
+     * @return 아이템 개수 비동기 값
+     */
+    Future<Integer> size();
 }

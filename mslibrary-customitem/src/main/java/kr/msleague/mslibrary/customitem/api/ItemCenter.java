@@ -56,6 +56,14 @@ public interface ItemCenter<T> {
     void load(boolean async);
 
     /**
+     * 아이템을 새로 등록합니다.
+     * @param item 아이템 오브젝트
+     * @return 아이템 아이디
+     * @throws IllegalArgumentException 아이템을 등록하지 못하는 문제가 발생했을때.
+     */
+    int register(T item) throws IllegalArgumentException;
+
+    /**
      * 헤당 아이템의 정보를 새로고침합니다.
      * @param itemID 아이템 고유 아이디
      * @param async 비동기 실행 여부
