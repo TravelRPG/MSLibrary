@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutorService;
 public class YamlFileItemDatabase extends AbstractFileItemDatabase<YamlConfiguration> {
 
 
-    YamlFileItemDatabase(ExecutorService service, File directory) {
+    public YamlFileItemDatabase(ExecutorService service, File directory) {
         super(service, directory, ".yml", new YamlSerializer(), new YamlFileSerializer());
     }
 

@@ -17,7 +17,7 @@ public class JsonFileItemDatabase extends AbstractFileItemDatabase<JsonObject> {
 
     private static Gson gson = new Gson();
 
-    JsonFileItemDatabase(ExecutorService service, File directory) {
+    public JsonFileItemDatabase(ExecutorService service, File directory) {
         super(service, directory, ".json", new JsonSerializer(), new JsonFileSerializer());
     }
 
