@@ -4,6 +4,8 @@ import kr.msleague.mslibrary.customitem.api.ItemCenter;
 import kr.msleague.mslibrary.customitem.api.ItemDatabase;
 import kr.msleague.mslibrary.customitem.api.ItemFactory;
 import kr.msleague.mslibrary.customitem.api.MSItemData;
+import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;
+import kr.msleague.mslibrary.customitem.impl.node.MSLItemData;
 import lombok.Getter;
 
 import javax.annotation.Nonnull;
@@ -54,4 +56,18 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
         return result;
     }
 
+    @Override
+    public int register(T item) throws IllegalArgumentException {
+        try {
+            int id = database.size().get() + 1;
+            MSItemData data = new MSLItemData(new HashItemNode(null, ""));
+            data.getNodes().setPrimitive("id", id);
+            data.getNodes().setPrimitive("version", 0);
+            factory.parse(item, data);
+            database.newItem(id, data);
+            return id;
+        }catch (Exception anyException){
+            throw new IllegalArgumentException("some exception occurred : "+anyException.getMessage());
+        }
+    }
 }
