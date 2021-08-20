@@ -30,8 +30,6 @@ public class V1_12_2 implements ItemStackSerializerAdapter {
     @Override
     public ItemStack deserialize(byte[] array) {
         array = CompressAPI.decompress(array);
-        System.out.println("Decompressed :");
-        System.out.println(Arrays.toString(array));
         try(ByteArrayInputStream bais = new ByteArrayInputStream(array); DataInputStream dis = new DataInputStream(bais)){
             net.minecraft.server.v1_12_R1.ItemStack is = new net.minecraft.server.v1_12_R1.ItemStack(CraftMagicNumbers.getItem(Material.getMaterial(dis.readUTF())), dis.readInt(), dis.readShort(), false);
             if(dis.readBoolean()){
