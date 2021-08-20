@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
 
@@ -26,6 +24,7 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
         this.factory = factory;
     }
 
+    @Nonnull
     @Override
     public Optional<T> getItem(int id) {
         T result = null;
