@@ -178,6 +178,13 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
         });
     }
 
+    @Override
+    public Future<Integer> size() {
+        return service.submit(()-> {
+            return directory.listFiles().length;
+        });
+    }
+
     abstract MSItemData readFile(File file) throws IOException;
 
     abstract void writeFile(File file, MSItemData t) throws IOException;

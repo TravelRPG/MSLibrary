@@ -179,4 +179,17 @@ public class MySQLItemDatabase implements ItemDatabase {
             return ps.executeQuery().next();
         });
     }
+
+    @Override
+    public Future<Integer> size() {
+        return database.executeAsync(connection -> {
+            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS `cnt` FROM "+table+" WHERE `key`=?");
+            ps.setString(1, "id");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+            return 0;
+        });
+    }
 }
