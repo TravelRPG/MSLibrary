@@ -60,10 +60,17 @@ public interface ItemDatabase {
 
     /**
      * 아이템 정보를 수정합니다.
-     * @param itemID
-     * @param node
-     * @param value
-     * @return
+     * @param itemID 수정 할 아이템 고유 번호
+     * @param node 수정 할 아이템 노드 경로
+     * @param value 수정 할 아이템 노드 값
+     * @return 비동기 완료 여부
      */
     Future<Void> modify(int itemID, @Nonnull String node, @Nullable String value);
+
+    /**
+     * 아이템 정보가 있는지 조회합니다.
+     * @param itemID 조회하고자 하는 아이템 고유 번호
+     * @return 존재 여부 비동기 값
+     */
+    Future<Boolean> has(int itemID);
 }

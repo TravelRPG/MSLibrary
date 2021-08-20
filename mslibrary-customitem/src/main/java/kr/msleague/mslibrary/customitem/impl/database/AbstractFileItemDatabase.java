@@ -155,8 +155,17 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
         });
     }
 
+    @Override
+    public Future<Boolean> has(int itemID) {
+        return service.submit(()-> {
+            String fileName = itemID + ".json";
+            File file = new File(directory.getAbsolutePath() + "/" + fileName);
+            return file.exists();
+        });
+    }
 
     abstract MSItemData readFile(File file) throws IOException;
 
     abstract void writeFile(File file, MSItemData t) throws IOException;
+
 }

@@ -170,4 +170,13 @@ public class MySQLItemDatabase implements ItemDatabase {
             return null;
         });
     }
+
+    @Override
+    public Future<Boolean> has(int itemID) {
+        return database.executeAsync(connection -> {
+            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM "+table+" WHERE `item_id`=?");
+            ps.setInt(1, itemID);
+            return ps.executeQuery().next();
+        });
+    }
 }
