@@ -108,12 +108,17 @@ abstract class MSGui<V> (
     fun refresh() { if(page in 0 until maxPage) pages?.get(page)?.invoke(this) else init() }
     fun refresh(clear: Boolean) {
         if(clear) {
-            buttonMap.forEach {
+            for(index in 0 until size) {
+                if(inventory.getItem(index).guiButtonData?.isCleanable == true) continue
+                inventory.setItem(index, null)
+                buttonMap.remove(index)
+            }
+            /*buttonMap.forEach {
                 val index = it.key
                 inventory.getItem(index).guiButtonData?.apply { if(!isCleanable) return@forEach }
                 inventory.setItem(index, null)
                 buttonMap.remove(index)
-            }
+            }*/
         }
         refresh()
     }

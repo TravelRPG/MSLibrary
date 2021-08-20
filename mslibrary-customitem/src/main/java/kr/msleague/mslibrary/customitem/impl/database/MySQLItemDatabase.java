@@ -35,7 +35,7 @@ public class MySQLItemDatabase implements ItemDatabase {
         database.execute(connection -> {
             PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS "+table+
                     " ( " +
-                    "`column_id` INT AUTO_INCREAMENT UNIQUE, " +
+                    "`column_id` INT AUTO_INCREMENT UNIQUE, " +
                     "`item_id` INT, " +
                     "`key` VARCHAR(128), " +
                     "`value` VARCHAR(128), " +

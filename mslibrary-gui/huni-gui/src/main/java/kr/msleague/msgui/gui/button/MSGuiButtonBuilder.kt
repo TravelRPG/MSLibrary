@@ -21,10 +21,17 @@ class MSGuiButtonBuilder {
         private set
     var durability: Int = 0
         private set
+    var baseItem: ItemStack? = null
+        private set
 
     constructor(material: Material) {
         type = MSGuiButtonType.ITEM_STACK
         this.material = material
+    }
+
+    constructor(baseItem: ItemStack) {
+        type = MSGuiButtonType.ITEM_STACK
+        this.baseItem = baseItem
     }
 
     constructor(material: Material, durability: Int) {
@@ -125,7 +132,7 @@ class MSGuiButtonBuilder {
                 (when (type) {
                     MSGuiButtonType.PLAYER_HEAD -> ItemStack(Material.SKULL_ITEM, 1, 3)
                     MSGuiButtonType.CUSTOM_HEAD -> SkullManager.getSkull(url!!)
-                    else -> ItemStack(material, 1, durability.toShort())
+                    else -> if(baseItem != null) baseItem!!.clone() else ItemStack(material, 1, durability.toShort())
                 }).apply {
                     val meta = itemMeta
                     if (display != null) meta.displayName = display
