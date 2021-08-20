@@ -9,11 +9,13 @@ import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
 
@@ -31,6 +33,7 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
         this.serializer = serializer;
         this.service = service;
         this.adapter = itemSerializer;
+        this.fileFormat = fileFormat;
         if(directory.isDirectory()){
             this.directory = directory;
             this.index = new AtomicInteger(Objects.requireNonNull(directory.listFiles()).length);
@@ -45,7 +48,18 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
 
     List<MSItemData> loadAllInternally(){
         List<MSItemData> datas = new ArrayList<>();
-        for(File file : Objects.requireNonNull(directory.listFiles())){
+        List<File> files = Arrays.stream(Objects.requireNonNull(directory.listFiles())).sorted((f1, f2)->{
+            char a = f1.getName().charAt(0);
+            char b = f2.getName().charAt(0);
+            if(a < b){
+                return 1;
+            }else if(a > b){
+                return -1;
+            }else{
+                return 0;
+            }
+        }).collect(Collectors.toList());
+        for(File file : files){
             try {
                 datas.add(readFile(file));
             }catch (IOException | IllegalArgumentException ignored){
