@@ -20,13 +20,14 @@ public interface ItemCenter<T> {
      * 아이템 데이터베이스 인스턴스를 가져옵니다.
      * @return 아이템 데이터베이스
      */
+    @Nonnull
     ItemDatabase getDatabase();
 
     /**
      * 아이템 허브에서 사용하는 아이템 팩토리 객체를 가져옵니다.
      * @return 아이템 팩토리 인스턴스. 존재하지 않을 경우 null
      */
-    @Nullable
+    @Nonnull
     ItemFactory<T> getFactory();
 
     /**
@@ -35,6 +36,7 @@ public interface ItemCenter<T> {
      * @param id 아이템 고유 번호
      * @return 비동기 처리 값
      */
+    @Nonnull
     Optional<T> getItem(int id);
 
     /**
