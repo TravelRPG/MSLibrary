@@ -1,6 +1,7 @@
 package kr.msleague.bgmsync.proxy;
 
 import kr.msleague.bcsp.internal.logger.BCSPLogManager;
+import kr.msleague.bcsp.internal.netty.channel.ChannelWrapper;
 import kr.msleague.bcsp.proxy.BCSPProxyAPI;
 import kr.msleague.bgmsync.global.packet.ProxyJoinPacket;
 import kr.msleague.bgmsync.global.packet.ProxyQuitPacket;
@@ -29,7 +30,9 @@ public class BGMSyncProxyBootstrap extends Plugin {
                 BCSPLogManager.getLogger().err("BGMSync detected sync request's target is same server. is it called from Quit? {0}", pack.getUuid());
                 return;
             }
-            BCSPProxyAPI.getInst().sendPacketToSpecificServers(target, rpack);
+            ChannelWrapper wrapper = BCSPProxyAPI.Unsafe.getChannelContainer().getChannelByPort(target);
+            if(wrapper != null)
+                wrapper.sendPacket(rpack);
         });
     }
 }
