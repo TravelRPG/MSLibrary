@@ -75,11 +75,13 @@ class MSGuiButtonBuilder {
     }
 
     fun addLore(line: String): MSGuiButtonBuilder {
+        if(baseItem!=null && baseItem!!.hasItemMeta() && baseItem!!.itemMeta.hasLore()) lore = baseItem!!.itemMeta.lore
         baseLore.add(line)
         return this
     }
 
     fun removeLore(index: Int): MSGuiButtonBuilder {
+        if(baseItem!=null && baseItem!!.hasItemMeta() && baseItem!!.itemMeta.hasLore()) lore = baseItem!!.itemMeta.lore
         if (index in 0 until if (lore == null) 0 else lore!!.size) baseLore.removeAt(index)
         return this
     }

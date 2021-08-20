@@ -58,8 +58,10 @@ abstract class MSGui<V> (
         fun registerEvent(gui: MSGui<*>) {
             pluginManager.registerEvents(object: Listener {
                 @EventHandler fun onClick(e: InventoryClickEvent) {
-                    if(gui.viewerUniqueId == e.whoClicked.uniqueId)
-                        if(gui.size > e.rawSlot) gui.onClick(e)
+                    if(gui.viewerUniqueId == e.whoClicked.uniqueId) {
+                        if(gui.cancelGUI) e.isCancelled = true
+                        if (gui.size > e.rawSlot) gui.onClick(e)
+                    }
                 }
                 @EventHandler fun onDrag(e: InventoryDragEvent) { if(gui.viewerUniqueId == e.whoClicked.uniqueId) gui.onDrag(e) }
                 @EventHandler fun onClose(e: InventoryCloseEvent) {
@@ -142,7 +144,6 @@ abstract class MSGui<V> (
     }
 
     open fun onClick(e: InventoryClickEvent) {
-        if(cancelGUI) e.isCancelled = true
         e.currentItem.guiButtonData?.apply {
             val event = MSGuiButtonClickEvent(e.whoClicked as Player, this@MSGui, e.click, e.action, e.slotType, e.slot, e.rawSlot, e.currentItem?: ItemStack(Material.AIR), e.hotbarButton, e.cursor?: ItemStack(Material.AIR))
             pluginManager.callEvent(event)
