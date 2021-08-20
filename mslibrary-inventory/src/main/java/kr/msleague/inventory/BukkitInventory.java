@@ -31,6 +31,15 @@ public class BukkitInventory implements MInventory{
         return inv;
     }
 
+    @Override
+    public void copyContents(Inventory to) {
+        items.forEach((slot,stack)->{
+            if(to.getSize() > slot)
+                to.setItem(slot, stack);
+        });
+    }
+
+
     public static BukkitInventory fromBukkitInventory(Inventory inv){
         BukkitInventory var = new BukkitInventory();
         var.setSize(inv.getSize());
@@ -42,4 +51,5 @@ public class BukkitInventory implements MInventory{
         }
         return var;
     }
+
 }

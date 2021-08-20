@@ -10,4 +10,5 @@ public interface MInventory {
     ItemStack getItem(int slot);
     void setItem(int slot, ItemStack stack);
     Inventory asBukkitInventory(InventoryHolder owner, String name);
+    void copyContents(Inventory to);
 }
