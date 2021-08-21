@@ -44,7 +44,7 @@ public class LoreAdapter implements ItemAdapter<ItemStack> {
         ItemMeta meta = target.getItemMeta();
         if(meta != null){
             List<String> list = meta.getLore();
-            if(!list.isEmpty()){
+            if(list != null && !list.isEmpty()){
                 data.getNodes().set("minecraft.lore", null);
                 ItemNodeArray array = data.getNodes().createArray("minecraft.lore");
                 for(String str : list){
