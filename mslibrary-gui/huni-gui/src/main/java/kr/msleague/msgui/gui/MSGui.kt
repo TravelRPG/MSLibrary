@@ -19,6 +19,7 @@ import java.lang.IllegalArgumentException
 import java.lang.reflect.Method
 import java.util.*
 import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
 abstract class MSGui<V> (
     private val who: Player,
@@ -55,10 +56,13 @@ abstract class MSGui<V> (
     fun getObject(index: Int): V? = try { objs?.get(index) } catch (e: IndexOutOfBoundsException) { null }
     private var baseInventory: Inventory? = null
     val inventory: Inventory by lazy { if(baseInventory!=null) baseInventory!! else if(title!=null) server.createInventory(null, size,title) else server.createInventory(null, size) }
-    private lateinit var viewerUniqueId: UUID
-    val player: Player? get() = server.getPlayer(viewerUniqueId)
+    private val viewers = HashSet<UUID>()
+    fun addViewers(vararg viewer: Player) {
+        viewer.forEach {
+            if(viewers.add(it.uniqueId)) it.openInventory(inventory)
+        }
+    }
     private val buttonMap: MutableMap<Int, MSGuiButtonAction> = HashMap()
-    private var listener: Listener? = null
     internal fun addButtonAction(id: Int, action: MSGuiButtonAction) { buttonMap[id] = action }
 
     init { initializer() }
@@ -69,7 +73,7 @@ abstract class MSGui<V> (
             val preOpenEvent = MSGuiOpenEvent(who, this, System.currentTimeMillis())
             pluginManager.callEvent(preOpenEvent)
             if(preOpenEvent.isCancelled) return
-            viewerUniqueId = who.uniqueId
+            viewers.add(who.uniqueId)
             val delay = if(who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
             server.scheduler.runTaskLater(plugin , {
                 init()
@@ -78,25 +82,27 @@ abstract class MSGui<V> (
                     currentPage = 1
                     pages?.get(page)?.invoke(this)
                 }
-                listener = object: Listener {
+                pluginManager.registerEvents(object: Listener {
                     @EventHandler fun onClick(e: InventoryClickEvent) {
-                        if(listener != this) return
+                        if(!viewers.contains(e.whoClicked.uniqueId)) return
                         if(cancelGUI) e.isCancelled = true
                         if (size > e.rawSlot) guiClick(e)
                     }
                     @EventHandler fun onDrag(e: InventoryDragEvent) {
-                        if(listener != this) return
+                        if(!viewers.contains(e.whoClicked.uniqueId)) return
                         guiDrag(e)
                     }
                     @EventHandler fun onClose(e: InventoryCloseEvent) {
-                        if(listener != this) return
-                        InventoryClickEvent.getHandlerList().unregister(this)
-                        InventoryCloseEvent.getHandlerList().unregister(this)
-                        InventoryOpenEvent.getHandlerList().unregister(this)
+                        if(!viewers.contains(e.player.uniqueId)) return
+                        viewers.remove(e.player.uniqueId)
+                        if(viewers.size == 0) {
+                            InventoryClickEvent.getHandlerList().unregister(this)
+                            InventoryCloseEvent.getHandlerList().unregister(this)
+                            InventoryOpenEvent.getHandlerList().unregister(this)
+                        }
                         guiClose(e)
                     }
-                }
-                pluginManager.registerEvents(listener, plugin)
+                }, plugin)
                 who.openInventory(inventory)
                 pluginManager.callEvent(MSGuiOpenedEvent(who, this, System.currentTimeMillis()))
             }, delay)
