@@ -26,32 +26,32 @@ public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValu
 
     @Override
     public byte getAsByte() {
-        return value instanceof Byte ? (byte)value : Byte.parseByte((String)value);
+        return value instanceof Number ? getAsNumber().byteValue() : Byte.parseByte((String)value);
     }
 
     @Override
     public short getAsShort() {
-        return value instanceof Short ? (short)value : Short.parseShort((String)value);
+        return value instanceof Number ? getAsNumber().shortValue() : Short.parseShort((String)value);
     }
 
     @Override
     public int getAsInt() {
-        return value instanceof Integer ? (int)value : Integer.parseInt((String)value);
+        return value instanceof Number ? getAsNumber().intValue() : Integer.parseInt((String)value);
     }
 
     @Override
     public float getAsFloat() {
-        return value instanceof Float ? (Float)value : Float.parseFloat((String)value);
+        return value instanceof Number ? getAsNumber().floatValue() : Float.parseFloat((String)value);
     }
 
     @Override
     public double getAsDouble() {
-        return value instanceof Double ? (Double)value : Double.parseDouble((String)value);
+        return value instanceof Number ? getAsNumber().doubleValue() : Double.parseDouble((String)value);
     }
 
     @Override
     public long getAsLong() {
-        return value instanceof Long ? (Long)value : Long.parseLong((String)value);
+        return value instanceof Number ? getAsNumber().longValue() : Long.parseLong((String)value);
     }
 
     @Override

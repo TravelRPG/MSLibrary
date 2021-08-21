@@ -1,0 +1,16 @@
+minecraft:
+  material: DIAMOND_SWORD
+  lore:
+    - '1'
+    - '2'
+    - '3'
+    - '§f§l[ §6§lUNIQUE §f§l] §f§l마법1민첩1'
+  displayname: '123456789'
+  enchant:
+    DAMAGE_ALL: 1
+    DAMAGE_ARTHROPODS: 1
+  itemflags:
+    - HIDE_DESTROYS
+id: 5
+category: spell
+version: 0

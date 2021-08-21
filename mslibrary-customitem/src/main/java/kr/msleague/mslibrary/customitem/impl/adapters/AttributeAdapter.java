@@ -20,22 +20,26 @@ public class AttributeAdapter implements ItemAdapter<ItemStack> {
     @Override
     public ItemStack read(@Nonnull ItemStack target, @Nonnull MSItemData data) throws IllegalArgumentException {
         ItemElement element = data.getNodes().get("minecraft.attributes");
-        if(element != null) {
-            ItemNodeArray array = element.asArray();
-            for (ItemElement content : array.contents()) {
-                ItemNode node = content.asNode();
-                ItemElement typeNode = node.get("type");
-                ItemElement slotNode = node.get("slot");
-                ItemElement amountNode = node.get("amount");
-                ItemElement operationNode = node.get("operation");
-                if (typeNode != null && slotNode != null && amountNode != null) {
-                    String type = typeNode.asValue().getAsString();
-                    String slot = slotNode.asValue().getAsString();
-                    double amount = amountNode.asValue().getAsDouble();
-                    int operation = operationNode == null ? 0 : operationNode.asValue().getAsInt();
-                    new Attribute(type, operation, amount, slot).affect(target);
+        if(element instanceof ItemNode) {
+            ItemNode parent = element.asNode();
+            for (String key : parent.getKeys()) {
+                ItemElement subElement = parent.get(key);
+                if(subElement instanceof ItemNode) {
+                    ItemNode node = subElement.asNode();
+                    ItemElement typeNode = node.get("type");
+                    ItemElement slotNode = node.get("slot");
+                    ItemElement amountNode = node.get("amount");
+                    ItemElement operationNode = node.get("operation");
+                    if (typeNode != null && slotNode != null && amountNode != null) {
+                        String type = typeNode.asValue().getAsString();
+                        String slot = slotNode.asValue().getAsString();
+                        double amount = amountNode.asValue().getAsDouble();
+                        int operation = operationNode == null ? 0 : operationNode.asValue().getAsInt();
+                        new Attribute(type, operation, amount, slot).affect(target);
+                    }
                 }
             }
+
         }
         return target;
     }
@@ -47,18 +51,18 @@ public class AttributeAdapter implements ItemAdapter<ItemStack> {
             CraftItemStack craftItem = (CraftItemStack) target;
             List<Attribute> list = Attribute.extract(craftItem);
             if(!list.isEmpty()) {
-                ItemNodeArray array;
+                ItemNode node;
                 ItemElement element = data.getNodes().get("minecraft.attributes");
                 if(element == null)
-                    element = data.getNodes().createArray("minecraft.attributes");
-                array = element.asArray();
+                    element = data.getNodes().createNode("minecraft.attributes");
+                node = element.asNode();
                 for(int i = 0 ; i < list.size() ; i++ ){
                     Attribute att = list.get(i);
-                    ItemNode node = new HashItemNode(array, i+"");
-                    node.setPrimitive("type", att.attributeName);
-                    node.setPrimitive("slot", att.slot);
-                    node.setPrimitive("amount", att.amount);
-                    node.setPrimitive("operation", att.operation);
+                    ItemNode subNode = node.createNode(i+"");
+                    subNode.setPrimitive("type", att.attributeName);
+                    subNode.setPrimitive("slot", att.slot == null ? "any": att.slot);
+                    subNode.setPrimitive("amount", att.amount);
+                    subNode.setPrimitive("operation", att.operation);
                 }
             }
         }
