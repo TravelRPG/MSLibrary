@@ -69,6 +69,7 @@ abstract class MSGui<V> (
             val preOpenEvent = MSGuiOpenEvent(who, this, System.currentTimeMillis())
             pluginManager.callEvent(preOpenEvent)
             if(preOpenEvent.isCancelled) return
+            viewerUniqueId = who.uniqueId
             val delay = if(who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
             server.scheduler.runTaskLater(plugin , {
                 init()
@@ -77,7 +78,6 @@ abstract class MSGui<V> (
                     currentPage = 1
                     pages?.get(page)?.invoke(this)
                 }
-                viewerUniqueId = who.uniqueId
                 listener = object: Listener {
                     @EventHandler fun onClick(e: InventoryClickEvent) {
                         if(listener != this) return
