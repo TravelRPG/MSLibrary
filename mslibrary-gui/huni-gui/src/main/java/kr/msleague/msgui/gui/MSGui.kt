@@ -63,6 +63,7 @@ abstract class MSGui<V> (
 
     init { initializer() }
     private fun initializer() {
+        player?.closeInventory()
         if(size % 9 != 0 || size !in 0..54) throw IllegalArgumentException("inventory invalid size error : $size")
         else {
             val preOpenEvent = MSGuiOpenEvent(who, this, System.currentTimeMillis())
