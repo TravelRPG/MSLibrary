@@ -18,5 +18,7 @@ public class DefaultHikariConfig extends HashDatabaseConfig {
         this.setManually("elideSetAutoCommits", "true");
         this.setManually("maintainTimeStats", "false");
         this.setManually("allowMultiQueries", "true");
+        this.setManually("characterEncoding","utf8");
+        this.setManually("useUnicode","true");
     }
 }

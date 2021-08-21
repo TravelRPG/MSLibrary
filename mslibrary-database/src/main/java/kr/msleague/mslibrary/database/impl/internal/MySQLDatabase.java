@@ -45,6 +45,8 @@ public class MySQLDatabase implements MSDatabase<Connection> {
             hikariConfig.addDataSourceProperty("cacheServerConfiguration", config.get("cacheServerConfiguration", "true"));
             hikariConfig.addDataSourceProperty("elideSetAutoCommits", config.get("elideSetAutoCommits", "true"));
             hikariConfig.addDataSourceProperty("maintainTimeStats", config.get("maintainTimeStats", "false"));
+            hikariConfig.addDataSourceProperty("characterEncoding", config.get("characterEncoding","utf8"));
+            hikariConfig.addDataSourceProperty("useUnicode", config.get("useUnicode","true"));
             dataSource = new HikariDataSource(hikariConfig);
             try(Connection con = dataSource.getConnection()){
                 con.prepareStatement("SELECT 1").execute();
