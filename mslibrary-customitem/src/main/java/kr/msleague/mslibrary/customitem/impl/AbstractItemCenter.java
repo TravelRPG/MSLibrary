@@ -67,6 +67,7 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
             database.newItem(id, data);
             return id;
         }catch (Exception anyException){
+            anyException.printStackTrace();
             throw new IllegalArgumentException("some exception occurred : "+anyException.getMessage());
         }
     }
