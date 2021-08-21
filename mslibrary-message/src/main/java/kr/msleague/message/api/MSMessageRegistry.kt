@@ -43,7 +43,7 @@ internal object MSMessageRegistry {
                     val temp = entry.value.invoke(entry.key, it, param)
                     if(temp != null) {
                         matcher.appendReplacement(result, temp as String)
-                        break
+                        return@forEach
                     }
                 }
             }
