@@ -32,21 +32,24 @@ internal object MSMessageRegistry {
 
     internal fun reformat(origin: String, vararg objs: Any): String {
         val matcher: Matcher = MSMessageLib.placeHolder.pattern.matcher(origin)
-        var result = ""
+        val result = StringBuffer()
         while (matcher.find()) {
             var param = matcher.group()
             param = param.substring(1, param.length - 1)
-
             objs.forEach {
-                adapterMap[it::class.java.typeName]
-                    ?.forEach { (key, value) ->
-                        val temp = value.invoke(key, it, param)
-                        if (temp != null) result = matcher.replaceAll(temp as String)
+                val iterator = adapterMap[it::class.java.typeName]?.iterator()?: return@forEach
+                while(iterator.hasNext()) {
+                    val entry = iterator.next()
+                    val temp = entry.value.invoke(entry.key, it, param)
+                    if(temp != null) {
+                        matcher.appendReplacement(result, temp as String)
+                        break
                     }
+                }
             }
-
         }
-        return result
+        matcher.appendTail(result)
+        return result.toString()
     }
 
 }
