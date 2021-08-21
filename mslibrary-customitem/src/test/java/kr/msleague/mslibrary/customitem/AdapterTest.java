@@ -123,6 +123,7 @@ public class AdapterTest {
         Assert.assertEquals(1, mappedNode.get("hello.world.array.$0").asValue().getAsInt());
         Assert.assertEquals(2.5d, mappedNode.get("hello.world.array.$1").asValue().getAsDouble(), 0d);
         Assert.assertEquals("3", mappedNode.get("hello.world.array.$2").asValue().getAsString());
+        JsonSerializer json = new JsonSerializer();
 
         MSItemData demapped = mapping.deserialize(mapped);
         Assert.assertEquals(1, demapped.getNodes().get("id").asValue().getAsInt());
@@ -132,8 +133,4 @@ public class AdapterTest {
         Assert.assertEquals(3, demapped.getNodes().get("hello.world.array").asArray().size());
     }
 
-    @Test
-    public void demapTest(){
-
-    }
 }
