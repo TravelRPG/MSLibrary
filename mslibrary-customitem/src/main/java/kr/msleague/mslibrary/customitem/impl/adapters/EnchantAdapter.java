@@ -26,7 +26,7 @@ public class EnchantAdapter implements ItemAdapter<ItemStack> {
             ItemNode node = element.asNode();
             ItemMeta meta = target.getItemMeta();
             for(String key : node.getKeys()){
-                ItemElement levelNode = node.get("level");
+                ItemElement levelNode = node.get(key);
                 if(levelNode != null) {
                     meta.addEnchant(Enchantment.getByName(key), levelNode.asValue().getAsInt(), true);
                 }
