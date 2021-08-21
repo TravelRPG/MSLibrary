@@ -1,5 +1,7 @@
 package kr.msleague.message.api
 
+import javax.annotation.Nullable
+
 interface MSMessageAdapter<T> {
-    fun reformat(origin: String, obj: T): String
+    @Nullable fun request(obj: T, placeHolder: String): String?
 }

@@ -8,6 +8,7 @@ import kr.msleague.message.adapter.PlayerAdapter
 import kr.msleague.message.api.MSMessage
 import kr.msleague.message.api.MSMessageAdapter
 import kr.msleague.message.api.MSMessageRegistry
+import kr.msleague.message.api.MSPlaceHolder
 import kr.msleague.util.extensions.toColorString
 import kr.msleague.util.extensions.toStripColorString
 import org.bukkit.command.ConsoleCommandSender
@@ -25,6 +26,10 @@ class MSMessageLib: MSPlugin() {
     }
 
     companion object {
+        var placeHolder: MSPlaceHolder = object: MSPlaceHolder {
+            override val head: String = "{"
+            override val tail: String = "}"
+        }
         fun registerAdapters(vararg adapters: MSMessageAdapter<*>) { MSMessageRegistry.registerAdapters(*adapters) }
         fun reformat(origin: String, vararg objs: Any): MSMessage = object: MSMessage {
             private var base = MSMessageRegistry.reformat(origin, *objs)

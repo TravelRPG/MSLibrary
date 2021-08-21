@@ -2,11 +2,18 @@ package kr.msleague.message.adapter
 
 import kr.msleague.message.api.MSMessageAdapter
 import kr.msleague.util.locale.friendlyName
+import kr.msleague.util.locale.l10nDisplayName
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
+import org.bukkit.inventory.ItemStack
 
 class CraftItemStackAdapter: MSMessageAdapter<CraftItemStack> {
-    override fun reformat(origin: String, obj: CraftItemStack): String =
-        origin.replace("{item_name}", obj.friendlyName)
-            .replace("{item_amount}",obj.amount.toString())
-            .replace("{item_type}", obj.friendlyName)
+
+    override fun request(obj: CraftItemStack, placeHolder: String): String? {
+        return when(placeHolder) {
+            "item_name" -> obj.l10nDisplayName
+            "item_amount" -> obj.amount.toString()
+            "item_type" -> obj.friendlyName
+            else -> null
+        }
+    }
 }
