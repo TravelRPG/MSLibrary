@@ -113,10 +113,11 @@ public class HashItemNode extends ItemElementImpl implements ItemNode{
         if(!members.containsKey(name)){
             members.put(name, new HashItemNode(this, name));
         }
-        if(strs.length > 1)
-            return createNode(strs[1]);
-        else
+        if(strs.length > 1) {
+            return members.get(name).asNode().createNode(strs[1]);
+        }else {
             return members.get(name).asNode();
+        }
     }
 
     @Override
