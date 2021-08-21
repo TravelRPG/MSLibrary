@@ -29,7 +29,7 @@ public class MaterialAdapter implements ItemAdapter<ItemStack> {
             }
         }
         if(dataNode != null){
-            target.setDurability(dataNode.asValue().getAsShort());
+            target.setDurability((short)dataNode.asValue().getAsInt());
         }
         return target;
     }
@@ -37,10 +37,12 @@ public class MaterialAdapter implements ItemAdapter<ItemStack> {
     @Nonnull
     @Override
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
+        System.out.println("DURA: "+target.getDurability());
+
         if(target.getType() != Material.AIR)
             data.getNodes().setPrimitive("minecraft.material", target.getType().name());
         if(target.getDurability() != 0){
-            data.getNodes().setPrimitive("minecraft.data", target.getDurability());
+            data.getNodes().setPrimitive("minecraft.data", (int)target.getDurability());
         }
         return data;
     }
