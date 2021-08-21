@@ -32,7 +32,8 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
         T result = null;
         try {
             MSItemData data = database.load(id).get();
-            result = factory.build(data);
+            if(data != null)
+                result = factory.build(data);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
@@ -42,13 +43,14 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
 
     @Nonnull
     @Override
-    public List<T> getItems(@Nonnull Class<T> clazz, @Nonnull String path, @Nonnull String value) {
+    public List<T> getItems(@Nonnull String path, @Nonnull String value) {
         List<T> result = new ArrayList<>();
         try {
             List<Integer> list = database.search(path, value).get();
             for (int id : list) {
                 MSItemData data = database.load(id).get();
-                result.add(factory.build(data));
+                if(data != null)
+                    result.add(factory.build(data));
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
