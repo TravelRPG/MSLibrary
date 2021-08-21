@@ -35,7 +35,7 @@ public class UnbreakableAdapter implements ItemAdapter<ItemStack> {
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
         ItemMeta meta = target.getItemMeta();
         if(meta.isUnbreakable()){
-            data.getNodes().setPrimitive("mineraft.unbreakable", meta.isUnbreakable());
+            data.getNodes().setPrimitive("minecraft.unbreakable", meta.isUnbreakable());
         }
         return data;
     }
