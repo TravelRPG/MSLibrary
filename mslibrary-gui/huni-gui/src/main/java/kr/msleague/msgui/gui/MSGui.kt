@@ -59,7 +59,10 @@ abstract class MSGui<V> (
     private val viewers = HashSet<UUID>()
     fun addViewers(vararg viewer: Player) {
         viewer.forEach {
-            if(viewers.add(it.uniqueId)) it.openInventory(inventory)
+            if(viewers.add(it.uniqueId)) {
+                it.closeInventory()
+                it.openInventory(inventory)
+            }
         }
     }
     private val buttonMap: MutableMap<Int, MSGuiButtonAction> = HashMap()
@@ -160,6 +163,7 @@ abstract class MSGui<V> (
     }
     open fun guiClose(e: InventoryCloseEvent) { pluginManager.callEvent(MSGuiCloseEvent(e.player as Player, this, System.currentTimeMillis())) }
     open fun guiDrag(e: InventoryDragEvent) { if(cancelGUI) e.isCancelled = true }
+    fun closeGUI() { viewers.forEach { server.getPlayer(it)?.closeInventory() } }
 
     private val ItemStack?.guiButtonData: MSGuiButtonData? get() = if(this == null || type == Material.AIR) null else getNBTTagCompound(MSGuiButtonData::class.java)
 
