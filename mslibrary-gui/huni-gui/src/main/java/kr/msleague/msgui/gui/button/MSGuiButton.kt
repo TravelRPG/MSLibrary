@@ -3,6 +3,7 @@ package kr.msleague.msgui.gui.button
 import kr.msleague.msgui.gui.MSGui
 import kr.msleague.msgui.plugin
 import kr.msleague.msgui.server
+import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
 class MSGuiButton internal constructor(
@@ -13,14 +14,14 @@ class MSGuiButton internal constructor(
 ) {
 
     fun setSlot(gui: MSGui<*>, vararg slots: Int) {
-        server.scheduler.runTaskAsynchronously(plugin) {
-            if (slots.isNotEmpty()) {
-                val itemStack = makeFunc()
-                slots.forEach {
-                    if (gui.size <= it) return@forEach
-                    if (action != null) gui.addButtonAction(it, action)
-                    gui.inventory.setItem(it, itemStack.clone())
-                }
+        if (slots.isNotEmpty()) {
+            val itemStack = makeFunc()
+            slots.forEach {
+                if (gui.size <= it) return@forEach
+                if (action != null) gui.addButtonAction(it, action)
+                val current = gui.inventory.getItem(it)
+                if(current != null && current.type != Material.AIR) current.itemMeta = itemStack.itemMeta
+                else gui.inventory.setItem(it, itemStack.clone())
             }
         }
     }

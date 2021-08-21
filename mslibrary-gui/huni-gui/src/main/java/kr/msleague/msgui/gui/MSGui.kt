@@ -53,33 +53,12 @@ abstract class MSGui<V> (
     }
 
     fun getObject(index: Int): V? = try { objs?.get(index) } catch (e: IndexOutOfBoundsException) { null }
-
-    companion object {
-        fun registerEvent(gui: MSGui<*>) {
-            pluginManager.registerEvents(object: Listener {
-                @EventHandler fun onClick(e: InventoryClickEvent) {
-                    if(gui.viewerUniqueId == e.whoClicked.uniqueId) {
-                        if(gui.cancelGUI) e.isCancelled = true
-                        if (gui.size > e.rawSlot) gui.onClick(e)
-                    }
-                }
-                @EventHandler fun onDrag(e: InventoryDragEvent) { if(gui.viewerUniqueId == e.whoClicked.uniqueId) gui.onDrag(e) }
-                @EventHandler fun onClose(e: InventoryCloseEvent) {
-                    if(gui.viewerUniqueId == e.player.uniqueId) {
-                        InventoryClickEvent.getHandlerList().unregister(this)
-                        InventoryCloseEvent.getHandlerList().unregister(this)
-                        InventoryOpenEvent.getHandlerList().unregister(this)
-                        gui.onClose(e)
-                    }
-                }
-            }, plugin)
-        }
-    }
     private var baseInventory: Inventory? = null
     val inventory: Inventory by lazy { if(baseInventory!=null) baseInventory!! else if(title!=null) server.createInventory(null, size,title) else server.createInventory(null, size) }
     private lateinit var viewerUniqueId: UUID
     val player: Player? get() = server.getPlayer(viewerUniqueId)
     private val buttonMap: MutableMap<Int, MSGuiButtonAction> = HashMap()
+    private var listener: Listener? = null
     internal fun addButtonAction(id: Int, action: MSGuiButtonAction) { buttonMap[id] = action }
 
     init { initializer() }
@@ -98,7 +77,25 @@ abstract class MSGui<V> (
                     pages?.get(page)?.invoke(this)
                 }
                 viewerUniqueId = who.uniqueId
-                registerEvent(this)
+                listener = object: Listener {
+                    @EventHandler fun onClick(e: InventoryClickEvent) {
+                        if(listener != this) return
+                        if(cancelGUI) e.isCancelled = true
+                        if (size > e.rawSlot) guiClick(e)
+                    }
+                    @EventHandler fun onDrag(e: InventoryDragEvent) {
+                        if(listener != this) return
+                        guiDrag(e)
+                    }
+                    @EventHandler fun onClose(e: InventoryCloseEvent) {
+                        if(listener != this) return
+                        InventoryClickEvent.getHandlerList().unregister(this)
+                        InventoryCloseEvent.getHandlerList().unregister(this)
+                        InventoryOpenEvent.getHandlerList().unregister(this)
+                        guiClose(e)
+                    }
+                }
+                pluginManager.registerEvents(listener, plugin)
                 who.openInventory(inventory)
                 pluginManager.callEvent(MSGuiOpenedEvent(who, this, System.currentTimeMillis()))
             }, delay)
@@ -143,7 +140,7 @@ abstract class MSGui<V> (
         return true
     }
 
-    open fun onClick(e: InventoryClickEvent) {
+    open fun guiClick(e: InventoryClickEvent) {
         e.currentItem.guiButtonData?.apply {
             val event = MSGuiButtonClickEvent(e.whoClicked as Player, this@MSGui, e.click, e.action, e.slotType, e.slot, e.rawSlot, e.currentItem?: ItemStack(Material.AIR), e.hotbarButton, e.cursor?: ItemStack(Material.AIR))
             pluginManager.callEvent(event)
@@ -154,8 +151,8 @@ abstract class MSGui<V> (
             }
         }
     }
-    open fun onClose(e: InventoryCloseEvent) { pluginManager.callEvent(MSGuiCloseEvent(e.player as Player, this, System.currentTimeMillis())) }
-    open fun onDrag(e: InventoryDragEvent) { if(cancelGUI) e.isCancelled = true }
+    open fun guiClose(e: InventoryCloseEvent) { pluginManager.callEvent(MSGuiCloseEvent(e.player as Player, this, System.currentTimeMillis())) }
+    open fun guiDrag(e: InventoryDragEvent) { if(cancelGUI) e.isCancelled = true }
 
     private val ItemStack?.guiButtonData: MSGuiButtonData? get() = if(this == null || type == Material.AIR) null else getNBTTagCompound(MSGuiButtonData::class.java)
 
