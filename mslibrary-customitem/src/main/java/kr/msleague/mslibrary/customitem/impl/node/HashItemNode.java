@@ -45,20 +45,19 @@ public class HashItemNode extends ItemElementImpl implements ItemNode{
     @Override
     public void set(@Nonnull String path, ItemElement toSet) {
         String[] strs = path.split("\\.", 2);
+        String name = strs[0];
         if(strs.length != 1){
-            String name = strs[0];
             if(!members.containsKey(name))
                 members.put(name, new HashItemNode(this, name));
             ItemElement node = members.get(name);
             if(node instanceof ItemNode){
                 ((ItemNode)node).set(strs[1], toSet);
-            }else
-                if(toSet != null)
-                    members.put(name, toSet);
-                else
-                    members.remove(name);
+            }
         }else{
-            members.put(path, toSet);
+            if(toSet != null)
+                members.put(name, toSet);
+            else
+                members.remove(name);
         }
     }
 

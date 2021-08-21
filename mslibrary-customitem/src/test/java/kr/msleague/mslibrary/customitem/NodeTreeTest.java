@@ -25,12 +25,21 @@ public class NodeTreeTest {
     @Test
     public void arrayTest(){
         ItemNode node = new HashItemNode(null, "root");
-        ItemNodeArray array = new ListItemNodeArray(node, "array");
+        ItemNodeArray array = node.createArray("hello.world.array");
         array.addPrimitive(1);
         array.addPrimitive(2);
         array.addPrimitive(3);
-        node.set("hello.world.array", array);
         Assert.assertTrue(node.get("hello.world.array") instanceof ItemNodeArray);
         Assert.assertEquals(3, node.get("hello.world.array").asArray().size());
+    }
+
+    @Test
+    public void setTest(){
+        ItemNode node = new HashItemNode(null, "root");
+        node.setPrimitive("hello.world.set", "hello");
+        Assert.assertEquals("hello", node.get("hello.world.set").asValue().getAsString());
+        node.set("hello.world.set", null);
+        Assert.assertFalse(node.has("hello.world.set"));
+        Assert.assertNull(node.get("hello.world.set"));
     }
 }
