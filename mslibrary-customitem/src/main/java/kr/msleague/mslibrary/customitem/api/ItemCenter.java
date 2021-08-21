@@ -41,13 +41,12 @@ public interface ItemCenter<T> {
 
     /**
      * 아이템을 주어진 경로와 피라미터를 통해 찾습니다.
-     * @param clazz 얻고자 하는 인스턴스 타입 클래스
      * @param path 찾고자 하는 아이템 노드 경로
      * @param value 찾고자 하는 아이템 노드 값
      * @return 찾은 결과 값 리스트의 비동기 값
      */
     @Nonnull
-    List<T> getItems(@Nonnull Class<T> clazz, @Nonnull String path, @Nonnull String value);
+    List<T> getItems(@Nonnull String path, @Nonnull String value);
 
     /**
      * 데이터베이스의 모든 아이템을 로드합니다.
