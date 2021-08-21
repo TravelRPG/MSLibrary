@@ -3,7 +3,7 @@ package kr.msleague.message.api
 import java.lang.reflect.Method
 import java.lang.reflect.ParameterizedType
 
-object MSMessageRegistry {
+internal object MSMessageRegistry {
 
     private val adapterMap: MutableMap<String,MutableMap<MSMessageAdapter<*>,Method>> = HashMap()
 
