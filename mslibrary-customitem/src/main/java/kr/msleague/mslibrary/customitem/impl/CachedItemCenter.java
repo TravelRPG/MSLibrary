@@ -27,7 +27,7 @@ public class CachedItemCenter<T> extends AbstractItemCenter<T>{
         this.cache = Caffeine.newBuilder().build(new CacheLoader<Integer, T>() {
             @Override
             public T load(@NonNull Integer integer) throws Exception {
-                return getItem(integer).orElse(null);
+                return getItem0(integer).orElse(null);
             }
         });
     }
@@ -42,6 +42,12 @@ public class CachedItemCenter<T> extends AbstractItemCenter<T>{
     public Optional<T> getItem(int i) {
         return Optional.ofNullable(this.cache.get(i));
     }
+
+    private Optional<T> getItem0(int i) {
+        return super.getItem(i);
+    }
+
+
 
     @Override
     public void load(boolean async) {

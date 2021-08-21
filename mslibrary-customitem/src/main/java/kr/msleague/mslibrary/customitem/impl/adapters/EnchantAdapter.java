@@ -40,15 +40,17 @@ public class EnchantAdapter implements ItemAdapter<ItemStack> {
     @Override
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
         ItemMeta meta = target.getItemMeta();
-        ItemElement element = data.getNodes().get("minecraft.enchant");
-        if(element == null){
-            element = data.getNodes().createNode("minecraft.enchant");
-        }
-        ItemNode node = element.asNode();
-        for (Map.Entry<Enchantment, Integer> entry : meta.getEnchants().entrySet()) {
-            String enchant = entry.getKey().getName();
-            int lvl = entry.getValue();
-            node.setPrimitive(enchant, lvl);
+        if(meta.getEnchants() != null && !meta.getEnchants().isEmpty()) {
+            ItemElement element = data.getNodes().get("minecraft.enchant");
+            if (element == null) {
+                element = data.getNodes().createNode("minecraft.enchant");
+            }
+            ItemNode node = element.asNode();
+            for (Map.Entry<Enchantment, Integer> entry : meta.getEnchants().entrySet()) {
+                String enchant = entry.getKey().getName();
+                int lvl = entry.getValue();
+                node.setPrimitive(enchant, lvl);
+            }
         }
         return data;
     }

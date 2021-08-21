@@ -77,7 +77,7 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
                 if (file.exists()) {
                     throw new IllegalArgumentException("the file already exist");
                 }else{
-                    if(file.mkdir()) {
+                    if(file.createNewFile()) {
                         writeFile(file, item);
                         return true;
                     }
@@ -154,7 +154,7 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
     public Future<Void> modify(int itemID, @Nonnull String node, @Nullable String value) {
         return service.submit(()->{
             try {
-                String fileName = itemID + ".json";
+                String fileName = itemID + fileFormat;
                 File file = new File(directory.getAbsolutePath() + "/" + fileName);
                 MSItemData data = readFile(file);
                 if(value != null)
@@ -172,7 +172,7 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
     @Override
     public Future<Boolean> has(int itemID) {
         return service.submit(()-> {
-            String fileName = itemID + ".json";
+            String fileName = itemID + fileFormat;
             File file = new File(directory.getAbsolutePath() + "/" + fileName);
             return file.exists();
         });
