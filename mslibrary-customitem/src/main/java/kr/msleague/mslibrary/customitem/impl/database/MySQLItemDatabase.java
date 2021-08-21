@@ -72,6 +72,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     public Future<Boolean> newItem(int id, @Nonnull MSItemData item) {
         return database.executeAsync(connection->{
             PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM "+table+" WHERE `item_id`=?");
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.next()){
                 return false;
@@ -86,6 +87,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     public Future<MSItemData> load(int itemID) throws IllegalStateException {
         return database.executeAsync(connection -> {
             PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM "+table+" WHERE `item_id`=?");
+            ps.setInt(1, itemID);
             ResultSet rs = ps.executeQuery();
             ItemNode node = new HashItemNode(null, "");
             while (rs.next()){
@@ -121,7 +123,7 @@ public class MySQLItemDatabase implements ItemDatabase {
                 map.put(path, config.getString(path));
             }
         }
-        for(String key : map.values()){
+        for(String key : map.keySet()){
             PreparedStatement ps2 = connection.prepareStatement("INSERT INTO "+table+" (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
             ps2.setInt(1, itemID);
             ps2.setString(2, key);
