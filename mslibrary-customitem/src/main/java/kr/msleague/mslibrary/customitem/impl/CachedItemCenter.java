@@ -48,7 +48,6 @@ public class CachedItemCenter<T> extends AbstractItemCenter<T>{
     }
 
 
-
     @Override
     public void load(boolean async) {
         if(async) {
@@ -62,7 +61,11 @@ public class CachedItemCenter<T> extends AbstractItemCenter<T>{
         try {
             for (MSItemData itemData : database.loadAll().get()) {
                 T item = factory.build(itemData);
-                cache.put(itemData.getID(), item);
+                try {
+                    cache.put(itemData.getID(), item);
+                }catch (IllegalArgumentException ignored){
+
+                }
             }
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -73,6 +76,9 @@ public class CachedItemCenter<T> extends AbstractItemCenter<T>{
     public void refresh(int i, boolean async) {
         if(async) {
             service.submit(()->cache.refresh(i));
+            if(cache.get(i) == null){
+                cache.invalidate(i);
+            }
         }else
             cache.refresh(i);
     }
