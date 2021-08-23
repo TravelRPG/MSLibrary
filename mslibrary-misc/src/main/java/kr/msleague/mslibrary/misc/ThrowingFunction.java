@@ -6,9 +6,9 @@ public interface ThrowingFunction<T, R> extends Function<T, R> {
 
     @Override
     default R apply(T t) {
-        try{
+        try {
             return acceptThrowing(t);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;

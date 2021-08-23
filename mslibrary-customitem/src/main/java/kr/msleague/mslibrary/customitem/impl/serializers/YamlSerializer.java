@@ -16,15 +16,15 @@ public class YamlSerializer implements ItemSerializer<YamlConfiguration> {
     @Override
     public MSItemData deserialize(@Nonnull YamlConfiguration section) throws IllegalArgumentException {
         HashItemNode root = new HashItemNode(null, section.getName());
-        for(String path : section.getKeys(true)){
-            if(!section.isConfigurationSection(path)) {
-                if(section.isList(path)){
+        for (String path : section.getKeys(true)) {
+            if (!section.isConfigurationSection(path)) {
+                if (section.isList(path)) {
                     ItemNodeArray array = root.createArray(path);
                     List<String> list = section.getStringList(path);
                     for (String s : list) {
                         array.addPrimitive(s);
                     }
-                }else {
+                } else {
                     root.setPrimitive(path, section.get(path));
                 }
             }
@@ -41,35 +41,35 @@ public class YamlSerializer implements ItemSerializer<YamlConfiguration> {
         return section;
     }
 
-    private void write(ConfigurationSection section, ItemElement element){
-        if(element instanceof ItemNode){
+    private void write(ConfigurationSection section, ItemElement element) {
+        if (element instanceof ItemNode) {
             write(section, element.asNode());
-        }else if(element instanceof ItemNodeArray){
+        } else if (element instanceof ItemNodeArray) {
             List<Object> list = new ArrayList<>();
             for (ItemElement content : element.asArray().contents()) {
-                if(content instanceof ItemNodeValue) {
+                if (content instanceof ItemNodeValue) {
                     ItemNodeValue value = content.asValue();
                     list.add(value.getAsString());
                 }
             }
             section.set(element.getPath(), list);
-        }else if(element instanceof ItemNodeValue){
+        } else if (element instanceof ItemNodeValue) {
             write(section, element.asValue());
         }
     }
 
-    private void write(ConfigurationSection section, ItemNode node){
+    private void write(ConfigurationSection section, ItemNode node) {
         for (String key : node.getKeys()) {
             write(section, node.get(key));
         }
     }
 
-    private void write(ConfigurationSection section, ItemNodeValue value){
-        if(value.isBoolean()){
+    private void write(ConfigurationSection section, ItemNodeValue value) {
+        if (value.isBoolean()) {
             section.set(value.getPath(), value.getAsBoolean());
-        }else if(value.isNumber()){
+        } else if (value.isNumber()) {
             section.set(value.getPath(), value.getAsNumber());
-        }else if(value.isString()){
+        } else if (value.isString()) {
             section.set(value.getPath(), value.getAsString());
         }
     }

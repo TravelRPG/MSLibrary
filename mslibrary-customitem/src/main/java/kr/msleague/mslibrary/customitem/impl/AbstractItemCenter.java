@@ -21,7 +21,7 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
     @Getter
     ItemFactory<T> factory;
 
-    public AbstractItemCenter(ItemDatabase database, ItemFactory<T> factory){
+    public AbstractItemCenter(ItemDatabase database, ItemFactory<T> factory) {
         this.database = database;
         this.factory = factory;
     }
@@ -32,7 +32,7 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
         T result = null;
         try {
             MSItemData data = database.load(id).get();
-            if(data != null)
+            if (data != null)
                 result = factory.build(data);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -49,7 +49,7 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
             List<Integer> list = database.search(path, value).get();
             for (int id : list) {
                 MSItemData data = database.load(id).get();
-                if(data != null)
+                if (data != null)
                     result.add(factory.build(data));
             }
         } catch (InterruptedException | ExecutionException e) {
@@ -68,9 +68,9 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
             factory.parse(item, data);
             database.newItem(id, data);
             return id;
-        }catch (Exception anyException){
+        } catch (Exception anyException) {
             anyException.printStackTrace();
-            throw new IllegalArgumentException("some exception occurred : "+anyException.getMessage());
+            throw new IllegalArgumentException("some exception occurred : " + anyException.getMessage());
         }
     }
 }

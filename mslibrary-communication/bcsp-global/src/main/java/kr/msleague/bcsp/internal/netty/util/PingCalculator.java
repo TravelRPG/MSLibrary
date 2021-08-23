@@ -9,13 +9,14 @@ public class PingCalculator {
     private long lastPingAverage = -1L;
     @Getter
     private long lastPing = 0;
-    public void processPing(long ms){
+
+    public void processPing(long ms) {
         lastPing = ms;
-        if(lastIndex < 10){
+        if (lastIndex < 10) {
             arr[lastIndex++] = ms;
-        }else{
+        } else {
             long sum = 0L;
-            for(int i = 0; i < 10; i++){
+            for (int i = 0; i < 10; i++) {
                 sum += arr[i];
             }
             lastPingAverage = sum / 10;

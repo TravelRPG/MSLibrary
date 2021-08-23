@@ -10,11 +10,13 @@ public class ProxyPacketReceivedEvent extends Event {
     private AbstractPacket packet;
     @Getter
     private ChannelWrapper wrapper;
+
     public ProxyPacketReceivedEvent(AbstractPacket packet, ChannelWrapper wrapper) {
         this.packet = packet;
         this.wrapper = wrapper;
     }
-    private boolean isPacketOf(Class<? extends AbstractPacket> clazz){
+
+    private boolean isPacketOf(Class<? extends AbstractPacket> clazz) {
         return clazz.isInstance(packet);
     }
 }

@@ -7,4 +7,4 @@ import org.bukkit.event.Event
 abstract class MSGuiEvent(
     val player: Player,
     val gui: MSGui<*>
-): Event()
+) : Event()

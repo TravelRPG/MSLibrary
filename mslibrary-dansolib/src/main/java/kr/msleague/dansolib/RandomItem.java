@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class RandomItem<E> {
     @Getter
-    private final HashMap<E,Double> items = new HashMap<>();
+    private final HashMap<E, Double> items = new HashMap<>();
     @Getter
     @Setter
     private int max;
@@ -23,13 +23,13 @@ public class RandomItem<E> {
             throw new IllegalArgumentException("Illegal chance " + chance);
         }
         double count = 0;
-        for (double val:items.values()) {
+        for (double val : items.values()) {
             count += val;
         }
         if (count + chance > max) {
             return;
         }
-        items.put(item,chance);
+        items.put(item, chance);
     }
 
     public void remove(E item) {
@@ -42,9 +42,9 @@ public class RandomItem<E> {
 
     public E draw() {
         double random = new Random().nextDouble() * max;
-        double count = 0 , next = 0;
+        double count = 0, next = 0;
         E item = null;
-        for (Map.Entry<E,Double> entry:items.entrySet()) {
+        for (Map.Entry<E, Double> entry : items.entrySet()) {
             next = count + entry.getValue();
             if (random >= count && random < next) {
                 item = entry.getKey();

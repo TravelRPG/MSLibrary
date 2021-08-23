@@ -14,14 +14,15 @@ import org.bukkit.inventory.ItemStack;
 @Getter
 @Setter
 public class MSGuiButtonClickEvent extends MSGuiEvent implements Cancellable {
-    private boolean cancelled;
     private static HandlerList handlerList = new HandlerList();
+    ItemStack cursor;
+    private boolean cancelled;
     private ClickType clickType;
     private InventoryAction action;
     private InventoryType.SlotType slotType;
     private int slot, rawSlot, hotBarKey;
     private ItemStack currentItem;
-    ItemStack cursor;
+
     public MSGuiButtonClickEvent(Player player, MSGui<?> gui, ClickType clickType, InventoryAction action, InventoryType.SlotType slotType, int slot, int rawSlot, ItemStack currentItem, int hotBarKey, ItemStack cursor) {
         super(player, gui);
         this.clickType = clickType;
@@ -34,7 +35,7 @@ public class MSGuiButtonClickEvent extends MSGuiEvent implements Cancellable {
         this.cursor = cursor;
     }
 
-    public static HandlerList getHandlerList(){
+    public static HandlerList getHandlerList() {
         return handlerList;
     }
 

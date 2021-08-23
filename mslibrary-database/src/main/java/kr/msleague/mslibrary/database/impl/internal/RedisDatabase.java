@@ -1,7 +1,7 @@
 package kr.msleague.mslibrary.database.impl.internal;
 
 
-public class RedisDatabase  {
+public class RedisDatabase {
 
 
 }

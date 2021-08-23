@@ -17,14 +17,14 @@ public class MSItemStack implements MSItem {
     protected final ItemStack handle;
 
     @Nullable
-    protected net.minecraft.server.v1_12_R1.ItemStack asNMS(){
-        if(handle instanceof CraftItemStack)
+    protected net.minecraft.server.v1_12_R1.ItemStack asNMS() {
+        if (handle instanceof CraftItemStack)
             try {
                 Field field = CraftItemStack.class.getDeclaredField("handle");
                 field.setAccessible(true);
                 Object f = field.get(handle);
-                return (net.minecraft.server.v1_12_R1.ItemStack)f;
-            }catch (Exception e){
+                return (net.minecraft.server.v1_12_R1.ItemStack) f;
+            } catch (Exception e) {
                 return null;
             }
         else
@@ -33,8 +33,8 @@ public class MSItemStack implements MSItem {
 
     @Override
     public int getID() {
-        net.minecraft.server.v1_12_R1.ItemStack nms =  asNMS();
-        if(nms != null) {
+        net.minecraft.server.v1_12_R1.ItemStack nms = asNMS();
+        if (nms != null) {
             NBTTagCompound compound = nms.getTag();
             return compound != null ? compound.getInt("id") : 0;
         }
@@ -43,8 +43,8 @@ public class MSItemStack implements MSItem {
 
     @Override
     public long getVersion() {
-        net.minecraft.server.v1_12_R1.ItemStack nms =  asNMS();
-        if(nms != null) {
+        net.minecraft.server.v1_12_R1.ItemStack nms = asNMS();
+        if (nms != null) {
             NBTTagCompound compound = nms.getTag();
             return compound != null ? compound.getInt("version") : 0;
         }

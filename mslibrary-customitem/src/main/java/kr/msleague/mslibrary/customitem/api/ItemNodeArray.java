@@ -3,7 +3,7 @@ package kr.msleague.mslibrary.customitem.api;
 import java.util.List;
 
 //todo: documents this
-public interface ItemNodeArray extends ItemElement{
+public interface ItemNodeArray extends ItemElement {
 
     //todo: documents this
     void add(ItemElement node);

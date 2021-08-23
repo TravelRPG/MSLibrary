@@ -9,8 +9,6 @@ import kr.msleague.bcsp.internal.netty.util.ByteBufUtility;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
-
 @NoArgsConstructor
 @Getter
 public class RelayingPacket extends AbstractPacket {
@@ -19,14 +17,17 @@ public class RelayingPacket extends AbstractPacket {
     private AbstractPacket packet;
 
     private byte[] relay;
-    public RelayingPacket(AbstractPacket packet, String targetServer){
+
+    public RelayingPacket(AbstractPacket packet, String targetServer) {
         this.targetServer = targetServer;
         this.packet = packet;
     }
-    public RelayingPacket(AbstractPacket packet){
+
+    public RelayingPacket(AbstractPacket packet) {
         this.targetServer = "-1";
         this.packet = packet;
     }
+
     @Override
     public void read(ByteBuf buf) {
         this.targetServer = ByteBufUtility.readString(buf);

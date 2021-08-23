@@ -9,11 +9,24 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public class BukkitInventory implements MInventory{
+public class BukkitInventory implements MInventory {
     @Getter
     @Setter
     private int size;
     private HashMap<Integer, ItemStack> items = new HashMap<>();
+
+    public static BukkitInventory fromBukkitInventory(Inventory inv) {
+        BukkitInventory var = new BukkitInventory();
+        var.setSize(inv.getSize());
+        ItemStack stack;
+        for (int i = 0; i < inv.getSize(); i++) {
+            if ((stack = inv.getItem(i)) != null) {
+                var.setItem(i, stack);
+            }
+        }
+        return var;
+    }
+
     @Override
     public ItemStack getItem(int slot) {
         return items.get(slot);
@@ -33,23 +46,10 @@ public class BukkitInventory implements MInventory{
 
     @Override
     public void copyContents(Inventory to) {
-        items.forEach((slot,stack)->{
-            if(to.getSize() > slot)
+        items.forEach((slot, stack) -> {
+            if (to.getSize() > slot)
                 to.setItem(slot, stack);
         });
-    }
-
-
-    public static BukkitInventory fromBukkitInventory(Inventory inv){
-        BukkitInventory var = new BukkitInventory();
-        var.setSize(inv.getSize());
-        ItemStack stack;
-        for(int i = 0; i < inv.getSize(); i++){
-            if((stack=inv.getItem(i))!=null){
-                var.setItem(i, stack);
-            }
-        }
-        return var;
     }
 
 }

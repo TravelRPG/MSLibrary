@@ -1,8 +1,6 @@
 package kr.msleague.msgui.gui.button
 
 import kr.msleague.msgui.gui.MSGui
-import kr.msleague.msgui.plugin
-import kr.msleague.msgui.server
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
@@ -20,7 +18,7 @@ class MSGuiButton internal constructor(
                 if (gui.size <= it) return@forEach
                 if (action != null) gui.addButtonAction(it, action)
                 val current = gui.inventory.getItem(it)
-                if(current != null && current.type != Material.AIR) current.itemMeta = itemStack.itemMeta
+                if (current != null && current.type != Material.AIR) current.itemMeta = itemStack.itemMeta
                 else gui.inventory.setItem(it, itemStack.clone())
             }
         }

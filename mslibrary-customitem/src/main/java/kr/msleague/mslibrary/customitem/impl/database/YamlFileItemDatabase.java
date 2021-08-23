@@ -27,10 +27,10 @@ public class YamlFileItemDatabase extends AbstractFileItemDatabase<YamlConfigura
         serializer.write(file, adapter.serialize(data));
     }
 
-    public static class YamlFileSerializer extends JsonSerializer implements FileSerializer<YamlConfiguration>{
+    public static class YamlFileSerializer extends JsonSerializer implements FileSerializer<YamlConfiguration> {
 
         @Override
-        public YamlConfiguration read(File file) throws IOException{
+        public YamlConfiguration read(File file) throws IOException {
             YamlConfiguration config = new YamlConfiguration();
             FileInputStream fileinputstream;
 
@@ -44,13 +44,12 @@ public class YamlFileItemDatabase extends AbstractFileItemDatabase<YamlConfigura
         }
 
         @Override
-        public void write(File file, YamlConfiguration yaml)  throws IOException{
-            try{
+        public void write(File file, YamlConfiguration yaml) throws IOException {
+            try {
                 Writer fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
                 fileWriter.write(yaml.saveToString());
                 fileWriter.close();
-            }
-            catch(IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

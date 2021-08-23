@@ -2,7 +2,7 @@ package kr.msleague.bcsp.internal.netty.packet;
 
 import io.netty.buffer.ByteBuf;
 
-public abstract class AbstractPacket{
+public abstract class AbstractPacket {
     /**
      * 내부 콜백을 사용하려고 할 경우 이 값을 "true"로 변경하세요
      * 단, 콜백은 노드길이 1 (EX, Proxy->Bukkit1 , Bukkit2->Proxy 등)
@@ -12,21 +12,25 @@ public abstract class AbstractPacket{
      * 수신측에서 등록하지 않을 경우 패킷이 무시될 수 있습니다.
      */
     private boolean callBackResult = false;
-    public void setCallBackResult(boolean res){
-        this.callBackResult = res;
-    }
-    public boolean isCallBackResult(){
+
+    public boolean isCallBackResult() {
         return this.callBackResult;
+    }
+
+    public void setCallBackResult(boolean res) {
+        this.callBackResult = res;
     }
 
     /**
      * 패킷 역직렬화를 위한 부분입니다
+     *
      * @param buf 읽을 대상 바이트버퍼 입니다
      */
     public abstract void read(ByteBuf buf);
 
     /**
      * 패킷 직렬화를 위한 부분입니다
+     *
      * @param buf 작성할 대상 바이트버퍼 부분입니다.
      */
     public abstract void write(ByteBuf buf);

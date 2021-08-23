@@ -10,14 +10,14 @@ import kotlin.coroutines.CoroutineContext
 private val bukkitScheduler get() = Bukkit.getScheduler()
 
 @OptIn(InternalCoroutinesApi::class)
-class BukkitDispatcher(val plugin: JavaPlugin, val async: Boolean = false): CoroutineDispatcher(), Delay {
+class BukkitDispatcher(val plugin: JavaPlugin, val async: Boolean = false) : CoroutineDispatcher(), Delay {
 
-    private val runTaskLater: (Plugin, Runnable, Long)-> BukkitTask =
-        if(async) bukkitScheduler::runTaskLaterAsynchronously
+    private val runTaskLater: (Plugin, Runnable, Long) -> BukkitTask =
+        if (async) bukkitScheduler::runTaskLaterAsynchronously
         else bukkitScheduler::runTaskLater
 
     private val runTask: (Plugin, Runnable) -> BukkitTask =
-        if(async) bukkitScheduler::runTaskAsynchronously
+        if (async) bukkitScheduler::runTaskAsynchronously
         else bukkitScheduler::runTask
 
     @ExperimentalCoroutinesApi
@@ -25,13 +25,14 @@ class BukkitDispatcher(val plugin: JavaPlugin, val async: Boolean = false): Coro
         val task = runTaskLater(
             plugin,
             Runnable { continuation.apply { resumeUndispatched(Unit) } },
-            timeMillis / 50)
+            timeMillis / 50
+        )
         continuation.invokeOnCancellation { task.cancel() }
     }
 
     override fun dispatch(context: CoroutineContext, block: Runnable) {
-        if(!context.isActive) return
-        if(!async && Bukkit.isPrimaryThread()) block.run()
+        if (!context.isActive) return
+        if (!async && Bukkit.isPrimaryThread()) block.run()
         else runTask(plugin, block)
     }
 }

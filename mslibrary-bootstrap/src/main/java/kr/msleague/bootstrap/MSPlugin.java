@@ -26,11 +26,14 @@ public abstract class MSPlugin {
     @Getter
     @Setter
     private static JavaPlugin plugin;
-    public void onEnable(){
+
+    public void onEnable() {
     }
-    public void onDisable(){
+
+    public void onDisable() {
     }
-    public void saveResource(String resourcePath, boolean a){
+
+    public void saveResource(String resourcePath, boolean a) {
         plugin.saveResource(resourcePath, a);
     }
 }

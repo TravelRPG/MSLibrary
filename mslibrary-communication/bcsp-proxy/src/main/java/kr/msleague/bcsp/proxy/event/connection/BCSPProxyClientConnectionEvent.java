@@ -9,7 +9,8 @@ import net.md_5.bungee.api.plugin.Event;
 public class BCSPProxyClientConnectionEvent extends Event {
     private ChannelWrapper wrapper;
     private ConnectionState state;
-    public BCSPProxyClientConnectionEvent(ChannelWrapper wrapper, ConnectionState state){
+
+    public BCSPProxyClientConnectionEvent(ChannelWrapper wrapper, ConnectionState state) {
         this.wrapper = wrapper;
         this.state = state;
     }

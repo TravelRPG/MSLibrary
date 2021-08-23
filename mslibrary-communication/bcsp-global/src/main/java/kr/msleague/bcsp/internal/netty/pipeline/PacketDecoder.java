@@ -9,7 +9,6 @@ import kr.msleague.bcsp.internal.netty.packet.Direction;
 import kr.msleague.bcsp.internal.netty.packet.PacketMapper;
 import kr.msleague.bcsp.internal.netty.util.ByteBufUtility;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class PacketDecoder extends MessageToMessageDecoder<ByteBuf> {
@@ -18,13 +17,13 @@ public class PacketDecoder extends MessageToMessageDecoder<ByteBuf> {
         int packetId = ByteBufUtility.readVarInt(buf);
         boolean callBackResult = buf.readBoolean();
         Class<? extends AbstractPacket> clazz = PacketMapper.getPacketById(Direction.INBOUND, packetId);
-        if(clazz == null)
+        if (clazz == null)
             throw new PacketException(null, "Unregistered packet id " + packetId);
         AbstractPacket packet;
-        try{
+        try {
             packet = clazz.newInstance();
-        }catch(Exception ex){
-            throw new PacketException(null, "Packet must contains NoArgsConstructor : "+clazz.getSimpleName());
+        } catch (Exception ex) {
+            throw new PacketException(null, "Packet must contains NoArgsConstructor : " + clazz.getSimpleName());
         }
         packet.setCallBackResult(callBackResult);
         packet.read(buf);

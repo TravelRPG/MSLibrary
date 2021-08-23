@@ -37,11 +37,11 @@ internal object MSMessageRegistry {
             var param = matcher.group()
             param = param.substring(1, param.length - 1)
             objs.forEach {
-                val iterator = adapterMap[it::class.java.typeName]?.iterator()?: return@forEach
-                while(iterator.hasNext()) {
+                val iterator = adapterMap[it::class.java.typeName]?.iterator() ?: return@forEach
+                while (iterator.hasNext()) {
                     val entry = iterator.next()
                     val temp = entry.value.invoke(entry.key, it, param)
-                    if(temp != null) {
+                    if (temp != null) {
                         matcher.appendReplacement(result, temp as String)
                         return@forEach
                     }

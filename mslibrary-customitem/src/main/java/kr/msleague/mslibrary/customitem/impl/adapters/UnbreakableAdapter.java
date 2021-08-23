@@ -10,8 +10,9 @@ import javax.annotation.Nonnull;
 
 /**
  * Minecraft Unbreakable adapter implementation.
- * @since 1.0
+ *
  * @author Arkarang
+ * @since 1.0
  */
 public class UnbreakableAdapter implements ItemAdapter<ItemStack> {
 
@@ -19,10 +20,10 @@ public class UnbreakableAdapter implements ItemAdapter<ItemStack> {
     @Override
     public ItemStack read(@Nonnull ItemStack target, @Nonnull MSItemData data) throws IllegalArgumentException {
         ItemElement element = data.getNodes().get("minecraft.unbreakable");
-        if(element != null){
+        if (element != null) {
             boolean b = element.asValue().getAsBoolean();
             ItemMeta meta = target.getItemMeta();
-            if(meta != null){
+            if (meta != null) {
                 meta.setUnbreakable(b);
             }
             target.setItemMeta(meta);
@@ -34,7 +35,7 @@ public class UnbreakableAdapter implements ItemAdapter<ItemStack> {
     @Override
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
         ItemMeta meta = target.getItemMeta();
-        if(meta.isUnbreakable()){
+        if (meta.isUnbreakable()) {
             data.getNodes().setPrimitive("minecraft.unbreakable", meta.isUnbreakable());
         }
         return data;

@@ -27,25 +27,27 @@ public class BossHandler extends ChannelInboundHandlerAdapter {
     private ConnectionState connectionState;
     @Getter
     private ChannelWrapper wrapper;
-    public BossHandler(Channel channel){
+
+    public BossHandler(Channel channel) {
         this.wrapper = new ChannelWrapper(this, channel);
         this.connectionState = ConnectionState.IDLE;
     }
-    public void setConnectionState(ConnectionState state){
+
+    public void setConnectionState(ConnectionState state) {
         this.connectionState = state;
-        BCSPLogManager.getLogger().info("Internal netty connection state is now : " +state.toString());
+        BCSPLogManager.getLogger().info("Internal netty connection state is now : " + state.toString());
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        if(this.connectionState != ConnectionState.CONNECTED && !(msg instanceof HandShakePacket)){
+        if (this.connectionState != ConnectionState.CONNECTED && !(msg instanceof HandShakePacket)) {
             BCSPLogManager.getLogger().err("BCSP recieved packet before handshake. Recieved packet dropped.");
             return;
         }
         AbstractPacket packet = (AbstractPacket) msg;
-        if(packetPreProcessHandler != null)
+        if (packetPreProcessHandler != null)
             packetPreProcessHandler.preprocess(packet, this.getWrapper());
-        if(packet.isCallBackResult() && getWrapper().getCallBackContainer().complete(packet)){
+        if (packet.isCallBackResult() && getWrapper().getCallBackContainer().complete(packet)) {
             return;
         }
         Direction.INBOUND.onPacketRecieved(packet, wrapper);
@@ -53,15 +55,15 @@ public class BossHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        if(cause instanceof IOException){
+        if (cause instanceof IOException) {
             BCSPLogManager.getLogger().err("BCSP IOException");
-        }else if(cause instanceof ByteBufException){
+        } else if (cause instanceof ByteBufException) {
             BCSPLogManager.getLogger().err("BCSP Encountered exception while ByteBuf R/W: " + cause.getMessage());
-        }else if(cause instanceof PacketException){
+        } else if (cause instanceof PacketException) {
             BCSPLogManager.getLogger().err("BCSP Encountered exception while Packet R/W: " + cause.getMessage());
-        }else if(cause instanceof ReadTimeoutException) {
+        } else if (cause instanceof ReadTimeoutException) {
             BCSPLogManager.getLogger().err("BCSP Encountered read timeout exception. Maybe connection broke?");
-        }else {
+        } else {
             BCSPLogManager.getLogger().err("BCSP Encountered Exception");
         }
         cause.printStackTrace();
@@ -70,7 +72,7 @@ public class BossHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         setConnectionState(ConnectionState.IDLE);
-        if(disconnectHandler != null){
+        if (disconnectHandler != null) {
             disconnectHandler.onDisconnect(this.getWrapper());
         }
     }

@@ -11,12 +11,13 @@ import org.bukkit.event.HandlerList;
 public class MSGuiCloseEvent extends MSGuiEvent {
     private static HandlerList handlerList = new HandlerList();
     private long time;
+
     public MSGuiCloseEvent(Player player, MSGui<?> gui, long time) {
         super(player, gui);
         this.time = time;
     }
 
-    public static HandlerList getHandlerList(){
+    public static HandlerList getHandlerList() {
         return handlerList;
     }
 

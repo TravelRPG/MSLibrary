@@ -2,7 +2,6 @@ package kr.msleague.mslibrary.customitem.impl;
 
 import com.google.common.collect.ImmutableMap;
 import kr.msleague.mslibrary.customitem.api.ItemAdapter;
-import kr.msleague.mslibrary.customitem.api.ItemElement;
 import kr.msleague.mslibrary.customitem.api.ItemFactory;
 import kr.msleague.mslibrary.customitem.api.MSItemData;
 import kr.msleague.mslibrary.customitem.impl.adapters.*;
@@ -17,14 +16,15 @@ import java.util.Map;
 
 /**
  * Minecraft Item Factory
- * @since 1.0
+ *
  * @author Arkarang
+ * @since 1.0
  */
 public class MinecraftItemFactory implements ItemFactory<ItemStack> {
 
     LinkedHashMap<String, ItemAdapter<ItemStack>> adapters = new LinkedHashMap<>();
 
-    public MinecraftItemFactory(){
+    public MinecraftItemFactory() {
         add("material", new MaterialAdapter());
         add("displayname", new DisplaynameAdapter());
         add("enchant", new EnchantAdapter());
@@ -42,7 +42,7 @@ public class MinecraftItemFactory implements ItemFactory<ItemStack> {
 
     @Override
     public void add(@Nonnull String tag, @Nonnull ItemAdapter<ItemStack> adapter) {
-        if(!adapters.containsKey(tag))
+        if (!adapters.containsKey(tag))
             adapters.put(tag, adapter);
     }
 
