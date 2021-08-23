@@ -81,5 +81,13 @@ public interface BCSPApi {
      *
      **/
     <T extends AbstractPacket> void addListener(Class<T> clazz, BiConsumer<T, ChannelWrapper> cons);
+
+    /**
+     * 콜백을 시작합니다.
+     * 적적한 콜백 리스너를 수신측에서 구현하지 않을 경우, 콜백 싱크 미스가 발생할 수 있습니다.
+     * @param toSend 콜백 시작용 패킷입니다.
+     * @param type 콜백 후 돌아올 패킷의 클래스 타입을 지정합니다
+     * @param onRecieved 콜백후 돌아온 패킷을 처리하는 리스너를 등록합니다.
+     */
     <T extends AbstractPacket> void startCallBack(AbstractPacket toSend, Class<T> type, PacketCallBack<T> onRecieved);
 }
