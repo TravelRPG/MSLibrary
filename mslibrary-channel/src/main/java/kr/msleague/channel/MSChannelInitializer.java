@@ -8,6 +8,9 @@ import org.bukkit.event.Listener;
 
 @LoadPriority(priority = 50)
 public class MSChannelInitializer extends MSPlugin implements Listener {
+    /**
+     * Packet registration process
+     */
     @Override
     public void onEnable() {
         BCSPBukkitAPI.getInst().registerOuterPacket(0x9500, PacketIsServerExists.class);
