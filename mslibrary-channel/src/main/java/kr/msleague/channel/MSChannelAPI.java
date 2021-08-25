@@ -6,12 +6,36 @@ import java.util.concurrent.Future;
 import java.util.function.Consumer;
 
 public interface MSChannelAPI {
+    /**
+     * 서버가 존재하는지 확인한 후 결과를 퓨처로 콜백합니다
+     * @param server 대상 서버 이름입니다.
+     * @param cons 퓨처 대신 컨슈머 형태로 인라인 코딩을 할 수 있습니다.
+     * @return 콜백 결과입니다. Boolean(T/F)를 빈환합니다
+     */
     Future<Boolean> isServerExists(String server, Consumer<Boolean>... cons);
 
+    /**
+     * 서버가 존재하는지 확인한 후 결과를 퓨처로 콜백합니다
+     * @param port 대상 서버 포트입니다.
+     * @param cons 퓨처 대신 컨슈머 형태로 인라인 코딩을 할 수 있습니다.
+     * @return 콜백 결과입니다. Boolean(T/F)를 빈환합니다
+     */
     Future<Boolean> isServerExists(int port, Consumer<Boolean>... cons);
 
+    /**
+     * 서버가 열려있는지 확인합니다
+     * @param server 대상 서버 이름입니다.
+     * @param cons 퓨처 대신 컨슈머 형태로 인라인 코딩을 할 수 있습니다.
+     * @return 콜백 결과입니다. Boolean(T/F)를 빈환합니다
+     */
     Future<Boolean> isServerOnline(String server, Consumer<Boolean>... cons);
 
+    /**
+     * 서버가 열려있는지 확인합니다
+     * @param port 대상 서버 포트입니다.
+     * @param cons 퓨처 대신 컨슈머 형태로 인라인 코딩을 할 수 있습니다.
+     * @return 콜백 결과입니다. Boolean(T/F)를 빈환합니다
+     */
     Future<Boolean> isServerOnline(int port, Consumer<Boolean>... cons);
 
     Future<Integer> getServerOnlineCount(String server, Consumer<Integer>... cons);
