@@ -54,6 +54,11 @@ public interface MSChannelAPI {
      */
     Future<Integer> getServerOnlineCount(int port, Consumer<Integer>... cons);
 
+    /**
+     * Proxy 서버의 온라인 유저 수를 확인합니다
+     * @param cons 퓨처 대신 컨슈머 형태로 인라인 코딩을 할 수 있습니다.
+     * @return 콜백 결과입니다.
+     */
     Future<Integer> getProxyOnlinePlayerCount(Consumer<Integer>... cons);
 
     Future<List<UUID>> getAllUuidOfProxy(Consumer<List<UUID>>... cons);
