@@ -13,8 +13,9 @@ import java.util.Map;
 
 /**
  * Minecraft Item Enchantment adapter implementation.
- * @since 1.0
+ *
  * @author Arkarang
+ * @since 1.0
  */
 public class EnchantAdapter implements ItemAdapter<ItemStack> {
 
@@ -22,12 +23,12 @@ public class EnchantAdapter implements ItemAdapter<ItemStack> {
     @Override
     public ItemStack read(@Nonnull ItemStack target, @Nonnull MSItemData data) throws IllegalArgumentException {
         ItemElement element = data.getNodes().get("minecraft.enchant");
-        if(element != null) {
+        if (element != null) {
             ItemNode node = element.asNode();
             ItemMeta meta = target.getItemMeta();
-            for(String key : node.getKeys()){
+            for (String key : node.getKeys()) {
                 ItemElement levelNode = node.get(key);
-                if(levelNode != null) {
+                if (levelNode != null) {
                     meta.addEnchant(Enchantment.getByName(key), levelNode.asValue().getAsInt(), true);
                 }
             }
@@ -40,7 +41,7 @@ public class EnchantAdapter implements ItemAdapter<ItemStack> {
     @Override
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
         ItemMeta meta = target.getItemMeta();
-        if(meta.getEnchants() != null && !meta.getEnchants().isEmpty()) {
+        if (meta.getEnchants() != null && !meta.getEnchants().isEmpty()) {
             ItemElement element = data.getNodes().get("minecraft.enchant");
             if (element == null) {
                 element = data.getNodes().createNode("minecraft.enchant");

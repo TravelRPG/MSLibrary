@@ -10,12 +10,14 @@ public interface MSItem {
 
     /**
      * 아이템 아이디를 리턴합니다.
+     *
      * @return 아이템 아이디
      */
     int getID();
 
     /**
      * 아이템의 버전을 리턴합니다.
+     *
      * @return 아이템 버전
      */
     long getVersion();

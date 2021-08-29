@@ -18,19 +18,22 @@ public class BCSPProxyAPI implements BCSPApi {
     @Getter
     private static BCSPProxyAPI inst;
     private static BCSPBootstrapProxy main;
-    public BCSPProxyAPI(BCSPBootstrapProxy xmain){
+    private HashMap<ChannelWrapper, HashMap<Class<? extends AbstractPacket>, ReadWriteLock>> lockMap = new HashMap<>();
+
+    public BCSPProxyAPI(BCSPBootstrapProxy xmain) {
         inst = this;
         main = xmain;
     }
+
     @Override
     public void broadcastPacketToServers(AbstractPacket packet) {
-        main.channelContainer.portChannelContainer.values().forEach(x->x.sendPacket(packet));
+        main.channelContainer.portChannelContainer.values().forEach(x -> x.sendPacket(packet));
     }
 
     @Override
     public void sendPacketToSpecificServers(int serverPort, AbstractPacket packet) {
         ChannelWrapper wrapper = main.channelContainer.getChannelByPort(serverPort);
-        if(wrapper != null)
+        if (wrapper != null)
             wrapper.sendPacket(packet);
         else
             BCSPLogManager.getLogger().err("Target server not found! (Server: {0})", serverPort);
@@ -39,23 +42,26 @@ public class BCSPProxyAPI implements BCSPApi {
     @Override
     public void sendPacketToSpecificServers(String serverName, AbstractPacket packet) {
         ChannelWrapper wrapper = main.channelContainer.getChannelByServerName(serverName);
-        if(wrapper != null)
+        if (wrapper != null)
             wrapper.sendPacket(packet);
         else
             BCSPLogManager.getLogger().err("Target server not found! (Server: {0})", serverName);
     }
 
-    public void registerOuterPacket(int packetId, Class<? extends AbstractPacket> clazz){
+    public void registerOuterPacket(int packetId, Class<? extends AbstractPacket> clazz) {
         Direction.OUTBOUND.registerPacket(packetId, clazz);
     }
-    public<T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz){
+
+    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz) {
         Direction.INBOUND.registerPacket(packetId, clazz);
     }
-    public<T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, BiConsumer<T, ChannelWrapper> listener){
+
+    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, BiConsumer<T, ChannelWrapper> listener) {
         registerInnerPacket(packetId, clazz);
         addListener(clazz, listener);
     }
-    public<T extends AbstractPacket> void addListener(Class<T> clazz, BiConsumer<T, ChannelWrapper> cons){
+
+    public <T extends AbstractPacket> void addListener(Class<T> clazz, BiConsumer<T, ChannelWrapper> cons) {
         Direction.INBOUND.addListener(clazz, cons);
     }
 
@@ -63,33 +69,36 @@ public class BCSPProxyAPI implements BCSPApi {
     public <T extends AbstractPacket> void startCallBack(AbstractPacket toSend, Class<T> type, PacketCallBack<T> onRecieved) {
 
     }
-    private HashMap<ChannelWrapper, HashMap<Class<? extends AbstractPacket>, ReadWriteLock>> lockMap = new HashMap<>();
-    private<T extends AbstractPacket> void processCallBackResult(Class<T> pack, ChannelWrapper wrapper){
-        ReadWriteLock lock = lockMap.computeIfAbsent(wrapper, x->new HashMap<>()).computeIfAbsent(pack, y->new ReentrantReadWriteLock());
+
+    private <T extends AbstractPacket> void processCallBackResult(Class<T> pack, ChannelWrapper wrapper) {
+        ReadWriteLock lock = lockMap.computeIfAbsent(wrapper, x -> new HashMap<>()).computeIfAbsent(pack, y -> new ReentrantReadWriteLock());
         lock.readLock().lock();
     }
-    private void processFinished(Class<? extends AbstractPacket> type, ChannelWrapper wrapper, AbstractPacket packet){
-        ReadWriteLock lock = lockMap.computeIfAbsent(wrapper, x->new HashMap<>()).computeIfAbsent(type, y->new ReentrantReadWriteLock());
-        try{
+
+    private void processFinished(Class<? extends AbstractPacket> type, ChannelWrapper wrapper, AbstractPacket packet) {
+        ReadWriteLock lock = lockMap.computeIfAbsent(wrapper, x -> new HashMap<>()).computeIfAbsent(type, y -> new ReentrantReadWriteLock());
+        try {
             wrapper.sendPacket(packet);
-        }finally {
+        } finally {
             lock.readLock().unlock();
         }
     }
-    public<T extends AbstractPacket> void registerCallBackProcessor(int port, Class<T> targetPacket, Function<T, AbstractPacket> func){
-        BCSPProxyAPI.getInst().registerInnerPacket(port, targetPacket, (pack,wrap)->{
+
+    public <T extends AbstractPacket> void registerCallBackProcessor(int port, Class<T> targetPacket, Function<T, AbstractPacket> func) {
+        BCSPProxyAPI.getInst().registerInnerPacket(port, targetPacket, (pack, wrap) -> {
             AbstractPacket res = null;
-            try{
+            try {
                 processCallBackResult(targetPacket, wrap);
                 res = func.apply(pack);
                 res.setCallBackResult(true);
-            }finally{
+            } finally {
                 processFinished(targetPacket, wrap, res);
             }
         });
     }
-    public static class Unsafe{
-        public static BCSPProxyChannelContainer getChannelContainer(){
+
+    public static class Unsafe {
+        public static BCSPProxyChannelContainer getChannelContainer() {
             return main.channelContainer;
         }
     }

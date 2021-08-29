@@ -15,12 +15,15 @@ import java.util.UUID;
 @Getter
 public class PacketGetServerUuids extends AbstractPacket {
     private String server;
-    public PacketGetServerUuids(int port){
+
+    public PacketGetServerUuids(int port) {
         server = String.valueOf(port);
     }
-    public PacketGetServerUuids(String serverName){
+
+    public PacketGetServerUuids(String serverName) {
         this.server = serverName;
     }
+
     @Override
     public void read(ByteBuf buf) {
         this.server = ByteBufUtility.readString(buf);
@@ -30,16 +33,18 @@ public class PacketGetServerUuids extends AbstractPacket {
     public void write(ByteBuf buf) {
         ByteBufUtility.writeString(server, buf);
     }
+
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
-    public static class Result extends AbstractPacket{
+    public static class Result extends AbstractPacket {
         private List<UUID> result;
+
         @Override
         public void read(ByteBuf buf) {
             int size = buf.readInt();
             result = new ArrayList<>(size);
-            for(int i = 0; i < size; i++){
+            for (int i = 0; i < size; i++) {
                 result.add(ByteBufUtility.readUUID(buf));
             }
         }
@@ -47,7 +52,7 @@ public class PacketGetServerUuids extends AbstractPacket {
         @Override
         public void write(ByteBuf buf) {
             buf.writeInt(result.size());
-            for(UUID uuid : result){
+            for (UUID uuid : result) {
                 ByteBufUtility.writeUUID(uuid, buf);
             }
         }

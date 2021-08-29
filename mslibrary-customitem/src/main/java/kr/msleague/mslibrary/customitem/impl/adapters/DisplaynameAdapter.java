@@ -10,8 +10,9 @@ import javax.annotation.Nonnull;
 
 /**
  * Minecraft Item Displayname adapter implementation.
- * @since 1.0
+ *
  * @author Arkarang
+ * @since 1.0
  */
 public class DisplaynameAdapter implements ItemAdapter<ItemStack> {
 
@@ -19,7 +20,7 @@ public class DisplaynameAdapter implements ItemAdapter<ItemStack> {
     @Override
     public ItemStack read(@Nonnull ItemStack target, @Nonnull MSItemData data) throws IllegalArgumentException {
         ItemElement element = data.getNodes().get("minecraft.displayname");
-        if(element != null) {
+        if (element != null) {
             String name = element.asValue().getAsString();
             ItemMeta meta = target.getItemMeta();
             meta.setDisplayName(name.replaceAll("&", "§"));
@@ -31,9 +32,9 @@ public class DisplaynameAdapter implements ItemAdapter<ItemStack> {
     @Nonnull
     @Override
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
-        if(target.getItemMeta() != null) {
+        if (target.getItemMeta() != null) {
             String display = target.getItemMeta().getDisplayName();
-            if(display != null) {
+            if (display != null) {
                 data.getNodes().setPrimitive("minecraft.displayname", display);
             }
         }

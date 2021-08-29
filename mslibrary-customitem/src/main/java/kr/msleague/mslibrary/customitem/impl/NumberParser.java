@@ -1,10 +1,10 @@
 package kr.msleague.mslibrary.customitem.impl;
 
 
-public class NumberParser extends Number{
+public class NumberParser extends Number {
     private String value;
 
-    public NumberParser(String value){
+    public NumberParser(String value) {
         this.value = value;
     }
 

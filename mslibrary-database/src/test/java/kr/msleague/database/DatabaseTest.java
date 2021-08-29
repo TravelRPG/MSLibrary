@@ -1,9 +1,6 @@
 package kr.msleague.database;
 
 
-import java.sql.ResultSet;
-import java.util.concurrent.Executors;
-
 public class DatabaseTest {
 
     /*

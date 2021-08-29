@@ -1,14 +1,11 @@
 package kr.msleague.mslibrary.customitem;
 
-import com.google.gson.JsonPrimitive;
 import kr.msleague.mslibrary.customitem.api.ItemNode;
 import kr.msleague.mslibrary.customitem.api.ItemNodeArray;
 import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;
-import kr.msleague.mslibrary.customitem.impl.node.ListItemNodeArray;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +13,7 @@ import java.util.stream.Collectors;
 public class NodeTreeTest {
 
     @Test
-    public void test(){
+    public void test() {
         ItemNode node = new HashItemNode(null, "root");
         node.setValue("hello.world", 32);
         node.setValue("hello.land", "string");
@@ -29,7 +26,7 @@ public class NodeTreeTest {
     }
 
     @Test
-    public void arrayTest(){
+    public void arrayTest() {
         ItemNode node = new HashItemNode(null, "root");
         ItemNodeArray array = node.createArray("hello.world.array");
         array.addPrimitive(1);
@@ -40,7 +37,7 @@ public class NodeTreeTest {
     }
 
     @Test
-    public void setTest(){
+    public void setTest() {
         ItemNode node = new HashItemNode(null, "root");
         node.setPrimitive("hello.world.set", "hello");
         Assert.assertEquals("hello", node.get("hello.world.set").asValue().getAsString());
@@ -50,7 +47,7 @@ public class NodeTreeTest {
     }
 
     @Test
-    public void createNodeTest(){
+    public void createNodeTest() {
         ItemNode node = new HashItemNode(null, "root");
         ItemNode subNode = node.createNode("hello.world.set");
         subNode.setPrimitive("asdf", "hello");
@@ -59,15 +56,15 @@ public class NodeTreeTest {
     }
 
     @Test
-    public void shortTest(){
+    public void shortTest() {
         ItemNode node = new HashItemNode(null, "root");
         ItemNode subNode = node.createNode("hello.world");
         subNode.setPrimitive("short", 3);
-        Assert.assertEquals((short)3, node.get("hello.world.short").asValue().getAsShort());
+        Assert.assertEquals((short) 3, node.get("hello.world.short").asValue().getAsShort());
     }
 
     @Test
-    public void asdf(){
+    public void asdf() {
         List<String> list = Arrays.asList("1", "3", "2", "4", "6", "5");
         for (String s : list.stream().sorted().collect(Collectors.toList())) {
             System.out.println(s);

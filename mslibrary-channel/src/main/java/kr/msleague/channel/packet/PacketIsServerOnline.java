@@ -11,12 +11,15 @@ import lombok.NoArgsConstructor;
 @Getter
 public class PacketIsServerOnline extends AbstractPacket {
     private String server;
-    public PacketIsServerOnline(int port){
+
+    public PacketIsServerOnline(int port) {
         server = String.valueOf(port);
     }
-    public PacketIsServerOnline(String serverName){
+
+    public PacketIsServerOnline(String serverName) {
         this.server = serverName;
     }
+
     @Override
     public void read(ByteBuf buf) {
         this.server = ByteBufUtility.readString(buf);
@@ -26,11 +29,13 @@ public class PacketIsServerOnline extends AbstractPacket {
     public void write(ByteBuf buf) {
         ByteBufUtility.writeString(server, buf);
     }
+
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
-    public static class Result extends AbstractPacket{
+    public static class Result extends AbstractPacket {
         private boolean result;
+
         @Override
         public void read(ByteBuf buf) {
             this.result = buf.readBoolean();

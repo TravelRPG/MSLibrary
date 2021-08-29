@@ -1,6 +1,6 @@
 package kr.msleague.mslibrary.customitem.impl;
 
-import kr.msleague.mslibrary.customitem.api.*;
+import kr.msleague.mslibrary.customitem.api.ItemDatabase;
 import org.bukkit.inventory.ItemStack;
 
 

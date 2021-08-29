@@ -6,18 +6,22 @@ public class Triple<A, B, C> {
     private final A a;
     private final B b;
     private final C c;
-    public Triple(A a, B b, C c){
+
+    public Triple(A a, B b, C c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
-    public A getKey(){
+
+    public A getKey() {
         return a;
     }
-    public B getMiddle(){
+
+    public B getMiddle() {
         return b;
     }
-    public C getValue(){
+
+    public C getValue() {
         return c;
     }
 

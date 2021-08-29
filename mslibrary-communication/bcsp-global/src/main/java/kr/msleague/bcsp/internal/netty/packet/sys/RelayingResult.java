@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public final class RelayingResult extends AbstractPacket {
     private byte[] array;
+
     @Override
     public void read(ByteBuf buf) {
         throw new UnsupportedOperationException("Relaying Result shouldn't access read method.");

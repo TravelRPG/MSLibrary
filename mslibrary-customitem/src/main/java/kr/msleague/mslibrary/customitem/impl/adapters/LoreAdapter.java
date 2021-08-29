@@ -11,8 +11,9 @@ import java.util.stream.Collectors;
 
 /**
  * Minecraft ItemFlag adapter implementation.
- * @since 1.0
+ *
  * @author Arkarang
+ * @since 1.0
  */
 public class LoreAdapter implements ItemAdapter<ItemStack> {
 
@@ -20,13 +21,13 @@ public class LoreAdapter implements ItemAdapter<ItemStack> {
     @Override
     public ItemStack read(@Nonnull ItemStack target, @Nonnull MSItemData data) throws IllegalArgumentException {
         ItemElement element = data.getNodes().get("minecraft.lore");
-        if(element != null) {
+        if (element != null) {
             ItemNode parent = element.asNode();
             ItemMeta meta = target.getItemMeta();
             List<String> lores = new ArrayList<>();
-            for(String key : parent.getKeys().stream().sorted().collect(Collectors.toList())){
+            for (String key : parent.getKeys().stream().sorted().collect(Collectors.toList())) {
                 ItemElement element1 = parent.get(key);
-                if(element1 instanceof ItemNodeValue) {
+                if (element1 instanceof ItemNodeValue) {
                     String lore = element1.asValue().getAsString();
                     lores.add(lore.replaceAll("&", "§"));
                 }
@@ -42,13 +43,13 @@ public class LoreAdapter implements ItemAdapter<ItemStack> {
     @Override
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
         ItemMeta meta = target.getItemMeta();
-        if(meta != null){
+        if (meta != null) {
             List<String> list = meta.getLore();
-            if(list != null && !list.isEmpty()){
+            if (list != null && !list.isEmpty()) {
                 data.getNodes().set("minecraft.lore", null);
                 ItemNode node = data.getNodes().createNode("minecraft.lore");
-                for(int i = 0; i < list.size(); i++){
-                    node.setPrimitive(i+"", list.get(i));
+                for (int i = 0; i < list.size(); i++) {
+                    node.setPrimitive(i + "", list.get(i));
                 }
             }
         }

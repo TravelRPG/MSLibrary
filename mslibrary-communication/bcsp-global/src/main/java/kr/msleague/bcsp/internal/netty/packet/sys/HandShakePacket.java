@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 public class HandShakePacket extends AbstractPacket {
     private long authCodeA, authCodeB;
     private int serverPort;
-    public HandShakePacket(long authCodeA, long authCodeB, int serverPort){
+
+    public HandShakePacket(long authCodeA, long authCodeB, int serverPort) {
         this.authCodeA = authCodeA;
         this.authCodeB = authCodeB;
         this.serverPort = serverPort;
     }
+
     @Override
     public void read(ByteBuf buf) {
         this.authCodeA = buf.readLong();

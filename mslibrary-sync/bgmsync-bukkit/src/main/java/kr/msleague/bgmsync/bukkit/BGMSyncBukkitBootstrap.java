@@ -10,20 +10,19 @@ import kr.msleague.bgmsync.global.packet.SyncRequestPacket;
 import kr.msleague.bootstrap.MSPlugin;
 import kr.msleague.bootstrap.loadpriority.LoadPriority;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 
 @LoadPriority(priority = 990)
 public class BGMSyncBukkitBootstrap extends MSPlugin {
-    public void onEnable(){
-        BCSPBukkitAPI.getInst().registerInnerPacket(0x9005, ProxyJoinPacket.class, (pack,chan)->{
-            Bukkit.getScheduler().runTask(getPlugin(), ()->Bukkit.getPluginManager().callEvent(new PlayerProxyJoinEvent(pack.getUuid())));
+    public void onEnable() {
+        BCSPBukkitAPI.getInst().registerInnerPacket(0x9005, ProxyJoinPacket.class, (pack, chan) -> {
+            Bukkit.getScheduler().runTask(getPlugin(), () -> Bukkit.getPluginManager().callEvent(new PlayerProxyJoinEvent(pack.getUuid())));
         });
-        BCSPBukkitAPI.getInst().registerInnerPacket(0x9006, ProxyQuitPacket.class, (pack, chan)->{
-            Bukkit.getScheduler().runTask(getPlugin(), ()->Bukkit.getPluginManager().callEvent(new PlayerProxyQuitEvent(pack.getUuid())));
+        BCSPBukkitAPI.getInst().registerInnerPacket(0x9006, ProxyQuitPacket.class, (pack, chan) -> {
+            Bukkit.getScheduler().runTask(getPlugin(), () -> Bukkit.getPluginManager().callEvent(new PlayerProxyQuitEvent(pack.getUuid())));
         });
         BCSPBukkitAPI.getInst().registerOuterPacket(0x9007, SyncRequestPacket.class);
-        BCSPBukkitAPI.getInst().registerInnerPacket(0x9007, SyncRequestPacket.class, (pack, chan)->{
-            PlayerSyncReceivedEvent ev = new PlayerSyncReceivedEvent(pack.getUuid(), pack.getSyncClass(),pack.getBuf());
+        BCSPBukkitAPI.getInst().registerInnerPacket(0x9007, SyncRequestPacket.class, (pack, chan) -> {
+            PlayerSyncReceivedEvent ev = new PlayerSyncReceivedEvent(pack.getUuid(), pack.getSyncClass(), pack.getBuf());
             getServer().getPluginManager().callEvent(ev);
             ev.release();
         });

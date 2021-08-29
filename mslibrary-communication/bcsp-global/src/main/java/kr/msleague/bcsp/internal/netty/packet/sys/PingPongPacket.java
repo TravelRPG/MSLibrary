@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class PingPongPacket extends AbstractPacket {
     private long recievedTime;
     private long time;
+
     @Override
     public void read(ByteBuf buf) {
         this.recievedTime = buf.readLong();

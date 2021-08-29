@@ -4,11 +4,12 @@ import kr.msleague.bootstrap.MSPlugin;
 
 public class DanSoLibBukkit extends MSPlugin {
     @Override
-    public void onEnable(){
+    public void onEnable() {
         //Plugin start logic
     }
+
     @Override
-    public void onDisable(){
+    public void onDisable() {
 
     }
 }

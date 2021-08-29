@@ -1,7 +1,9 @@
 package kr.msleague.mslibrary.customitem.impl.adapters;
 
-import kr.msleague.mslibrary.customitem.api.*;
-import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;
+import kr.msleague.mslibrary.customitem.api.ItemAdapter;
+import kr.msleague.mslibrary.customitem.api.ItemElement;
+import kr.msleague.mslibrary.customitem.api.ItemNode;
+import kr.msleague.mslibrary.customitem.api.MSItemData;
 import kr.msleague.mslibrary.customitem.utils.Attribute;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
@@ -11,8 +13,9 @@ import java.util.List;
 
 /**
  * Minecraft Item Attribute adapter implementation.
- * @since 1.0
+ *
  * @author Arkarang
+ * @since 1.0
  */
 public class AttributeAdapter implements ItemAdapter<ItemStack> {
 
@@ -20,11 +23,11 @@ public class AttributeAdapter implements ItemAdapter<ItemStack> {
     @Override
     public ItemStack read(@Nonnull ItemStack target, @Nonnull MSItemData data) throws IllegalArgumentException {
         ItemElement element = data.getNodes().get("minecraft.attributes");
-        if(element instanceof ItemNode) {
+        if (element instanceof ItemNode) {
             ItemNode parent = element.asNode();
             for (String key : parent.getKeys()) {
                 ItemElement subElement = parent.get(key);
-                if(subElement instanceof ItemNode) {
+                if (subElement instanceof ItemNode) {
                     ItemNode node = subElement.asNode();
                     ItemElement typeNode = node.get("type");
                     ItemElement slotNode = node.get("slot");
@@ -47,20 +50,20 @@ public class AttributeAdapter implements ItemAdapter<ItemStack> {
     @Nonnull
     @Override
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
-        if(target instanceof CraftItemStack){
+        if (target instanceof CraftItemStack) {
             CraftItemStack craftItem = (CraftItemStack) target;
             List<Attribute> list = Attribute.extract(craftItem);
-            if(!list.isEmpty()) {
+            if (!list.isEmpty()) {
                 ItemNode node;
                 ItemElement element = data.getNodes().get("minecraft.attributes");
-                if(element == null)
+                if (element == null)
                     element = data.getNodes().createNode("minecraft.attributes");
                 node = element.asNode();
-                for(int i = 0 ; i < list.size() ; i++ ){
+                for (int i = 0; i < list.size(); i++) {
                     Attribute att = list.get(i);
-                    ItemNode subNode = node.createNode(i+"");
+                    ItemNode subNode = node.createNode(i + "");
                     subNode.setPrimitive("type", att.attributeName);
-                    subNode.setPrimitive("slot", att.slot == null ? "any": att.slot);
+                    subNode.setPrimitive("slot", att.slot == null ? "any" : att.slot);
                     subNode.setPrimitive("amount", att.amount);
                     subNode.setPrimitive("operation", att.operation);
                 }

@@ -3,12 +3,14 @@ package kr.msleague.channel;
 import kr.msleague.bcsp.bukkit.BCSPBukkitAPI;
 import kr.msleague.bootstrap.MSPlugin;
 import kr.msleague.bootstrap.loadpriority.LoadPriority;
-import kr.msleague.channel.impl.ChannelAPIBukkit;
 import kr.msleague.channel.packet.*;
 import org.bukkit.event.Listener;
 
 @LoadPriority(priority = 50)
 public class MSChannelInitializer extends MSPlugin implements Listener {
+    /**
+     * Packet registration process
+     */
     @Override
     public void onEnable() {
         BCSPBukkitAPI.getInst().registerOuterPacket(0x9500, PacketIsServerExists.class);

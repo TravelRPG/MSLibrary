@@ -4,11 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import kr.msleague.mslibrary.customitem.api.ItemNode;
 import kr.msleague.mslibrary.customitem.api.MSItemData;
+import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;
+import kr.msleague.mslibrary.customitem.impl.node.MSLItemData;
 import kr.msleague.mslibrary.customitem.impl.serializers.JsonSerializer;
 import kr.msleague.mslibrary.customitem.impl.serializers.MappingSerializer;
 import kr.msleague.mslibrary.customitem.impl.serializers.YamlSerializer;
-import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;
-import kr.msleague.mslibrary.customitem.impl.node.MSLItemData;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class AdapterTest {
 
     @Test
-    public void deserializeYamlTest(){
+    public void deserializeYamlTest() {
         YamlSerializer adapter = new YamlSerializer();
         YamlConfiguration yaml = new YamlConfiguration();
         yaml.set("id", 1);
@@ -35,9 +35,9 @@ public class AdapterTest {
         Assert.assertEquals(4d, node.get("hello.world.double").asValue().getAsDouble(), 0d);
         Assert.assertEquals(3, node.get("hello.world.array").asArray().size());
     }
-    
+
     @Test
-    public void serializeYamlTest(){
+    public void serializeYamlTest() {
         YamlSerializer adapter = new YamlSerializer();
         ItemNode node = new HashItemNode(null, "");
         node.setValue("id", 1);
@@ -56,7 +56,7 @@ public class AdapterTest {
     }
 
     @Test
-    public void deserializeJsonTest(){
+    public void deserializeJsonTest() {
         JsonSerializer adapter = new JsonSerializer();
         JsonObject obj = new JsonObject();
         obj.addProperty("id", 1);
@@ -81,7 +81,7 @@ public class AdapterTest {
     }
 
     @Test
-    public void serializeJsonTest(){
+    public void serializeJsonTest() {
         JsonSerializer adapter = new JsonSerializer();
         ItemNode node = new HashItemNode(null, "");
         node.setValue("id", 1);
@@ -95,14 +95,14 @@ public class AdapterTest {
         Assert.assertEquals(1, obj.get("id").getAsInt());
         Assert.assertEquals(2, obj.get("version").getAsInt());
         Assert.assertEquals(3, obj.get("hello").getAsJsonObject().get("world").getAsJsonObject().get("int").getAsInt());
-        Assert.assertEquals( 4d, obj.get("hello").getAsJsonObject().get("world").getAsJsonObject().get("double").getAsDouble(), 0d);
+        Assert.assertEquals(4d, obj.get("hello").getAsJsonObject().get("world").getAsJsonObject().get("double").getAsDouble(), 0d);
         JsonArray array = obj.get("hello").getAsJsonObject().get("world").getAsJsonObject().get("array").getAsJsonArray();
         Assert.assertEquals(3, array.size());
         System.out.println(obj);
     }
 
     @Test
-    public void remapTest(){
+    public void remapTest() {
         JsonSerializer adapter = new JsonSerializer();
         MappingSerializer mapping = new MappingSerializer();
         ItemNode node = new HashItemNode(null, "");

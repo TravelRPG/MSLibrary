@@ -14,33 +14,32 @@ public abstract class ItemElementImpl implements ItemElement {
     final ItemElement parents;
     String name;
 
-    ItemElementImpl(ItemElement parents, String name){
+    ItemElementImpl(ItemElement parents, String name) {
         this.parents = parents;
         this.name = name == null ? "" : name;
     }
 
-    ItemElementImpl(ItemElement parents){
+    ItemElementImpl(ItemElement parents) {
         this(parents, null);
     }
 
     @Nonnull
     @Override
     public String getPath() {
-        if(parents == null){
+        if (parents == null) {
             return name;
-        }else
-            if(name.equals("")){
-                return parents.getPath();
-            }else if(parents.getName().equals("")){
-                return name;
-            }else
-                return parents.getPath() + "." + name;
+        } else if (name.equals("")) {
+            return parents.getPath();
+        } else if (parents.getName().equals("")) {
+            return name;
+        } else
+            return parents.getPath() + "." + name;
     }
 
     @Nonnull
     @Override
     public ItemNode asNode() {
-        if(this instanceof ItemNode)
+        if (this instanceof ItemNode)
             return (ItemNode) this;
         else
             throw new UnsupportedOperationException("cannot cast element to node");
@@ -49,7 +48,7 @@ public abstract class ItemElementImpl implements ItemElement {
     @Nonnull
     @Override
     public ItemNodeArray asArray() {
-        if(this instanceof ItemNodeArray)
+        if (this instanceof ItemNodeArray)
             return (ItemNodeArray) this;
         else
             throw new UnsupportedOperationException("cannot cast element to array");
@@ -58,7 +57,7 @@ public abstract class ItemElementImpl implements ItemElement {
     @Nonnull
     @Override
     public ItemNodeValue asValue() {
-        if(this instanceof ItemNodeValue)
+        if (this instanceof ItemNodeValue)
             return (ItemNodeValue) this;
         else
             throw new UnsupportedOperationException("cannot cast element to value");

@@ -1,9 +1,9 @@
 package kr.msleague.msgui.gui.button
 
-import kr.msleague.util.extensions.addNBTTagCompound
 import kr.msleague.msgui.managers.SkullManager
 import kr.msleague.msgui.plugin
 import kr.msleague.msgui.server
+import kr.msleague.util.extensions.addNBTTagCompound
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
@@ -11,8 +11,6 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
-import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
 
 class MSGuiButtonBuilder {
     var type: MSGuiButtonType = MSGuiButtonType.ITEM_STACK
@@ -75,13 +73,15 @@ class MSGuiButtonBuilder {
     }
 
     fun addLore(line: String): MSGuiButtonBuilder {
-        if(baseItem!=null && baseItem!!.hasItemMeta() && baseItem!!.itemMeta.hasLore()) lore = baseItem!!.itemMeta.lore
+        if (baseItem != null && baseItem!!.hasItemMeta() && baseItem!!.itemMeta.hasLore()) lore =
+            baseItem!!.itemMeta.lore
         baseLore.add(line)
         return this
     }
 
     fun removeLore(index: Int): MSGuiButtonBuilder {
-        if(baseItem!=null && baseItem!!.hasItemMeta() && baseItem!!.itemMeta.hasLore()) lore = baseItem!!.itemMeta.lore
+        if (baseItem != null && baseItem!!.hasItemMeta() && baseItem!!.itemMeta.hasLore()) lore =
+            baseItem!!.itemMeta.lore
         if (index in 0 until if (lore == null) 0 else lore!!.size) baseLore.removeAt(index)
         return this
     }
@@ -150,14 +150,14 @@ class MSGuiButtonBuilder {
                     if (glow) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
                     itemMeta = meta
                     if (glow) addUnsafeEnchantment(Enchantment.LURE, 1)
-                    if(this@MSGuiButtonBuilder.type == MSGuiButtonType.PLAYER_HEAD) {
+                    if (this@MSGuiButtonBuilder.type == MSGuiButtonType.PLAYER_HEAD) {
                         server.scheduler.runTaskAsynchronously(plugin) {
                             val skullMeta = itemMeta as SkullMeta
                             skullMeta.owningPlayer = owner
                             itemMeta = skullMeta
                         }
                     }
-                }.run { addNBTTagCompound(MSGuiButtonData(cancel,cleanable)) }
+                }.run { addNBTTagCompound(MSGuiButtonData(cancel, cleanable)) }
             }
         return MSGuiButton(type, makeFunc, action, cancel)
     }

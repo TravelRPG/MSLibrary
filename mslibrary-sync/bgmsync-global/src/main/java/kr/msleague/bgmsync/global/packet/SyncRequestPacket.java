@@ -6,7 +6,6 @@ import kr.msleague.bcsp.internal.netty.util.ByteBufUtility;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -18,7 +17,8 @@ public class SyncRequestPacket extends AbstractPacket {
     private String syncClass;
     private Consumer<ByteBuf> cons;
     private byte[] buf;
-    public SyncRequestPacket(Class<?> type,int a, UUID b, Consumer<ByteBuf> c){
+
+    public SyncRequestPacket(Class<?> type, int a, UUID b, Consumer<ByteBuf> c) {
         this.syncClass = type.getSimpleName();
         this.fromPort = a;
         this.uuid = b;

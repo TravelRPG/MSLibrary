@@ -1,8 +1,6 @@
 package kr.msleague.msgui.gui.button
 
 import kr.msleague.msgui.gui.MSGui
-import kr.msleague.msgui.plugin
-import kr.msleague.msgui.server
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 

@@ -12,19 +12,22 @@ public class PacketReceivedEvent extends Event {
     private AbstractPacket packet;
     @Getter
     private ChannelWrapper wrapper;
+
     public PacketReceivedEvent(AbstractPacket packet, ChannelWrapper wrapper) {
         this.packet = packet;
         this.wrapper = wrapper;
     }
-    private boolean isPacketOf(Class<? extends AbstractPacket> clazz){
-        return clazz.isInstance(packet);
-    }
-    @Override
-    public HandlerList getHandlers() {
+
+    public static HandlerList getHandlerList() {
         return list;
     }
 
-    public static HandlerList getHandlerList(){
+    private boolean isPacketOf(Class<? extends AbstractPacket> clazz) {
+        return clazz.isInstance(packet);
+    }
+
+    @Override
+    public HandlerList getHandlers() {
         return list;
     }
 }

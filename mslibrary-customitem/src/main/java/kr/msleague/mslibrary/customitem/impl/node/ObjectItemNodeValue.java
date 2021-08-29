@@ -5,7 +5,7 @@ import kr.msleague.mslibrary.customitem.api.ItemNodeValue;
 import kr.msleague.mslibrary.customitem.impl.NumberParser;
 
 
-public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValue{
+public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValue {
 
     Object value;
 
@@ -21,54 +21,54 @@ public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValu
 
     @Override
     public boolean getAsBoolean() {
-        return value instanceof Boolean ? (boolean)value : Boolean.parseBoolean((String)value);
+        return value instanceof Boolean ? (boolean) value : Boolean.parseBoolean((String) value);
     }
 
     @Override
     public byte getAsByte() {
-        return value instanceof Number ? getAsNumber().byteValue() : Byte.parseByte((String)value);
+        return value instanceof Number ? getAsNumber().byteValue() : Byte.parseByte((String) value);
     }
 
     @Override
     public short getAsShort() {
-        return value instanceof Number ? getAsNumber().shortValue() : Short.parseShort((String)value);
+        return value instanceof Number ? getAsNumber().shortValue() : Short.parseShort((String) value);
     }
 
     @Override
     public int getAsInt() {
-        return value instanceof Number ? getAsNumber().intValue() : Integer.parseInt((String)value);
+        return value instanceof Number ? getAsNumber().intValue() : Integer.parseInt((String) value);
     }
 
     @Override
     public float getAsFloat() {
-        return value instanceof Number ? getAsNumber().floatValue() : Float.parseFloat((String)value);
+        return value instanceof Number ? getAsNumber().floatValue() : Float.parseFloat((String) value);
     }
 
     @Override
     public double getAsDouble() {
-        return value instanceof Number ? getAsNumber().doubleValue() : Double.parseDouble((String)value);
+        return value instanceof Number ? getAsNumber().doubleValue() : Double.parseDouble((String) value);
     }
 
     @Override
     public long getAsLong() {
-        return value instanceof Number ? getAsNumber().longValue() : Long.parseLong((String)value);
+        return value instanceof Number ? getAsNumber().longValue() : Long.parseLong((String) value);
     }
 
     @Override
     public String getAsString() {
-        if(value instanceof Number){
+        if (value instanceof Number) {
             return value.toString();
-        }else{
-            if(value instanceof Boolean){
-                return Boolean.toString((boolean)value);
-            }else
-                return (String)value;
+        } else {
+            if (value instanceof Boolean) {
+                return Boolean.toString((boolean) value);
+            } else
+                return (String) value;
         }
     }
 
     @Override
     public Number getAsNumber() {
-        return value instanceof Number ? (Number)value : new NumberParser((String)value);
+        return value instanceof Number ? (Number) value : new NumberParser((String) value);
     }
 
     @Override
@@ -116,12 +116,12 @@ public class ObjectItemNodeValue extends ItemElementImpl implements ItemNodeValu
         return value instanceof String;
     }
 
-    private void setValue(Object obj){
-        if(obj instanceof Character){
+    private void setValue(Object obj) {
+        if (obj instanceof Character) {
             this.value = String.valueOf(obj);
             return;
         }
-        if(obj instanceof Number || obj instanceof String){
+        if (obj instanceof Number || obj instanceof String) {
             this.value = obj;
         }
     }

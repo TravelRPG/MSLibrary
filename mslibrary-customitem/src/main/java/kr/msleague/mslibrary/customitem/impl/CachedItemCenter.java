@@ -7,22 +7,19 @@ import kr.msleague.mslibrary.customitem.api.ItemDatabase;
 import kr.msleague.mslibrary.customitem.api.ItemFactory;
 import kr.msleague.mslibrary.customitem.api.MSItemData;
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CachedItemCenter<T> extends AbstractItemCenter<T>{
+public class CachedItemCenter<T> extends AbstractItemCenter<T> {
 
     ExecutorService service = Executors.newSingleThreadExecutor();
     LoadingCache<Integer, T> cache;
 
-    public CachedItemCenter(ItemDatabase database, ItemFactory<T> factory){
+    public CachedItemCenter(ItemDatabase database, ItemFactory<T> factory) {
         super(database, factory);
         this.cache = Caffeine.newBuilder().build(new CacheLoader<Integer, T>() {
             @Override
@@ -32,7 +29,7 @@ public class CachedItemCenter<T> extends AbstractItemCenter<T>{
         });
     }
 
-    public CachedItemCenter(ItemDatabase database, ItemFactory<T> factory, Caffeine<Integer, T> caffeine, CacheLoader<Integer, T> loader){
+    public CachedItemCenter(ItemDatabase database, ItemFactory<T> factory, Caffeine<Integer, T> caffeine, CacheLoader<Integer, T> loader) {
         super(database, factory);
         this.cache = caffeine.build(loader);
     }
@@ -50,20 +47,20 @@ public class CachedItemCenter<T> extends AbstractItemCenter<T>{
 
     @Override
     public void load(boolean async) {
-        if(async) {
+        if (async) {
             service.submit(this::load0);
-        }else{
+        } else {
             load0();
         }
     }
 
-    private void load0(){
+    private void load0() {
         try {
             for (MSItemData itemData : database.loadAll().get()) {
                 T item = factory.build(itemData);
                 try {
                     cache.put(itemData.getID(), item);
-                }catch (IllegalArgumentException ignored){
+                } catch (IllegalArgumentException ignored) {
 
                 }
             }
@@ -74,12 +71,12 @@ public class CachedItemCenter<T> extends AbstractItemCenter<T>{
 
     @Override
     public void refresh(int i, boolean async) {
-        if(async) {
-            service.submit(()->cache.refresh(i));
-            if(cache.get(i) == null){
+        if (async) {
+            service.submit(() -> cache.refresh(i));
+            if (cache.get(i) == null) {
                 cache.invalidate(i);
             }
-        }else
+        } else
             cache.refresh(i);
     }
 }

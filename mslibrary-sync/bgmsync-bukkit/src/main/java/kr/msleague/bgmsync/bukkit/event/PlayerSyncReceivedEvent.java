@@ -17,24 +17,29 @@ public class PlayerSyncReceivedEvent extends Event {
     private UUID uuid;
     private ByteBuf buffer;
     private String clazz;
-    public PlayerSyncReceivedEvent(UUID uuid, String clazz, byte[] buf){
+
+    public PlayerSyncReceivedEvent(UUID uuid, String clazz, byte[] buf) {
         this.uuid = uuid;
         this.buffer = Unpooled.directBuffer(buf.length);
         this.clazz = clazz;
         this.buffer.writeBytes(buf);
     }
+
+    public static HandlerList getHandlerList() {
+        return handlerList;
+    }
+
     @Override
     public HandlerList getHandlers() {
         return handlerList;
     }
-    public static HandlerList getHandlerList() {
-        return handlerList;
-    }
-    public void release(){
-        if(buffer != null)
+
+    public void release() {
+        if (buffer != null)
             buffer.release();
     }
-    public boolean isSyncOf(Class<?> type){
+
+    public boolean isSyncOf(Class<?> type) {
         return type.getSimpleName().equals(clazz);
     }
 }

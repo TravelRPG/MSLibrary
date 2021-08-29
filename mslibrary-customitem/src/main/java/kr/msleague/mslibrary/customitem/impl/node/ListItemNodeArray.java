@@ -26,7 +26,7 @@ public class ListItemNodeArray extends ItemElementImpl implements ItemNodeArray 
 
     @Override
     public void addPrimitive(Object primitive) {
-        if(primitive instanceof Number || primitive instanceof String || primitive instanceof Boolean)
+        if (primitive instanceof Number || primitive instanceof String || primitive instanceof Boolean)
             add(new ObjectItemNodeValue(this, primitive));
     }
 

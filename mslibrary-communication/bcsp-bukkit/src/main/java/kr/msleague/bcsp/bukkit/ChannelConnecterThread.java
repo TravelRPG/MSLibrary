@@ -1,7 +1,6 @@
 package kr.msleague.bcsp.bukkit;
 
 import io.netty.channel.Channel;
-import kr.msleague.bootstrap.MSLibraryBukkitBootstrap;
 import kr.msleague.bcsp.bukkit.event.connection.BCSPDisconnectedEvent;
 import kr.msleague.bcsp.bukkit.event.packet.ASyncPacketReceivedEvent;
 import kr.msleague.bcsp.bukkit.event.packet.PacketReceivedEvent;
@@ -11,6 +10,7 @@ import kr.msleague.bcsp.internal.netty.packet.sys.HandShakePacket;
 import kr.msleague.bcsp.internal.netty.pipeline.BossHandler;
 import kr.msleague.bcsp.internal.netty.pipeline.ConnectionState;
 import kr.msleague.bcsp.internal.netty.pipeline.TimeOutHandler;
+import kr.msleague.bootstrap.MSLibraryBukkitBootstrap;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 
@@ -23,14 +23,15 @@ public class ChannelConnecterThread implements Runnable {
     private static boolean bootup = true;
     @Setter
     private static int waitTime = 3;
+
     @Override
-    public void run(){
-        if(!enabled)
+    public void run() {
+        if (!enabled)
             return;
         CompletableFuture<Channel> future = BungeeComsoServerBootStrap.initClient(bootup);
         bootup = false;
-        future.whenCompleteAsync((channel,throwable)->{
-            if(throwable != null){
+        future.whenCompleteAsync((channel, throwable) -> {
+            if (throwable != null) {
                 BCSPLogManager.getLogger().err("BCSP Failed to bootup successfully. Check following stack trace. Trying connect after {0} seconds", waitTime);
                 throwable.printStackTrace();
                 try {
@@ -43,11 +44,11 @@ public class ChannelConnecterThread implements Runnable {
             }
             setWaitTime(3);
             BossHandler handlerBoss = channel.pipeline().get(BossHandler.class);
-            handlerBoss.setDisconnectHandler((x)->{
-                if(!BCSPBootstrapBukkit.isActive())
+            handlerBoss.setDisconnectHandler((x) -> {
+                if (!BCSPBootstrapBukkit.isActive())
                     return;
                 x.setEnabled(false);
-                Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), ()->Bukkit.getPluginManager().callEvent(new BCSPDisconnectedEvent(x, x.getHandler().getConnectionState())));
+                Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new BCSPDisconnectedEvent(x, x.getHandler().getConnectionState())));
                 BCSPLogManager.getLogger().err("BCSP Checked unexpected disconnection. Trying connect after {0} seconds.", waitTime);
                 try {
                     TimeUnit.SECONDS.sleep(waitTime);
@@ -56,9 +57,9 @@ public class ChannelConnecterThread implements Runnable {
                     e.printStackTrace();
                 }
             });
-            handlerBoss.setPacketPreProcessHandler((handler,wrapper)->{
+            handlerBoss.setPacketPreProcessHandler((handler, wrapper) -> {
                 Bukkit.getPluginManager().callEvent(new ASyncPacketReceivedEvent(handler, wrapper));
-                Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), ()->Bukkit.getPluginManager().callEvent(new PacketReceivedEvent(handler, wrapper)));
+                Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new PacketReceivedEvent(handler, wrapper)));
             });
             BCSPLogManager.getLogger().info("BSCP Server Initialization Success!");
             handlerBoss.setConnectionState(ConnectionState.HANDSHAKING);
