@@ -14,7 +14,7 @@ import kr.msleague.util.extensions.toStripColorString
 import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.entity.Player
 
-class MSMessageLib: MSPlugin() {
+class MSMessageLib : MSPlugin() {
 
     override fun onEnable() {
         registerAdapters(
@@ -26,21 +26,39 @@ class MSMessageLib: MSPlugin() {
     }
 
     companion object {
-        var placeHolder: MSPlaceHolder = object: MSPlaceHolder {
+        var placeHolder: MSPlaceHolder = object : MSPlaceHolder {
             override val head: String = "{"
             override val tail: String = "}"
         }
-        fun registerAdapters(vararg adapters: MSMessageAdapter<*>) { MSMessageRegistry.registerAdapters(*adapters) }
-        fun reformat(origin: String, vararg objs: Any): MSMessage = object: MSMessage {
+
+        fun registerAdapters(vararg adapters: MSMessageAdapter<*>) {
+            MSMessageRegistry.registerAdapters(*adapters)
+        }
+
+        fun reformat(origin: String, vararg objs: Any): MSMessage = object : MSMessage {
             private var base = MSMessageRegistry.reformat(origin, *objs)
             override val message: String get() = base
             override val coloredMessage: String get() = base.toColorString()
             override val uncoloredMessage: String get() = base.toStripColorString()
-            override fun sendMessage(vararg players: Player?) { players.forEach{ it?.sendMessage(coloredMessage) } }
-            override fun sendMessage(console: ConsoleCommandSender?) { console?.sendMessage(coloredMessage) }
-            override fun sendUnColoredMessage(vararg players: Player?) { players.forEach{ it?.sendMessage(coloredMessage) } }
-            override fun sendUnColoredMessage(console: ConsoleCommandSender?) { console?.sendMessage(uncoloredMessage) }
-            override fun reformat(obj: Any) { base = MSMessageRegistry.reformat(base, obj) }
+            override fun sendMessage(vararg players: Player?) {
+                players.forEach { it?.sendMessage(coloredMessage) }
+            }
+
+            override fun sendMessage(console: ConsoleCommandSender?) {
+                console?.sendMessage(coloredMessage)
+            }
+
+            override fun sendUnColoredMessage(vararg players: Player?) {
+                players.forEach { it?.sendMessage(coloredMessage) }
+            }
+
+            override fun sendUnColoredMessage(console: ConsoleCommandSender?) {
+                console?.sendMessage(uncoloredMessage)
+            }
+
+            override fun reformat(obj: Any) {
+                base = MSMessageRegistry.reformat(base, obj)
+            }
         }
     }
 

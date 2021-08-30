@@ -11,19 +11,21 @@ public class WaitUntilLoginNamedTask extends BukkitRunnable {
     private String player;
     private Consumer<Player> cons;
     private int counter = 0;
-    public WaitUntilLoginNamedTask(String player, Consumer<Player> cons){
+
+    public WaitUntilLoginNamedTask(String player, Consumer<Player> cons) {
         this.player = player;
         this.cons = cons;
         this.runTaskTimer(TeleporterBukkitBootstrap.getPlugin(), 2L, 2L);
     }
+
     @Override
     public void run() {
-        if(this.counter++ >= 50){
+        if (this.counter++ >= 50) {
             cancel();
             return;
         }
         Player p = Bukkit.getPlayer(player);
-        if(p != null && p.isOnline()){
+        if (p != null && p.isOnline()) {
             cancel();
             cons.accept(p);
         }

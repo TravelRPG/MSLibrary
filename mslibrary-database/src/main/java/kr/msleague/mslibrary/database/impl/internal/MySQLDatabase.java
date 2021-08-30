@@ -31,11 +31,11 @@ public class MySQLDatabase implements MSDatabase<Connection> {
             String autoReconnect = config.get("autoReconnect");
             String allowMultiQueries = config.get("allowMultiQueries");
 
-            hikariConfig.setJdbcUrl("jdbc:mysql://" + address + ":" + port + "/" + database + "?autoReconnect="+autoReconnect+"&allowMultiQueries="+allowMultiQueries);
+            hikariConfig.setJdbcUrl("jdbc:mysql://" + address + ":" + port + "/" + database + "?autoReconnect=" + autoReconnect + "&allowMultiQueries=" + allowMultiQueries);
             hikariConfig.setUsername(username);
             hikariConfig.setPassword(password);
             hikariConfig.addDataSourceProperty("maximumPoolSize", config.get("maximumPoolSize", "10"));
-            hikariConfig.addDataSourceProperty("cachePrepStmts", config.get("cachePrepStmts","true"));
+            hikariConfig.addDataSourceProperty("cachePrepStmts", config.get("cachePrepStmts", "true"));
             hikariConfig.addDataSourceProperty("prepStmtCacheSize", config.get("prepStmtCacheSize", "250"));
             hikariConfig.addDataSourceProperty("prepStmtCacheSqlLimit", config.get("prepStmtCacheSqlLimit", "2048"));
             hikariConfig.addDataSourceProperty("useServerPrepStmts", config.get("useServerPrepStmts", "true"));
@@ -45,14 +45,14 @@ public class MySQLDatabase implements MSDatabase<Connection> {
             hikariConfig.addDataSourceProperty("cacheServerConfiguration", config.get("cacheServerConfiguration", "true"));
             hikariConfig.addDataSourceProperty("elideSetAutoCommits", config.get("elideSetAutoCommits", "true"));
             hikariConfig.addDataSourceProperty("maintainTimeStats", config.get("maintainTimeStats", "false"));
-            hikariConfig.addDataSourceProperty("characterEncoding", config.get("characterEncoding","utf8"));
-            hikariConfig.addDataSourceProperty("useUnicode", config.get("useUnicode","true"));
+            hikariConfig.addDataSourceProperty("characterEncoding", config.get("characterEncoding", "utf8"));
+            hikariConfig.addDataSourceProperty("useUnicode", config.get("useUnicode", "true"));
             dataSource = new HikariDataSource(hikariConfig);
-            try(Connection con = dataSource.getConnection()){
+            try (Connection con = dataSource.getConnection()) {
                 con.prepareStatement("SELECT 1").execute();
             }
             return true;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -60,8 +60,8 @@ public class MySQLDatabase implements MSDatabase<Connection> {
 
     @Override
     public <R> Future<R> executeAsync(ThrowingFunction<Connection, R> function) {
-        return service.submit(()->{
-            try (Connection con = dataSource.getConnection()){
+        return service.submit(() -> {
+            try (Connection con = dataSource.getConnection()) {
                 return function.acceptThrowing(con);
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -72,8 +72,8 @@ public class MySQLDatabase implements MSDatabase<Connection> {
 
     @Override
     public void executeAsync(ThrowingConsumer<Connection> consumer) {
-        service.submit(()-> {
-            try (Connection connection = dataSource.getConnection()){
+        service.submit(() -> {
+            try (Connection connection = dataSource.getConnection()) {
                 consumer.acceptThrowing(connection);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -84,7 +84,7 @@ public class MySQLDatabase implements MSDatabase<Connection> {
 
     @Override
     public <R> R execute(ThrowingFunction<Connection, R> function) {
-        try (Connection con = dataSource.getConnection()){
+        try (Connection con = dataSource.getConnection()) {
             return function.acceptThrowing(con);
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,7 +94,7 @@ public class MySQLDatabase implements MSDatabase<Connection> {
 
     @Override
     public void execute(ThrowingConsumer<Connection> consumer) {
-        try (Connection con = dataSource.getConnection()){
+        try (Connection con = dataSource.getConnection()) {
             consumer.acceptThrowing(con);
         } catch (Exception e) {
             e.printStackTrace();

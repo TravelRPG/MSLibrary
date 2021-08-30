@@ -7,7 +7,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
 import java.io.File
-import java.util.LinkedHashMap
+import java.util.*
 
 object LocaleQuery {
     private val blockMap: Map<String, String> = blockKeys
@@ -30,18 +30,22 @@ object LocaleQuery {
     private val langYaml: FileConfiguration by lazy { YamlConfiguration.loadConfiguration(file) }
 
     internal fun getItemKey(material: Material, durability: Short, default: String): String =
-        langYaml.getString(if (material.isBlock) blockMap[material.name + "." + durability] ?: blockMap[material.name] ?: default
-        else {
-            val i = ItemStack(material, 1, durability)
-            if (durability >= 0 && i.itemMeta is PotionMeta) {
-                when (material) {
-                    Material.POTION -> potionMap[(i.itemMeta as PotionMeta).basePotionData.type.name] ?: default
-                    Material.LINGERING_POTION -> lingeringPotionMap[(i.itemMeta as PotionMeta).basePotionData.type.name] ?: default
-                    Material.SPLASH_POTION -> splashPotionMap[(i.itemMeta as PotionMeta).basePotionData.type.name] ?: default
-                    else -> default
-                }
-            } else itemMap[material.name + "." + durability] ?: itemMap[material.name] ?: default
-        }, default)
+        langYaml.getString(
+            if (material.isBlock) blockMap[material.name + "." + durability] ?: blockMap[material.name] ?: default
+            else {
+                val i = ItemStack(material, 1, durability)
+                if (durability >= 0 && i.itemMeta is PotionMeta) {
+                    when (material) {
+                        Material.POTION -> potionMap[(i.itemMeta as PotionMeta).basePotionData.type.name] ?: default
+                        Material.LINGERING_POTION -> lingeringPotionMap[(i.itemMeta as PotionMeta).basePotionData.type.name]
+                            ?: default
+                        Material.SPLASH_POTION -> splashPotionMap[(i.itemMeta as PotionMeta).basePotionData.type.name]
+                            ?: default
+                        else -> default
+                    }
+                } else itemMap[material.name + "." + durability] ?: itemMap[material.name] ?: default
+            }, default
+        )
 
 
     private val blockKeys: LinkedHashMap<String, String>

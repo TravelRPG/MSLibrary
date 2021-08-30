@@ -9,37 +9,39 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
-import kr.msleague.bcsp.internal.netty.packet.sys.ShutdownPacket;
-import kr.msleague.bcsp.internal.netty.pipeline.BossHandler;
-import kr.msleague.bcsp.internal.netty.pipeline.PacketDecoder;
-import kr.msleague.bcsp.internal.netty.pipeline.PacketEncoder;
 import kr.msleague.bcsp.internal.netty.packet.AbstractPacket;
 import kr.msleague.bcsp.internal.netty.packet.Direction;
 import kr.msleague.bcsp.internal.netty.packet.sys.HandShakePacket;
 import kr.msleague.bcsp.internal.netty.packet.sys.PingPongPacket;
 import kr.msleague.bcsp.internal.netty.packet.sys.RelayingPacket;
+import kr.msleague.bcsp.internal.netty.packet.sys.ShutdownPacket;
+import kr.msleague.bcsp.internal.netty.pipeline.BossHandler;
+import kr.msleague.bcsp.internal.netty.pipeline.PacketDecoder;
+import kr.msleague.bcsp.internal.netty.pipeline.PacketEncoder;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.CompletableFuture;
 
 public class BungeeComsoServerBootStrap {
     private static EventLoopGroup group = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("BCSB IO Thread #%1$d").build());
-    static{
+
+    static {
         Direction.INBOUND.registerPacket(0x9000, HandShakePacket.class);
         Direction.OUTBOUND.registerPacket(0x9000, HandShakePacket.class);
 
         Direction.INBOUND.registerPacket(0x9001, PingPongPacket.class);
         Direction.OUTBOUND.registerPacket(0x9001, PingPongPacket.class);
     }
-    public static CompletableFuture<Channel> initClient(boolean isBootup){
-        if(isBootup){
+
+    public static CompletableFuture<Channel> initClient(boolean isBootup) {
+        if (isBootup) {
             Direction.INBOUND.registerPacket(0x9003, ShutdownPacket.class);
             Direction.OUTBOUND.registerPacket(0x9002, RelayingPacket.class);
-            Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper)->{
-                if(packet.getRecievedTime() == -1L){
+            Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper) -> {
+                if (packet.getRecievedTime() == -1L) {
                     AbstractPacket rt = new PingPongPacket(packet.getTime(), System.currentTimeMillis());
                     rt.setCallBackResult(true);
-                    wrapper.startCallBack(rt, PingPongPacket.class, rtPack-> wrapper.getPingCalculator().processPing(System.currentTimeMillis() - rtPack.getRecievedTime()));
+                    wrapper.startCallBack(rt, PingPongPacket.class, rtPack -> wrapper.getPingCalculator().processPing(System.currentTimeMillis() - rtPack.getRecievedTime()));
                 }
             });
         }
@@ -61,19 +63,20 @@ public class BungeeComsoServerBootStrap {
                 })
                 .group(group)
                 .connect(new InetSocketAddress(GlobalProperties.getProperties("netty.targetServer.address"), Integer.parseInt(GlobalProperties.getProperties("netty.targetServer.port"))))
-                .addListener((ChannelFutureListener)cfc->{
-                    if(cfc.isSuccess()){
+                .addListener((ChannelFutureListener) cfc -> {
+                    if (cfc.isSuccess()) {
                         future.complete(cfc.channel());
-                    }else{
+                    } else {
                         future.completeExceptionally(cfc.cause());
                     }
                 });
         return future;
     }
-    public static CompletableFuture<Channel> initServer(){
+
+    public static CompletableFuture<Channel> initServer() {
         Direction.INBOUND.registerPacket(0x9002, RelayingPacket.class);
         Direction.OUTBOUND.registerPacket(0x9003, ShutdownPacket.class);
-        Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper)->{
+        Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper) -> {
             //Proxy->Bukkit->Proxy last->curr == bungeeping
             wrapper.getChannel().writeAndFlush(new PingPongPacket(packet.getTime(), -1L));
 
@@ -97,10 +100,10 @@ public class BungeeComsoServerBootStrap {
                 .localAddress(GlobalProperties.getProperties("netty.server.address"), Integer.parseInt(GlobalProperties.getProperties("netty.server.port")))
                 .group(group)
                 .bind()
-                .addListener((ChannelFutureListener) cf->{
-                    if(cf.isSuccess()){
+                .addListener((ChannelFutureListener) cf -> {
+                    if (cf.isSuccess()) {
                         future.complete(cf.channel());
-                    }else{
+                    } else {
                         future.completeExceptionally(cf.cause());
                     }
                 });

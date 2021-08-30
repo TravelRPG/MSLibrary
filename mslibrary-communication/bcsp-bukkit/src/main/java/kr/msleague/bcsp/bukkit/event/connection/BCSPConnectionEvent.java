@@ -12,16 +12,18 @@ public class BCSPConnectionEvent extends Event {
     private ChannelWrapper wrapper;
     @Getter
     private ConnectionState state;
-    public BCSPConnectionEvent(ChannelWrapper wrapper, ConnectionState state){
+
+    public BCSPConnectionEvent(ChannelWrapper wrapper, ConnectionState state) {
         this.wrapper = wrapper;
         this.state = state;
     }
-    @Override
-    public HandlerList getHandlers() {
+
+    public static HandlerList getHandlerList() {
         return list;
     }
 
-    public static HandlerList getHandlerList(){
+    @Override
+    public HandlerList getHandlers() {
         return list;
     }
 }

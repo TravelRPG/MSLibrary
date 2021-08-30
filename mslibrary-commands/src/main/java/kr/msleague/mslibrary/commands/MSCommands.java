@@ -7,11 +7,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class MSCommands {
 
-    public static PaperCommandManager paper(JavaPlugin plugin){
+    public static PaperCommandManager paper(JavaPlugin plugin) {
         return new PaperCommandManager(plugin);
     }
 
-    public static BungeeCommandManager bungee(Plugin plugin){
+    public static BungeeCommandManager bungee(Plugin plugin) {
         return new BungeeCommandManager(plugin);
     }
 }

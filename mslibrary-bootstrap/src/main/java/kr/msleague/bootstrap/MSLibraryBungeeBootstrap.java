@@ -11,16 +11,18 @@ import java.util.*;
 
 public final class MSLibraryBungeeBootstrap extends Plugin {
     private final Set<Plugin> plugins = new HashSet<>();
+
     @Override
-    public void onEnable(){
+    public void onEnable() {
         long time = System.currentTimeMillis();
         logo();
         getLogger().info("MSLibrary BootUp Sequence started..");
         loadClasses();
-        getLogger().info("MSLibrary successfully bootup! eslaped time: " + (System.currentTimeMillis() - time) +"ms");
+        getLogger().info("MSLibrary successfully bootup! eslaped time: " + (System.currentTimeMillis() - time) + "ms");
         getLogger().info("==========================================================================================");
     }
-    private final void logo(){
+
+    private final void logo() {
         getLogger().info("==========================================================================================");
         getLogger().info(" ");
         getLogger().info(" /$$      /$$  /$$$$$$  /$$       /$$ /$$                                             ");
@@ -37,23 +39,25 @@ public final class MSLibraryBungeeBootstrap extends Plugin {
         getLogger().info(" ");
         getLogger().info("==========================================================================================");
     }
+
     @Override
-    public void onDisable(){
+    public void onDisable() {
         getLogger().info("Shutting down MSLibrary");
         for (Plugin plugin : plugins) {
             plugin.onDisable();
             getLogger().info(String.format("Plugin %s Successfully disabled!", plugin.getClass().getName()));
         }
     }
-    private final void loadClasses(){
+
+    private final void loadClasses() {
         getLogger().info("Started loadup plugin & modules...");
-        try{
+        try {
             Reflections.class.getDeclaredField("log").set(null, null);
             Reflections rf = new Reflections(ClasspathHelper.forPackage("kr.msleague"));
 
             //Classes which extends Plugin.class
             Set<Class<? extends Plugin>> clazzes = rf.getSubTypesOf(Plugin.class);
-            getLogger().info("System found total " + clazzes.size() +" modules.");
+            getLogger().info("System found total " + clazzes.size() + " modules.");
             getLogger().info("Calculating modules priority order..");
             //Classes which annotated with LoadPriority.class
             Set<Class<?>> hasAnnotation = rf.getTypesAnnotatedWith(LoadPriority.class);
@@ -63,17 +67,17 @@ public final class MSLibraryBungeeBootstrap extends Plugin {
             clazzes = clo;
 
             TreeMap<Integer, List<Class<? extends Plugin>>> map = new TreeMap<>();
-            map.computeIfAbsent(0, xa->new ArrayList<>()).addAll(clazzes);
-            for(Class<? extends Plugin> annoClass : x){
+            map.computeIfAbsent(0, xa -> new ArrayList<>()).addAll(clazzes);
+            for (Class<? extends Plugin> annoClass : x) {
                 int priority = annoClass.getAnnotation(LoadPriority.class).priority();
-                map.computeIfAbsent(priority, xe->new ArrayList<>()).add(annoClass);
+                map.computeIfAbsent(priority, xe -> new ArrayList<>()).add(annoClass);
             }
 
-            map.forEach((priority, pluginClassList)->{
-                pluginClassList.forEach(pluginClass->{
-                    if(pluginClass.equals(getClass()))
+            map.forEach((priority, pluginClassList) -> {
+                pluginClassList.forEach(pluginClass -> {
+                    if (pluginClass.equals(getClass()))
                         return;
-                    try{
+                    try {
                         ClassLoader loader = pluginClass.getClassLoader();
                         Class<?> classLoader = Class.forName("net.md_5.bungee.api.plugin.PluginClassloader");
                         Field f = classLoader.getDeclaredField("plugin");
@@ -101,13 +105,13 @@ public final class MSLibraryBungeeBootstrap extends Plugin {
                         plugin.onEnable();
                         plugins.add(plugin);
                         getLogger().info(String.format("Plugin %s Successfully loaded with priority %d!", pluginClass.getName(), priority));
-                    }catch(Exception ex){
+                    } catch (Exception ex) {
                         System.err.println("Error While loading plugin : " + pluginClass.getName());
                         ex.printStackTrace();
                     }
                 });
             });
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

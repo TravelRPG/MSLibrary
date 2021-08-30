@@ -3,7 +3,10 @@ package kr.msleague.teleport.bukkit;
 import kr.msleague.bcsp.bukkit.BCSPBukkitAPI;
 import kr.msleague.teleport.global.GLocation;
 import kr.msleague.teleport.global.ITeleporter;
-import kr.msleague.teleport.global.packet.*;
+import kr.msleague.teleport.global.packet.LocationTeleportPacket;
+import kr.msleague.teleport.global.packet.NamedLocationTeleportPacket;
+import kr.msleague.teleport.global.packet.PlayerNameTeleportPacket;
+import kr.msleague.teleport.global.packet.PlayerTeleportPacket;
 
 import java.util.UUID;
 

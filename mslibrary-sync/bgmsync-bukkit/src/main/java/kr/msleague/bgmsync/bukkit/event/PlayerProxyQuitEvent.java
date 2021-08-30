@@ -10,14 +10,17 @@ import java.util.UUID;
 public class PlayerProxyQuitEvent extends Event {
     private static final HandlerList handlerList = new HandlerList();
     private UUID uuid;
-    public PlayerProxyQuitEvent(UUID uuid){
+
+    public PlayerProxyQuitEvent(UUID uuid) {
         this.uuid = uuid;
     }
-    @Override
-    public HandlerList getHandlers() {
+
+    public static HandlerList getHandlerList() {
         return handlerList;
     }
-    public static HandlerList getHandlerList() {
+
+    @Override
+    public HandlerList getHandlers() {
         return handlerList;
     }
 }

@@ -11,7 +11,7 @@ public class HashDatabaseConfig extends AbstractDatabaseConfig {
 
     private final Properties properties;
 
-    public HashDatabaseConfig(){
+    public HashDatabaseConfig() {
         properties = new Properties();
     }
 

@@ -8,6 +8,7 @@ public class FastItem {
     public ItemStack getGreenClay() {
         return new ItemBuild(Material.CLAY).durability((byte) DyeColor.LIME.ordinal()).build();
     }
+
     public ItemStack getRedClay() {
         return new ItemBuild(Material.CLAY).durability((byte) DyeColor.RED.ordinal()).build();
     }

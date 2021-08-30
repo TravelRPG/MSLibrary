@@ -14,6 +14,7 @@ import java.util.UUID;
 @Getter
 public class ProxyJoinPacket extends AbstractPacket {
     private UUID uuid;
+
     @Override
     public void read(ByteBuf buf) {
         this.uuid = ByteBufUtility.readUUID(buf);

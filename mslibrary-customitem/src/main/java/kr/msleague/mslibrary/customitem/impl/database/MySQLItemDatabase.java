@@ -33,7 +33,7 @@ public class MySQLItemDatabase implements ItemDatabase {
         this.database = database;
         this.table = table;
         database.execute(connection -> {
-            PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS "+table+
+            PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + table +
                     " ( " +
                     "`column_id` INT AUTO_INCREMENT UNIQUE, " +
                     "`item_id` INT, " +
@@ -47,14 +47,14 @@ public class MySQLItemDatabase implements ItemDatabase {
 
     @Override
     public Future<List<MSItemData>> loadAll() {
-        return database.executeAsync(connection->{
+        return database.executeAsync(connection -> {
             List<MSItemData> list = new ArrayList<>();
-            PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM "+table);
+            PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM " + table);
             ResultSet rs = ps.executeQuery();
             HashMap<Integer, ItemNode> map = new HashMap<>();
-            while (rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt(1);
-                if(!map.containsKey(id)){
+                if (!map.containsKey(id)) {
                     map.put(id, new HashItemNode(null, ""));
                 }
                 ItemNode node = map.get(id);
@@ -70,13 +70,13 @@ public class MySQLItemDatabase implements ItemDatabase {
 
     @Override
     public Future<Boolean> newItem(int id, @Nonnull MSItemData item) {
-        return database.executeAsync(connection->{
-            PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM "+table+" WHERE `item_id`=?");
+        return database.executeAsync(connection -> {
+            PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM " + table + " WHERE `item_id`=?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return false;
-            }else {
+            } else {
                 insertItem(id, item, connection);
                 return true;
             }
@@ -86,11 +86,11 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<MSItemData> load(int itemID) throws IllegalStateException {
         return database.executeAsync(connection -> {
-            PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM "+table+" WHERE `item_id`=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM " + table + " WHERE `item_id`=?");
             ps.setInt(1, itemID);
             ResultSet rs = ps.executeQuery();
             ItemNode node = new HashItemNode(null, "");
-            while (rs.next()){
+            while (rs.next()) {
                 node.setPrimitive(rs.getString(2), rs.getString(3));
             }
             MSItemData mapped = new MSLItemData(node);
@@ -110,21 +110,21 @@ public class MySQLItemDatabase implements ItemDatabase {
         MSItemData mapped = remapper.serialize(item);
         YamlConfiguration config = yamlSerializer.serialize(mapped);
         Map<String, String> map = new HashMap<>();
-        for(String path : config.getKeys(true)){
-            if(config.isBoolean(path)){
+        for (String path : config.getKeys(true)) {
+            if (config.isBoolean(path)) {
                 map.put(path, Boolean.toString(config.getBoolean(path)));
-            }else if(config.isDouble(path)){
+            } else if (config.isDouble(path)) {
                 map.put(path, Double.toString(config.getDouble(path)));
-            }else if(config.isInt(path)){
+            } else if (config.isInt(path)) {
                 map.put(path, Integer.toString(config.getInt(path)));
-            }else if(config.isLong(path)){
+            } else if (config.isLong(path)) {
                 map.put(path, Long.toString(config.getLong(path)));
-            }else if(config.isString(path)){
+            } else if (config.isString(path)) {
                 map.put(path, config.getString(path));
             }
         }
-        for(String key : map.keySet()){
-            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO "+table+" (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
+        for (String key : map.keySet()) {
+            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO " + table + " (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
             ps2.setInt(1, itemID);
             ps2.setString(2, key);
             ps2.setString(3, map.get(key));
@@ -137,7 +137,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<Void> deleteItem(int itemID) {
         return database.executeAsync(connection -> {
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM "+table+" WHERE `item_id`=?");
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM " + table + " WHERE `item_id`=?");
             ps.setInt(1, itemID);
             ps.execute();
             return null;
@@ -148,7 +148,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     public Future<List<Integer>> search(String path, String value) {
         return database.executeAsync(connection -> {
             List<Integer> list = new ArrayList<>();
-            PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM "+table+" WHERE `key`=? AND `value`=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM " + table + " WHERE `key`=? AND `value`=?");
             ps.setString(1, path);
             ps.setString(2, value);
             ResultSet rs = ps.executeQuery();
@@ -162,7 +162,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<Void> modify(int itemID, @Nonnull String node, @Nullable String value) {
         return database.executeAsync(connection -> {
-            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO "+table+" (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
+            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO " + table + " (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
             ps2.setInt(1, itemID);
             ps2.setString(2, node);
             ps2.setString(3, value);
@@ -176,7 +176,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<Boolean> has(int itemID) {
         return database.executeAsync(connection -> {
-            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM "+table+" WHERE `item_id`=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM " + table + " WHERE `item_id`=?");
             ps.setInt(1, itemID);
             return ps.executeQuery().next();
         });
@@ -185,10 +185,10 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<Integer> size() {
         return database.executeAsync(connection -> {
-            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS `cnt` FROM "+table+" WHERE `key`=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS `cnt` FROM " + table + " WHERE `key`=?");
             ps.setString(1, "id");
             ResultSet rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt(1);
             }
             return 0;

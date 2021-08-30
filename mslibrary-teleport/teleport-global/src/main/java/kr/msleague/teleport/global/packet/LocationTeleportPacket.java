@@ -13,16 +13,19 @@ import java.util.UUID;
 public class LocationTeleportPacket extends AbstractPacket {
     private UUID player;
     private GLocation location;
-    public LocationTeleportPacket(UUID player, GLocation location){
+
+    public LocationTeleportPacket(UUID player, GLocation location) {
         this.player = player;
         this.location = location;
     }
-    public void write(ByteBuf buf){
+
+    public void write(ByteBuf buf) {
         location.writer(buf);
         buf.writeLong(player.getMostSignificantBits());
         buf.writeLong(player.getLeastSignificantBits());
     }
-    public void read(ByteBuf buf){
+
+    public void read(ByteBuf buf) {
         GLocation gloc = GLocation.read(buf);
         UUID who = new UUID(buf.readLong(), buf.readLong());
         this.player = who;

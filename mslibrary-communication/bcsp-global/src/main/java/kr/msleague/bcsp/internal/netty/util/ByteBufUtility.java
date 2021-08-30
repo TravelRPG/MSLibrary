@@ -3,7 +3,6 @@ package kr.msleague.bcsp.internal.netty.util;
 import io.netty.buffer.ByteBuf;
 import kr.msleague.bcsp.internal.netty.exception.ByteBufException;
 
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.UUID;
 public class ByteBufUtility {
     public static void writeString(String s, ByteBuf buf) {
         if (s.length() > 32767)
-            throw new ByteBufException(String.format("Cannot send string longer than Short.MAX_VALUE (got %s characters)", new Object[] { Integer.valueOf(s.length()) }));
+            throw new ByteBufException(String.format("Cannot send string longer than Short.MAX_VALUE (got %s characters)", new Object[]{Integer.valueOf(s.length())}));
         byte[] b = s.getBytes(StandardCharsets.UTF_8);
         writeVarInt(b.length, buf);
         buf.writeBytes(b);
@@ -21,7 +20,7 @@ public class ByteBufUtility {
     public static String readString(ByteBuf buf) {
         int len = readVarInt(buf);
         if (len > 32767)
-            throw new ByteBufException(String.format("Cannot receive string longer than Short.MAX_VALUE (got %s characters)", new Object[] { Integer.valueOf(len) }));
+            throw new ByteBufException(String.format("Cannot receive string longer than Short.MAX_VALUE (got %s characters)", new Object[]{Integer.valueOf(len)}));
         byte[] b = new byte[len];
         buf.readBytes(b);
         return new String(b, StandardCharsets.UTF_8);
@@ -29,7 +28,7 @@ public class ByteBufUtility {
 
     public static void writeArray(byte[] b, ByteBuf buf) {
         if (b.length > 32767)
-            throw new ByteBufException(String.format("Cannot send byte array longer than Short.MAX_VALUE (got %s bytes)", new Object[] { Integer.valueOf(b.length) }));
+            throw new ByteBufException(String.format("Cannot send byte array longer than Short.MAX_VALUE (got %s bytes)", new Object[]{Integer.valueOf(b.length)}));
         writeVarInt(b.length, buf);
         buf.writeBytes(b);
     }
@@ -47,7 +46,7 @@ public class ByteBufUtility {
     public static byte[] readArray(ByteBuf buf, int limit) {
         int len = readVarInt(buf);
         if (len > limit)
-            throw new ByteBufException(String.format("Cannot receive byte array longer than %s (got %s bytes)", new Object[] { Integer.valueOf(limit), Integer.valueOf(len) }));
+            throw new ByteBufException(String.format("Cannot receive byte array longer than %s (got %s bytes)", new Object[]{Integer.valueOf(limit), Integer.valueOf(len)}));
         byte[] ret = new byte[len];
         buf.readBytes(ret);
         return ret;

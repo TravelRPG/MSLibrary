@@ -10,8 +10,10 @@ class MSGuiOpenedEvent(
     val time: Long
 ) : MSGuiEvent(player, gui) {
     override fun getHandlers(): HandlerList = HANDLER_LIST
+
     companion object {
         var HANDLER_LIST: HandlerList = HandlerList()
-        @JvmStatic fun getHandlerList(): HandlerList = HANDLER_LIST
+        @JvmStatic
+        fun getHandlerList(): HandlerList = HANDLER_LIST
     }
 }

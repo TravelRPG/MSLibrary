@@ -10,15 +10,16 @@ import org.bukkit.event.HandlerList;
 @Getter
 @Setter
 public class MSGuiOpenEvent extends MSGuiEvent implements Cancellable {
+    private static HandlerList handlerList = new HandlerList();
     private boolean cancelled;
     private long time;
-    private static HandlerList handlerList = new HandlerList();
+
     public MSGuiOpenEvent(Player player, MSGui<?> gui, long time) {
         super(player, gui);
         this.time = time;
     }
 
-    public static HandlerList getHandlerList(){
+    public static HandlerList getHandlerList() {
         return handlerList;
     }
 

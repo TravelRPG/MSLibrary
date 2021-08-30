@@ -6,9 +6,9 @@ public interface ThrowingConsumer<T> extends Consumer<T> {
 
     @Override
     default void accept(T t) {
-        try{
+        try {
             acceptThrowing(t);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

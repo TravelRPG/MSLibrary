@@ -7,48 +7,48 @@ import javax.annotation.Nullable;
 public abstract class AbstractDatabaseConfig implements DatabaseConfig {
 
     @Override
-    public String getAddress(){
+    public String getAddress() {
         return get("address");
     }
 
     @Override
-    public DatabaseConfig setAddress(String address){
+    public DatabaseConfig setAddress(String address) {
         setManually("address", address);
         return this;
     }
 
     @Nullable
     @Override
-    public String getUser(){
+    public String getUser() {
         return get("user");
     }
 
     @Override
-    public DatabaseConfig setUser(String user){
+    public DatabaseConfig setUser(String user) {
         setManually("user", user);
         return this;
     }
 
     @Nullable
     @Override
-    public String getPort(){
+    public String getPort() {
         return get("port");
     }
 
     @Override
-    public DatabaseConfig setPort(int port){
-        setManually("port", port+"");
+    public DatabaseConfig setPort(int port) {
+        setManually("port", port + "");
         return this;
     }
 
     @Nullable
     @Override
-    public String getPassword(){
+    public String getPassword() {
         return get("password");
     }
 
     @Override
-    public DatabaseConfig setPassword(String password){
+    public DatabaseConfig setPassword(String password) {
         setManually("password", password);
         return this;
     }
@@ -56,12 +56,12 @@ public abstract class AbstractDatabaseConfig implements DatabaseConfig {
 
     @Nullable
     @Override
-    public String getDatabase(){
+    public String getDatabase() {
         return get("database");
     }
 
     @Override
-    public DatabaseConfig setDatabase(String database){
+    public DatabaseConfig setDatabase(String database) {
         setManually("database", database);
         return this;
     }

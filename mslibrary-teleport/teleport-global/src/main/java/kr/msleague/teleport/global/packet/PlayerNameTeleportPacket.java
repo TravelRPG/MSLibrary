@@ -11,15 +11,18 @@ import lombok.NoArgsConstructor;
 public class PlayerNameTeleportPacket extends AbstractPacket {
     private String player;
     private String location;
-    public PlayerNameTeleportPacket(String player, String location){
+
+    public PlayerNameTeleportPacket(String player, String location) {
         this.player = player;
         this.location = location;
     }
-    public void write(ByteBuf buf){
+
+    public void write(ByteBuf buf) {
         ByteBufUtility.writeString(player, buf);
         ByteBufUtility.writeString(location, buf);
     }
-    public void read(ByteBuf buf){
+
+    public void read(ByteBuf buf) {
         String player = ByteBufUtility.readString(buf);
         String location = ByteBufUtility.readString(buf);
         this.player = player;

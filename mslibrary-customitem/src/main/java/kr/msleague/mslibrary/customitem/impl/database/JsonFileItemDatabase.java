@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import kr.msleague.mslibrary.customitem.api.*;
+import kr.msleague.mslibrary.customitem.api.MSItemData;
 import kr.msleague.mslibrary.customitem.impl.serializers.JsonSerializer;
 
 import java.io.File;
@@ -33,16 +33,16 @@ public class JsonFileItemDatabase extends AbstractFileItemDatabase<JsonObject> {
     }
 
 
-    public static class JsonFileSerializer extends JsonSerializer implements FileSerializer<JsonObject>{
+    public static class JsonFileSerializer extends JsonSerializer implements FileSerializer<JsonObject> {
 
         @Override
-        public JsonObject read(File file) throws IOException{
+        public JsonObject read(File file) throws IOException {
             FileReader reader = new FileReader(file);
             return gson.fromJson(new JsonReader(reader), JsonObject.class);
         }
 
         @Override
-        public void write(File file, JsonObject jsonObject)  throws IOException{
+        public void write(File file, JsonObject jsonObject) throws IOException {
             FileWriter writer = new FileWriter(file);
             gson.toJson(jsonObject, new JsonWriter(writer));
         }

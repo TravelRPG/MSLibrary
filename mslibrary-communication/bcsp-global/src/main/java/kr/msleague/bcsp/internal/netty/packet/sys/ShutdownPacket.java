@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public final class ShutdownPacket extends AbstractPacket {
     private boolean shutdownTarget;
+
     @Override
     public void read(ByteBuf buf) {
         this.shutdownTarget = buf.readBoolean();

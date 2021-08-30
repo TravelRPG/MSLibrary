@@ -13,12 +13,15 @@ import java.util.UUID;
 @Getter
 public class PacketIsUserOnline extends AbstractPacket {
     private String username;
-    public PacketIsUserOnline(UUID uuid){
+
+    public PacketIsUserOnline(UUID uuid) {
         username = uuid.toString();
     }
-    public PacketIsUserOnline(String username){
+
+    public PacketIsUserOnline(String username) {
         this.username = username;
     }
+
     @Override
     public void read(ByteBuf buf) {
         this.username = ByteBufUtility.readString(buf);
@@ -28,11 +31,13 @@ public class PacketIsUserOnline extends AbstractPacket {
     public void write(ByteBuf buf) {
         ByteBufUtility.writeString(username, buf);
     }
+
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
-    public static class Result extends AbstractPacket{
+    public static class Result extends AbstractPacket {
         private boolean result;
+
         @Override
         public void read(ByteBuf buf) {
             this.result = buf.readBoolean();

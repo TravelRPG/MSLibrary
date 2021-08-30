@@ -15,8 +15,11 @@ public class GLocation {
     private double z;
     private float yaw;
     private float pitch;
-    private GLocation(){}
-    public GLocation(String serverName, String worldName, double x, double y, double z){
+
+    private GLocation() {
+    }
+
+    public GLocation(String serverName, String worldName, double x, double y, double z) {
         this.serverName = serverName;
         this.worldName = worldName;
         this.x = x;
@@ -25,16 +28,8 @@ public class GLocation {
         this.yaw = 0;
         this.pitch = 0;
     }
-    public void writer(ByteBuf buf){
-        ByteBufUtility.writeString(serverName, buf);
-        ByteBufUtility.writeString(worldName, buf);
-        buf.writeDouble(x);
-        buf.writeDouble(y);
-        buf.writeDouble(z);
-        buf.writeFloat(yaw);
-        buf.writeFloat(pitch);
-    }
-    public static GLocation read(ByteBuf buf){
+
+    public static GLocation read(ByteBuf buf) {
         GLocation loc = new GLocation();
         loc.serverName = ByteBufUtility.readString(buf);
         loc.worldName = ByteBufUtility.readString(buf);
@@ -44,5 +39,15 @@ public class GLocation {
         loc.yaw = buf.readFloat();
         loc.pitch = buf.readFloat();
         return loc;
+    }
+
+    public void writer(ByteBuf buf) {
+        ByteBufUtility.writeString(serverName, buf);
+        ByteBufUtility.writeString(worldName, buf);
+        buf.writeDouble(x);
+        buf.writeDouble(y);
+        buf.writeDouble(z);
+        buf.writeFloat(yaw);
+        buf.writeFloat(pitch);
     }
 }

@@ -1,6 +1,5 @@
 package kr.msleague.mslibrary.database.impl.internal;
 
-import com.zaxxer.hikari.HikariConfig;
 import kr.msleague.mslibrary.database.impl.HashDatabaseConfig;
 
 public class DefaultHikariConfig extends HashDatabaseConfig {
@@ -18,7 +17,7 @@ public class DefaultHikariConfig extends HashDatabaseConfig {
         this.setManually("elideSetAutoCommits", "true");
         this.setManually("maintainTimeStats", "false");
         this.setManually("allowMultiQueries", "true");
-        this.setManually("characterEncoding","utf8");
-        this.setManually("useUnicode","true");
+        this.setManually("characterEncoding", "utf8");
+        this.setManually("useUnicode", "true");
     }
 }
