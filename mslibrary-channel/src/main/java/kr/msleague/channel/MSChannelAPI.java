@@ -61,6 +61,11 @@ public interface MSChannelAPI {
      */
     Future<Integer> getProxyOnlinePlayerCount(Consumer<Integer>... cons);
 
+    /**
+     * Proxy 서버의 모든 온라인 유저를 가져옵니다
+     * @param cons 퓨처 대신 컨슈머 형태로 인라인 코딩을 할 수 있습니다.
+     * @return 콜백 결과입니다.
+     */
     Future<List<UUID>> getAllUuidOfProxy(Consumer<List<UUID>>... cons);
 
     Future<List<String>> getAllUsernameOfProxy(Consumer<List<String>>... cons);
