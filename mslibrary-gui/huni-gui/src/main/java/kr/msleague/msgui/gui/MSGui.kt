@@ -21,7 +21,7 @@ import kotlin.collections.HashMap
 import kotlin.collections.HashSet
 
 abstract class MSGui<V>(
-    private val who: Player,
+    val who: Player,
     val size: Int = 0,
     val title: String? = null
 ) {
@@ -126,7 +126,7 @@ abstract class MSGui<V>(
                     fun onClick(e: InventoryClickEvent) {
                         if (!viewers.contains(e.whoClicked.uniqueId)) return
                         if (cancelGUI) e.isCancelled = true
-                        if (size > e.rawSlot) guiClick(e)
+                        guiClick(e)
                     }
 
                     @EventHandler
@@ -153,6 +153,7 @@ abstract class MSGui<V>(
         }
     }
 
+    open fun prevInit() {}
     abstract fun init()
 
     fun refresh() {

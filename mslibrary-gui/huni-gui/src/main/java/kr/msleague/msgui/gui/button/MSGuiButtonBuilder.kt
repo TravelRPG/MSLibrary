@@ -150,15 +150,13 @@ class MSGuiButtonBuilder {
                     if (glow) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
                     itemMeta = meta
                     if (glow) addUnsafeEnchantment(Enchantment.LURE, 1)
-                    if (this@MSGuiButtonBuilder.type == MSGuiButtonType.PLAYER_HEAD) {
-                        server.scheduler.runTaskAsynchronously(plugin) {
-                            val skullMeta = itemMeta as SkullMeta
-                            skullMeta.owningPlayer = owner
-                            itemMeta = skullMeta
-                        }
-                    }
                 }.run { addNBTTagCompound(MSGuiButtonData(cancel, cleanable)) }
             }
-        return MSGuiButton(type, makeFunc, action, cancel)
+        val lastFunc: ((ItemStack)->Unit)? =  if (type == MSGuiButtonType.PLAYER_HEAD) { item->
+            val meta = item.itemMeta as SkullMeta
+            meta.owningPlayer = owner
+            item.itemMeta = meta
+        } else null
+        return MSGuiButton(type, makeFunc, lastFunc, action, cancel)
     }
 }
