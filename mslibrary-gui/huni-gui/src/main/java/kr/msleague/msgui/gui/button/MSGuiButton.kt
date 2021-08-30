@@ -18,7 +18,7 @@ class MSGuiButton internal constructor(
                 if (gui.size <= it) return@forEach
                 if (action != null) gui.addButtonAction(it, action)
                 val current = gui.inventory.getItem(it)
-                if (current != null && current.type != Material.AIR) current.itemMeta = itemStack.itemMeta
+                if(current != null && current.type == itemStack.type) current.itemMeta = itemStack.itemMeta
                 else gui.inventory.setItem(it, itemStack.clone())
             }
         }

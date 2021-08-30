@@ -92,6 +92,8 @@ class MSGuiButtonBuilder {
         private set
     var action: MSGuiButtonAction? = null
         private set
+    var amount: Int = 1
+        private set
     private val baseFlags: MutableSet<ItemFlag> get() = itemFlags ?: HashSet<ItemFlag>().apply { itemFlags = this }
     fun addItemFlags(vararg itemFlags: ItemFlag): MSGuiButtonBuilder {
         if (itemFlags.isNotEmpty()) itemFlags.forEach { baseFlags.add(it) }
@@ -108,12 +110,13 @@ class MSGuiButtonBuilder {
         return this
     }
 
-    fun setAction(ktFunc: (InventoryClickEvent) -> Unit): MSGuiButtonBuilder {
-        this.action = object : MSGuiButtonAction {
-            override fun action(e: InventoryClickEvent) {
-                ktFunc(e)
-            }
-        }
+    fun setAmount(amount: Int): MSGuiButtonBuilder {
+        this.amount = amount
+        return this
+    }
+
+    fun setAction(ktFunc: (InventoryClickEvent)->Unit): MSGuiButtonBuilder {
+        this.action = object: MSGuiButtonAction { override fun action(e: InventoryClickEvent) { ktFunc(e) } }
         return this
     }
 
@@ -136,9 +139,9 @@ class MSGuiButtonBuilder {
         val makeFunc: () -> ItemStack =
             {
                 (when (type) {
-                    MSGuiButtonType.PLAYER_HEAD -> ItemStack(Material.SKULL_ITEM, 1, 3)
-                    MSGuiButtonType.CUSTOM_HEAD -> SkullManager.getSkull(url!!)
-                    else -> if (baseItem != null) baseItem!!.clone() else ItemStack(material, 1, durability.toShort())
+                    MSGuiButtonType.PLAYER_HEAD -> ItemStack(Material.SKULL_ITEM, amount, 3)
+                    MSGuiButtonType.CUSTOM_HEAD -> SkullManager.getSkull(url?: "", amount)
+                    else -> if(baseItem != null) baseItem!!.clone() else ItemStack(material, amount, durability.toShort())
                 }).apply {
                     val meta = itemMeta
                     if (display != null) meta.displayName = display

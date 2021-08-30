@@ -9,8 +9,8 @@ import java.lang.reflect.Field
 import java.util.*
 
 object SkullManager {
-    fun getSkull(temp: String): ItemStack {
-        val head = ItemStack(Material.SKULL_ITEM, 1, 3.toShort())
+    fun getSkull(temp: String, amount: Int): ItemStack {
+        val head = ItemStack(Material.SKULL_ITEM, amount, 3.toShort())
         if (temp.isEmpty()) return head
         val url = "https://textures.minecraft.net/texture/$temp"
         val headMeta = head.itemMeta
