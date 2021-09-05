@@ -21,7 +21,7 @@ public class PacketDecoder extends MessageToMessageDecoder<ByteBuf> {
             throw new PacketException(null, "Unregistered packet id " + packetId);
         AbstractPacket packet;
         try {
-            packet = clazz.newInstance();
+            packet = clazz.getConstructor().newInstance();
         } catch (Exception ex) {
             throw new PacketException(null, "Packet must contains NoArgsConstructor : " + clazz.getSimpleName());
         }
