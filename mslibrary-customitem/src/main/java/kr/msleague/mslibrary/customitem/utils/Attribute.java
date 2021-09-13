@@ -1,12 +1,12 @@
 package kr.msleague.mslibrary.customitem.utils;
 
-import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
-public class Attribute {
+public abstract class Attribute {
 
     private static final HashMap<String, String> ATTRIBUTE_NAME = new HashMap<>();
 
@@ -53,43 +53,17 @@ public class Attribute {
         this("Modifier", attributeName, amount, operation, slot, nextLongMinus(), nextLongPlus());
     }
 
-    public static List<Attribute> extract(ItemStack item) {
-        String name = "Modifier", attributeName, slot;
-        double amount;
-        int operation;
-        long uuidLeast, uuidMost;
-
-        List<Attribute> result = new ArrayList<>();
-
-        net.minecraft.server.v1_12_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound compound = nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound();
-        NBTTagList list = compound.hasKey("AttributeModifiers") ? (NBTTagList) compound.get("AttributeModifiers") : new NBTTagList();
-
-        for (int i = 0; list.size() > i; i++) {
-            NBTTagCompound modifier = list.get(i);
-            attributeName = iDtoName(modifier.getString("AttributeName")); // generic.attackDamage -> GENERIC_ATTACK_DAMAGE
-            slot = modifier.getString("Slot");
-            amount = modifier.getDouble("Amount");
-            operation = modifier.getInt("Operation");
-            uuidLeast = modifier.getLong("UUIDLeast");
-            uuidMost = modifier.getLong(("UUIDMost"));
-            result.add(new Attribute(name, attributeName, amount, operation, slot, uuidLeast, uuidMost));
-        }
-
-        return result;
-    }
-
-    private static Long nextLongPlus() {
+    protected static Long nextLongPlus() {
         long value = new Random().nextLong();
         return value < 0 ? value * -1 : value;
     }
 
-    private static Long nextLongMinus() {
+    protected static Long nextLongMinus() {
         long value = new Random().nextLong();
         return value > 0 ? value * -1 : value;
     }
 
-    private static String iDtoName(String id) {
+    protected static String iDtoName(String id) {
         for (Map.Entry<String, String> entry : ATTRIBUTE_NAME.entrySet()) {
             if (entry.getValue().equals(id)) {
                 return entry.getKey();
@@ -98,26 +72,10 @@ public class Attribute {
         return "NoneKey";
     }
 
-    private static String nametoID(String name) {
+    protected static String nametoID(String name) {
         return ATTRIBUTE_NAME.getOrDefault(name, "NoneValue");
     }
 
-    public void affect(ItemStack item) {
-        net.minecraft.server.v1_12_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound compound = nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound();
-        NBTTagList list = compound.hasKey("AttributeModifiers") ? (NBTTagList) compound.get("AttributeModifiers") : new NBTTagList();
-        NBTTagCompound newCompound = new NBTTagCompound();
-        newCompound.set("Name", new NBTTagString("Modifier"));
-        newCompound.set("AttributeName", new NBTTagString(attributeMinecraftID));
-        newCompound.set("Slot", new NBTTagString(this.slot));
-        newCompound.set("Amount", new NBTTagDouble(this.amount));
-        newCompound.set("UUIDLeast", new NBTTagLong(nextLongMinus()));
-        newCompound.set("UUIDMost", new NBTTagLong(nextLongPlus()));
-        list.add(newCompound);
-        compound.set("AttributeModifiers", list);
-        nmsItem.setTag(compound);
+    public abstract void affect(ItemStack item);
 
-        item.setItemMeta(CraftItemStack.getItemMeta(nmsItem));
-
-    }
 }

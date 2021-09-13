@@ -24,14 +24,32 @@ public class MinecraftItemFactory implements ItemFactory<ItemStack> {
 
     LinkedHashMap<String, ItemAdapter<ItemStack>> adapters = new LinkedHashMap<>();
 
-    public MinecraftItemFactory() {
-        add("material", new MaterialAdapter());
-        add("displayname", new DisplaynameAdapter());
-        add("enchant", new EnchantAdapter());
-        add("lore", new LoreAdapter());
-        add("attribute", new AttributeAdapter());
-        add("unbreakable", new UnbreakableAdapter());
-        add("itemflag", new ItemFlagAdapter());
+    public static MinecraftItemFactory v1_12(){
+        MinecraftItemFactory factory = new MinecraftItemFactory();
+        factory.add("material", new MaterialAdapter());
+        factory.add("displayname", new DisplaynameAdapter());
+        factory.add("enchant", new EnchantAdapter());
+        factory.add("lore", new LoreAdapter());
+        factory.add("attribute", new v1_12AttributeAdapter());
+        factory.add("unbreakable", new UnbreakableAdapter());
+        factory.add("itemflag", new ItemFlagAdapter());
+        return factory;
+    }
+
+    public static MinecraftItemFactory v1_16(){
+        MinecraftItemFactory factory = new MinecraftItemFactory();
+        factory.add("material", new MaterialAdapter());
+        factory.add("displayname", new DisplaynameAdapter());
+        factory.add("enchant", new EnchantAdapter());
+        factory.add("lore", new LoreAdapter());
+        factory.add("attribute", new v1_16AttributeAdapter());
+        factory.add("unbreakable", new UnbreakableAdapter());
+        factory.add("itemflag", new ItemFlagAdapter());
+        return factory;
+    }
+
+    private MinecraftItemFactory() {
+
     }
 
     @Nonnull

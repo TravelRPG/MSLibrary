@@ -7,7 +7,11 @@ import org.bukkit.inventory.ItemStack;
 public class MinecraftItemHub extends CachedItemCenter<ItemStack> {
 
     public MinecraftItemHub(ItemDatabase database) {
-        super(database, new MinecraftItemFactory());
+        super(database, MinecraftItemFactory.v1_12());
+    }
+
+    public MinecraftItemHub(ItemDatabase database, MinecraftItemFactory factory) {
+        super(database, factory);
     }
 }
 

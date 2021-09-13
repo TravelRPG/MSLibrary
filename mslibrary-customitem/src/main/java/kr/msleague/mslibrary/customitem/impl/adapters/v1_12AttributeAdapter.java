@@ -4,7 +4,7 @@ import kr.msleague.mslibrary.customitem.api.ItemAdapter;
 import kr.msleague.mslibrary.customitem.api.ItemElement;
 import kr.msleague.mslibrary.customitem.api.ItemNode;
 import kr.msleague.mslibrary.customitem.api.MSItemData;
-import kr.msleague.mslibrary.customitem.utils.Attribute;
+import kr.msleague.mslibrary.customitem.utils.v1_12Attribute;
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * @author Arkarang
  * @since 1.0
  */
-public class AttributeAdapter implements ItemAdapter<ItemStack> {
+public class v1_12AttributeAdapter implements ItemAdapter<ItemStack> {
 
     @Nonnull
     @Override
@@ -38,7 +38,7 @@ public class AttributeAdapter implements ItemAdapter<ItemStack> {
                         String slot = slotNode.asValue().getAsString();
                         double amount = amountNode.asValue().getAsDouble();
                         int operation = operationNode == null ? 0 : operationNode.asValue().getAsInt();
-                        new Attribute(type, operation, amount, slot).affect(target);
+                        new v1_12Attribute(type, operation, amount, slot).affect(target);
                     }
                 }
             }
@@ -52,7 +52,7 @@ public class AttributeAdapter implements ItemAdapter<ItemStack> {
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
         if (target instanceof CraftItemStack) {
             CraftItemStack craftItem = (CraftItemStack) target;
-            List<Attribute> list = Attribute.extract(craftItem);
+            List<v1_12Attribute> list = v1_12Attribute.extract(craftItem);
             if (!list.isEmpty()) {
                 ItemNode node;
                 ItemElement element = data.getNodes().get("minecraft.attributes");
@@ -60,7 +60,7 @@ public class AttributeAdapter implements ItemAdapter<ItemStack> {
                     element = data.getNodes().createNode("minecraft.attributes");
                 node = element.asNode();
                 for (int i = 0; i < list.size(); i++) {
-                    Attribute att = list.get(i);
+                    v1_12Attribute att = list.get(i);
                     ItemNode subNode = node.createNode(i + "");
                     subNode.setPrimitive("type", att.attributeName);
                     subNode.setPrimitive("slot", att.slot == null ? "any" : att.slot);
