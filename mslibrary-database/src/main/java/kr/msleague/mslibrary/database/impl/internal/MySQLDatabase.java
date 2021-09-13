@@ -4,8 +4,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
 import kr.msleague.mslibrary.database.api.MSDatabase;
-import kr.msleague.mslibrary.misc.ThrowingConsumer;
-import kr.msleague.mslibrary.misc.ThrowingFunction;
+import kr.msleague.mslibrary.database.api.ThrowingConsumer;
+import kr.msleague.mslibrary.database.api.ThrowingFunction;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Connection;

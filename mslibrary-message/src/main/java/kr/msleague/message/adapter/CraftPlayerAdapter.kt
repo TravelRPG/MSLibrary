@@ -10,7 +10,7 @@ class CraftPlayerAdapter : MSMessageAdapter<CraftPlayer> {
         return when (placeHolder) {
             "player_name" -> obj.name
             "player_health" -> obj.health.roundString()
-            "player_max_health" -> obj.health.roundString()
+            "player_max_health" -> obj.maxHealth.roundString()
             else -> null
         }
     }

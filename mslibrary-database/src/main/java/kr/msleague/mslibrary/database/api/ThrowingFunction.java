@@ -1,4 +1,4 @@
-package kr.msleague.mslibrary.misc;
+package kr.msleague.mslibrary.database.api;
 
 import java.util.function.Function;
 
