@@ -77,8 +77,6 @@ public class JsonSerializer implements ItemSerializer<JsonObject> {
     @Nonnull
     @Override
     public JsonObject serialize(MSItemData item) throws IllegalArgumentException {
-        if (!item.getNodes().has("id") || !item.getNodes().has("version"))
-            throw new IllegalArgumentException("target item has not 'id' or 'version' key");
         JsonObject root = new JsonObject();
         for (String key : item.getNodes().getKeys()) {
             write(root, item.getNodes().get(key, false));

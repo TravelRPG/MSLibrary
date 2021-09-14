@@ -15,7 +15,7 @@ public class MSLItemData implements kr.msleague.mslibrary.customitem.api.MSItemD
     public int getID() {
         ItemElement element = nodes.get("id");
         if (element == null)
-            throw new IllegalArgumentException("this item is corrupted");
+            throw new IllegalArgumentException("this item have not id");
         else
             return element.asValue().getAsInt();
     }
@@ -24,7 +24,7 @@ public class MSLItemData implements kr.msleague.mslibrary.customitem.api.MSItemD
     public long getVersion() {
         ItemElement element = nodes.get("version");
         if (element == null)
-            throw new IllegalArgumentException("this item is corrupted");
+            throw new IllegalArgumentException("this item have not version");
         else
             return element.asValue().getAsInt();
     }
