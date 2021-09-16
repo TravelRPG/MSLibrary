@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
@@ -59,15 +60,17 @@ public class MySQLDatabase implements MSDatabase<Connection> {
     }
 
     @Override
-    public <R> Future<R> executeAsync(ThrowingFunction<Connection, R> function) {
-        return service.submit(() -> {
+    public <R> CompletableFuture<R> executeAsync(ThrowingFunction<Connection, R> function) {
+        CompletableFuture<R> future = new CompletableFuture<>();
+        service.submit(() -> {
             try (Connection con = dataSource.getConnection()) {
-                return function.acceptThrowing(con);
+                future.complete(function.acceptThrowing(con));
             } catch (SQLException e) {
                 e.printStackTrace();
             }
             return null;
         });
+        return future;
     }
 
     @Override
@@ -79,7 +82,6 @@ public class MySQLDatabase implements MSDatabase<Connection> {
                 e.printStackTrace();
             }
         });
-
     }
 
     @Override
