@@ -3,10 +3,12 @@ package kr.msleague.mslibrary.database;
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
 import kr.msleague.mslibrary.database.api.MSDatabase;
 import kr.msleague.mslibrary.database.impl.internal.DefaultHikariConfig;
+import kr.msleague.mslibrary.database.impl.internal.MySQLDatabase;
 import lombok.Getter;
 import lombok.NonNull;
 
 import javax.annotation.Nullable;
+import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -67,6 +69,13 @@ public class MSLDatabases {
 
     public void removeDefaultConfig(@NonNull String name) {
         defaultConfigs.remove(name);
+    }
+    public void onShutdown(){
+        databases.values().forEach(z-> {
+            if(z instanceof MySQLDatabase){
+                ((MySQLDatabase)z).shutdown();
+            }
+        });
     }
 
 }
