@@ -1,12 +1,10 @@
 package kr.msleague.util.extensions
 
 import com.google.gson.Gson
-import net.minecraft.server.v1_12_R1.NBTTagCompound
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.ItemStack
 
 private val CraftItemStack: Class<*> = Class.forName("org.bukkit.craftbukkit.v1_16_R1.inventory.CraftItemStack")
-private val NBTTagCompound: Class<*> = Class.forName("net.minecraft.server.v1_16_R1.NBTTagCompound")
+val NBTTagCompound: Class<*> = Class.forName("net.minecraft.server.v1_16_R1.NBTTagCompound")
 private val NMSItemStack: Class<*> = Class.forName("et.minecraft.server.v1_12_R1.ItemStack")
 private val bukkitCopyMethod = CraftItemStack.getDeclaredMethod("asBukkitCopy", NMSItemStack)
 private val nmsCopyMethod = CraftItemStack.getDeclaredMethod("asNMSCopy", ItemStack::class.java)
@@ -26,7 +24,7 @@ var Any.tag: Any?
 inline fun <reified T> ItemStack.addNBTTagCompound16(data: T): ItemStack {
     return asBukkitCopy16(asNMSCopy16(this)
             .apply {
-                tag = (tag ?: NBTTagCompound())
+                tag = (tag ?: NBTTagCompound.newInstance())
                     .also { it.setString(T::class.simpleName?: return@apply, Gson().toJson(data)) }
             }
     )
