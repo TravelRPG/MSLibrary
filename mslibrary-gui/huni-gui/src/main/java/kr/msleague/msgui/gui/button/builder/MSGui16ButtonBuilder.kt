@@ -42,7 +42,8 @@ internal class MSGui16ButtonBuilder: MSGuiButtonBuilderABS {
         (when (type) {
             MSGuiButtonType.PLAYER_HEAD -> ItemStack(Material.valueOf("PLAYER_HEAD"), amount)
             MSGuiButtonType.CUSTOM_HEAD -> SkullManager.getSkull(url?: "", amount)
-            else -> if(baseItem != null) baseItem!!.clone() else ItemStack(material, amount)
+            else -> baseItem?.clone()?: ItemStack(material, amount)
+        //if(baseItem != null) baseItem!!.clone() else ItemStack(material, amount)
         }).apply {
             val meta = itemMeta
             if(this@MSGui16ButtonBuilder.durability != 0) {
