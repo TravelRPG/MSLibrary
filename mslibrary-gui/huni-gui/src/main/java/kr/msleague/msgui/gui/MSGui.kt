@@ -114,6 +114,7 @@ abstract class MSGui<V>(
             viewers.add(who.uniqueId)
             val delay = if (who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
             server.scheduler.runTaskLater(plugin, {
+                prevInit()
                 init()
                 pages = javaClass.declaredMethods.filter { it.getAnnotation(MSGuiPage::class.java) != null }.toList()
                     .sortedBy { it.getAnnotation(MSGuiPage::class.java).pagePriority }

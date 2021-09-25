@@ -1,7 +1,8 @@
 package kr.msleague.mslibrary.customitem.utils;
 
-import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
+import kr.msleague.mslibrary.customitem.utils.nms.CustomNBTTagCompound;
+import kr.msleague.mslibrary.customitem.utils.nms.CustomNBTTagList;
+import kr.msleague.mslibrary.customitem.utils.nms.CustomNMSItem;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -29,12 +30,13 @@ public class v1_12Attribute extends Attribute{
 
         List<v1_12Attribute> result = new ArrayList<>();
 
-        net.minecraft.server.v1_12_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound compound = nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound();
-        NBTTagList list = compound.hasKey("AttributeModifiers") ? (NBTTagList) compound.get("AttributeModifiers") : new NBTTagList();
+
+        CustomNMSItem nmsItem = new CustomNMSItem(item);
+        CustomNBTTagCompound compound = nmsItem.getTag();
+        CustomNBTTagList list = compound.get("AttributeModifiers");
 
         for (int i = 0; list.size() > i; i++) {
-            NBTTagCompound modifier = list.get(i);
+            CustomNBTTagCompound modifier = list.get(i);
             attributeName = iDtoName(modifier.getString("AttributeName")); // generic.attackDamage -> GENERIC_ATTACK_DAMAGE
             slot = modifier.getString("Slot");
             amount = modifier.getDouble("Amount");
@@ -49,21 +51,20 @@ public class v1_12Attribute extends Attribute{
 
 
     public void affect(ItemStack item) {
-        net.minecraft.server.v1_12_R1.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound compound = nmsItem.hasTag() ? nmsItem.getTag() : new NBTTagCompound();
-        NBTTagList list = compound.hasKey("AttributeModifiers") ? (NBTTagList) compound.get("AttributeModifiers") : new NBTTagList();
-        NBTTagCompound newCompound = new NBTTagCompound();
-        newCompound.set("Name", new NBTTagString("Modifier"));
-        newCompound.set("AttributeName", new NBTTagString(attributeMinecraftID));
-        newCompound.set("Slot", new NBTTagString(this.slot));
-        newCompound.set("Amount", new NBTTagDouble(this.amount));
-        newCompound.set("UUIDLeast", new NBTTagLong(nextLongMinus()));
-        newCompound.set("UUIDMost", new NBTTagLong(nextLongPlus()));
+        CustomNMSItem nmsItem = new CustomNMSItem(item);
+        CustomNBTTagCompound compound = nmsItem.getTag();
+        CustomNBTTagList list = compound.get("AttributeModifiers");
+        CustomNBTTagCompound newCompound = new CustomNBTTagCompound();
+        newCompound.setString("Name", "Modifier");
+        newCompound.setString("AttributeName", attributeMinecraftID);
+        newCompound.setString("Slot", this.slot);
+        newCompound.setDouble("Amount", this.amount);
+        newCompound.setLong("UUIDLeast", nextLongMinus());
+        newCompound.setLong("UUIDMost", nextLongPlus());
         list.add(newCompound);
-        compound.set("AttributeModifiers", list);
+        compound.setList("AttributeModifiers", list);
         nmsItem.setTag(compound);
 
-        item.setItemMeta(CraftItemStack.getItemMeta(nmsItem));
-
+        item.setItemMeta(nmsItem.getItemMeta());
     }
 }

@@ -2,6 +2,7 @@ package kr.msleague.msgui.managers
 
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
+import kr.msleague.msgui.highVersion
 import org.apache.commons.codec.binary.Base64
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -10,7 +11,7 @@ import java.util.*
 
 object SkullManager {
     fun getSkull(temp: String, amount: Int): ItemStack {
-        val head = ItemStack(Material.SKULL_ITEM, amount, 3.toShort())
+        val head = if(highVersion) ItemStack(Material.valueOf("PLAYER_HEAD"), amount) else ItemStack(Material.SKULL_ITEM, amount, 3.toShort())
         if (temp.isEmpty()) return head
         val url = "https://textures.minecraft.net/texture/$temp"
         val headMeta = head.itemMeta

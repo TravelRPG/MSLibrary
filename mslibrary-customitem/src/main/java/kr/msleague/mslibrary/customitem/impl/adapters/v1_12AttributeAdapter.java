@@ -5,7 +5,6 @@ import kr.msleague.mslibrary.customitem.api.ItemElement;
 import kr.msleague.mslibrary.customitem.api.ItemNode;
 import kr.msleague.mslibrary.customitem.api.MSItemData;
 import kr.msleague.mslibrary.customitem.utils.v1_12Attribute;
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -50,23 +49,20 @@ public class v1_12AttributeAdapter implements ItemAdapter<ItemStack> {
     @Nonnull
     @Override
     public MSItemData write(@Nonnull MSItemData data, @Nonnull ItemStack target) {
-        if (target instanceof CraftItemStack) {
-            CraftItemStack craftItem = (CraftItemStack) target;
-            List<v1_12Attribute> list = v1_12Attribute.extract(craftItem);
-            if (!list.isEmpty()) {
-                ItemNode node;
-                ItemElement element = data.getNodes().get("minecraft.attributes");
-                if (element == null)
-                    element = data.getNodes().createNode("minecraft.attributes");
-                node = element.asNode();
-                for (int i = 0; i < list.size(); i++) {
-                    v1_12Attribute att = list.get(i);
-                    ItemNode subNode = node.createNode(i + "");
-                    subNode.setPrimitive("type", att.attributeName);
-                    subNode.setPrimitive("slot", att.slot == null ? "any" : att.slot);
-                    subNode.setPrimitive("amount", att.amount);
-                    subNode.setPrimitive("operation", att.operation);
-                }
+        List<v1_12Attribute> list = v1_12Attribute.extract(target);
+        if (!list.isEmpty()) {
+            ItemNode node;
+            ItemElement element = data.getNodes().get("minecraft.attributes");
+            if (element == null)
+                element = data.getNodes().createNode("minecraft.attributes");
+            node = element.asNode();
+            for (int i = 0; i < list.size(); i++) {
+                v1_12Attribute att = list.get(i);
+                ItemNode subNode = node.createNode(i + "");
+                subNode.setPrimitive("type", att.attributeName);
+                subNode.setPrimitive("slot", att.slot == null ? "any" : att.slot);
+                subNode.setPrimitive("amount", att.amount);
+                subNode.setPrimitive("operation", att.operation);
             }
         }
         return data;

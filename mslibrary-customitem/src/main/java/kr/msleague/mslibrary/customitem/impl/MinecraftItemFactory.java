@@ -7,6 +7,7 @@ import kr.msleague.mslibrary.customitem.api.MSItemData;
 import kr.msleague.mslibrary.customitem.impl.adapters.*;
 import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;
 import kr.msleague.mslibrary.customitem.impl.node.MSLItemData;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -48,8 +49,21 @@ public class MinecraftItemFactory implements ItemFactory<ItemStack> {
         return factory;
     }
 
-    private MinecraftItemFactory() {
+    /*public static MinecraftItemFactory getInstance() {
+        MinecraftItemFactory factory = new MinecraftItemFactory();
+        factory.add("material", new MaterialAdapter());
+        factory.add("displayname", new DisplaynameAdapter());
+        factory.add("enchant", new EnchantAdapter());
+        factory.add("lore", new LoreAdapter());
+        factory.add("attribute", new v1_12AttributeAdapter());
+        factory.add("unbreakable", new UnbreakableAdapter());
+        factory.add("itemflag", new ItemFlagAdapter());
+        return factory;
+    }*/
 
+    private String version;
+    private MinecraftItemFactory() {
+        version = Bukkit.getServer().getClass().getPackage().getName();
     }
 
     @Nonnull
