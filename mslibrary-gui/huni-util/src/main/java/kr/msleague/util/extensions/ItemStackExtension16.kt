@@ -3,9 +3,9 @@ package kr.msleague.util.extensions
 import com.google.gson.Gson
 import org.bukkit.inventory.ItemStack
 
-private val CraftItemStack: Class<*> = Class.forName("org.bukkit.craftbukkit.v1_16_R1.inventory.CraftItemStack")
-val NBTTagCompound: Class<*> = Class.forName("net.minecraft.server.v1_16_R1.NBTTagCompound")
-private val NMSItemStack: Class<*> = Class.forName("et.minecraft.server.v1_12_R1.ItemStack")
+private val CraftItemStack: Class<*> = Class.forName("org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack")
+val NBTTagCompound: Class<*> = Class.forName("net.minecraft.server.v1_16_R3.NBTTagCompound")
+private val NMSItemStack: Class<*> = Class.forName("net.minecraft.server.v1_16_R3.ItemStack")
 private val bukkitCopyMethod = CraftItemStack.getDeclaredMethod("asBukkitCopy", NMSItemStack)
 private val nmsCopyMethod = CraftItemStack.getDeclaredMethod("asNMSCopy", ItemStack::class.java)
 private val setTagMethod = NMSItemStack.getDeclaredMethod("setTag", NBTTagCompound)
