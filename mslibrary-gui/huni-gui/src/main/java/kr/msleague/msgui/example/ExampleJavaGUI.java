@@ -2,7 +2,7 @@ package kr.msleague.msgui.example;
 
 //import kr.msleague.msgui.api.annotations.MSGuiPage;
 //import kr.msleague.msgui.gui.MSGui;
-//import kr.msleague.msgui.gui.button.MSGuiButtonBuilder;
+//import kr.msleague.msgui.gui.button.builder.MSGuiButtonBuilder;
 //import org.bukkit.Material;
 //import org.bukkit.entity.Player;
 //import org.jetbrains.annotations.NotNull;

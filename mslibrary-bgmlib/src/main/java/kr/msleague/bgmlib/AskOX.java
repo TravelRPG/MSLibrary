@@ -2,7 +2,7 @@ package kr.msleague.bgmlib;
 
 import kr.msleague.msgui.gui.MSGui;
 import kr.msleague.msgui.gui.button.MSGuiButton;
-import kr.msleague.msgui.gui.button.MSGuiButtonBuilder;
+import kr.msleague.msgui.gui.button.builder.MSGuiButtonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
