@@ -19,6 +19,9 @@ public class MySQLDatabase implements MSDatabase<Connection> {
 
     protected final ExecutorService service;
     HikariDataSource dataSource;
+    public void shutdown(){
+        dataSource.close();
+    }
 
     @Override
     public boolean connect(DatabaseConfig config) {
