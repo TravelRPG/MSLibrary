@@ -98,13 +98,8 @@ abstract class MSGui<V>(
     }
 
     private val buttonMap: MutableMap<Int, MSGuiButtonAction> = HashMap()
-    internal fun addButtonAction(id: Int, action: MSGuiButtonAction) {
-        buttonMap[id] = action
-    }
-
-    init {
-        initializer()
-    }
+    internal fun addButtonAction(id: Int, action: MSGuiButtonAction) { buttonMap[id] = action }
+    init { initializer() }
 
     private fun initializer() {
         who.closeInventory()
@@ -181,11 +176,11 @@ abstract class MSGui<V>(
     }
 
     fun asyncRefresh() {
-        server.scheduler.runTaskAsynchronously(plugin) { refresh() }
+        server.scheduler.runTaskAsynchronously(plugin,Runnable { refresh() })
     }
 
     fun asyncRefresh(clear: Boolean) {
-        server.scheduler.runTaskAsynchronously(plugin) { refresh(clear) }
+        server.scheduler.runTaskAsynchronously(plugin,Runnable { refresh(clear) })
     }
 
     fun openNextPage(clear: Boolean, async: Boolean): Boolean {

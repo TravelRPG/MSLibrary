@@ -1,6 +1,7 @@
-package kr.msleague.msgui.gui.button
-
-import kr.msleague.msgui.highVersion
+import kr.msleague.msgui.gui.button.MSGuiButton
+import kr.msleague.msgui.gui.button.MSGuiButtonAction
+import kr.msleague.msgui.gui.button.MSGuiButtonData
+import kr.msleague.msgui.gui.button.MSGuiButtonType
 import kr.msleague.msgui.managers.SkullManager
 import kr.msleague.util.extensions.addNBTTagCompound
 import org.bukkit.Material
