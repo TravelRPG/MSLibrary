@@ -1,7 +1,7 @@
 package kr.msleague.msgui.gui.button
 
 import kr.msleague.msgui.managers.SkullManager
-import kr.msleague.util.extensions.addNBTTagCompound
+import kr.msleague.util.extensions.addNBTTagCompound16
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
@@ -151,7 +151,7 @@ internal class MSGui16ButtonBuilder: MSGuiButtonBuilderABS {
                     if (glow) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
                     itemMeta = meta
                     if (glow) addUnsafeEnchantment(Enchantment.LURE, 1)
-                }.run { addNBTTagCompound(MSGuiButtonData(cancel, cleanable)) }
+                }.run { addNBTTagCompound16(MSGuiButtonData(cancel, cleanable)) }
             }
         val lastFunc: ((ItemStack)->Unit)? =  if (type == MSGuiButtonType.PLAYER_HEAD) { item->
             val meta = item.itemMeta as SkullMeta

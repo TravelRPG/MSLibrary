@@ -4,10 +4,12 @@ import kr.msleague.msgui.api.annotations.MSGuiPage
 import kr.msleague.msgui.api.event.*
 import kr.msleague.msgui.gui.button.MSGuiButtonAction
 import kr.msleague.msgui.gui.button.MSGuiButtonData
+import kr.msleague.msgui.highVersion
 import kr.msleague.msgui.plugin
 import kr.msleague.msgui.pluginManager
 import kr.msleague.msgui.server
 import kr.msleague.util.extensions.getNBTTagCompound
+import kr.msleague.util.extensions.getNBTTagCompound16
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -238,8 +240,9 @@ abstract class MSGui<V>(
     }
 
     private val ItemStack?.guiButtonData: MSGuiButtonData?
-        get() = if (this == null || type == Material.AIR) null else getNBTTagCompound(
-            MSGuiButtonData::class.java
-        )
+        get() = if (this == null || type == Material.AIR) null else {
+            if(highVersion) getNBTTagCompound16(MSGuiButtonData::class.java)
+            else getNBTTagCompound(MSGuiButtonData::class.java)
+        }
 
 }
