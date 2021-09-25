@@ -13,9 +13,11 @@ object SkullManager {
 
     private val base64Method = Class.forName("org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64").getMethod("encodeBase64",ByteArray::class.java)
     private fun base64Func(array: ByteArray): ByteArray { return base64Method.invoke(null,array) as ByteArray }
+    private val getMaterialMethod = Class.forName("org.bukkit.Material").getDeclaredMethod("getMaterial", String::class.java, Boolean::class.java)
+    private fun getMaterialFunc(name: String): Material = getMaterialMethod.invoke(null, name, false) as Material
 
     fun getSkull(temp: String, amount: Int): ItemStack {
-        val head = if(highVersion) ItemStack(Material.valueOf("PLAYER_HEAD"), amount) else ItemStack(Material.SKULL_ITEM, amount, 3.toShort())
+        val head = if(highVersion) ItemStack(getMaterialFunc("PLAYER_HEAD"), amount) else ItemStack(Material.SKULL_ITEM, amount, 3.toShort())
         if (temp.isEmpty()) return head
         val url = "https://textures.minecraft.net/texture/$temp"
         val headMeta = head.itemMeta!!
