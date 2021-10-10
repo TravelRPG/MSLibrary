@@ -27,7 +27,10 @@ abstract class MSGui<V>(
     val size: Int = 0,
     val title: String? = null
 ) {
-
+    companion object {
+        val guiMap: HashSet<String> = HashSet()
+        val viewers: HashMap<UUID, MSGui<*>> = HashMap()
+    }
     private var currentPage: Int = 0
     var cancelGUI: Boolean = false
     private var objs: List<V>? = null
@@ -87,10 +90,9 @@ abstract class MSGui<V>(
             title
         ) else server.createInventory(null, size)
     }
-    private val viewers = HashSet<UUID>()
     fun addViewers(vararg viewer: Player) {
         viewer.forEach {
-            if (viewers.add(it.uniqueId)) {
+            if (viewers.containsKey(it.uniqueId)) {
                 it.closeInventory()
                 it.openInventory(inventory)
             }
@@ -99,7 +101,10 @@ abstract class MSGui<V>(
 
     private val buttonMap: MutableMap<Int, MSGuiButtonAction> = HashMap()
     internal fun addButtonAction(id: Int, action: MSGuiButtonAction) { buttonMap[id] = action }
-    init { initializer() }
+    init {
+        title?.apply(guiMap::add)
+        initializer()
+    }
 
     private fun initializer() {
         who.closeInventory()
@@ -108,7 +113,7 @@ abstract class MSGui<V>(
             val preOpenEvent = MSGuiOpenEvent(who, this, System.currentTimeMillis())
             pluginManager.callEvent(preOpenEvent)
             if (preOpenEvent.isCancelled) return
-            viewers.add(who.uniqueId)
+            viewers[who.uniqueId] = this
             val delay = if (who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
             server.scheduler.runTaskLater(plugin, {
                 prevInit()
@@ -122,22 +127,22 @@ abstract class MSGui<V>(
                 pluginManager.registerEvents(object : Listener {
                     @EventHandler
                     fun onClick(e: InventoryClickEvent) {
-                        if (!viewers.contains(e.whoClicked.uniqueId)) return
+                        if (viewers[e.whoClicked.uniqueId] != this@MSGui) return
                         if (cancelGUI) e.isCancelled = true
                         guiClick(e)
                     }
 
                     @EventHandler
                     fun onDrag(e: InventoryDragEvent) {
-                        if (!viewers.contains(e.whoClicked.uniqueId)) return
+                        if (viewers[e.whoClicked.uniqueId] != this@MSGui) return
                         guiDrag(e)
                     }
 
                     @EventHandler
                     fun onClose(e: InventoryCloseEvent) {
-                        if (!viewers.contains(e.player.uniqueId)) return
+                        if (viewers[e.player.uniqueId] != this@MSGui) return
                         viewers.remove(e.player.uniqueId)
-                        if (viewers.size == 0) {
+                        if (viewers.filter { it.value == this@MSGui }.isEmpty()) {
                             InventoryClickEvent.getHandlerList().unregister(this)
                             InventoryCloseEvent.getHandlerList().unregister(this)
                             InventoryOpenEvent.getHandlerList().unregister(this)
@@ -230,9 +235,7 @@ abstract class MSGui<V>(
         if (cancelGUI) e.isCancelled = true
     }
 
-    fun closeGUI() {
-        viewers.forEach { server.getPlayer(it)?.closeInventory() }
-    }
+    fun closeGUI() { viewers.filter { it.value == this }.forEach { server.getPlayer(it.key)?.closeInventory() } }
 
     private val ItemStack?.guiButtonData: MSGuiButtonData?
         get() = if (this == null || type == Material.AIR) null else {

@@ -14,11 +14,11 @@ class MSGuiButtonBuilder {
 
     private lateinit var builder: MSGuiButtonBuilderABS
 
-    constructor(material: Material) { if(highVersion) builder = MSGui16ButtonBuilder(material) else MSGui12ButtonBuilder(material) }
-    constructor(baseItem: ItemStack) { if(highVersion) builder = MSGui16ButtonBuilder(baseItem) else MSGui12ButtonBuilder(baseItem) }
-    constructor(material: Material, durability: Int)  { if(highVersion) builder = MSGui16ButtonBuilder(material, durability) else MSGui12ButtonBuilder(material, durability) }
-    constructor(url: String) { if(highVersion) builder = MSGui16ButtonBuilder(url) else MSGui12ButtonBuilder(url) }
-    constructor(offlinePlayer: OfflinePlayer) { if(highVersion) builder = MSGui16ButtonBuilder(offlinePlayer) else MSGui12ButtonBuilder(offlinePlayer) }
+    constructor(material: Material) { builder = if(highVersion) MSGui16ButtonBuilder(material) else MSGui12ButtonBuilder(material) }
+    constructor(baseItem: ItemStack) { builder = if(highVersion) MSGui16ButtonBuilder(baseItem) else MSGui12ButtonBuilder(baseItem) }
+    constructor(material: Material, durability: Int)  { builder = if(highVersion) MSGui16ButtonBuilder(material, durability) else MSGui12ButtonBuilder(material, durability) }
+    constructor(url: String) { builder = if(highVersion) MSGui16ButtonBuilder(url) else MSGui12ButtonBuilder(url) }
+    constructor(offlinePlayer: OfflinePlayer) { builder = if(highVersion) MSGui16ButtonBuilder(offlinePlayer) else MSGui12ButtonBuilder(offlinePlayer) }
     fun setDisplayName(displayName: String?): MSGuiButtonBuilder {
         builder.setDisplayName(displayName)
         return this

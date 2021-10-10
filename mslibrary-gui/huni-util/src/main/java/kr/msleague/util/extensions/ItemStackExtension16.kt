@@ -24,8 +24,7 @@ var Any.tag: Any?
 inline fun <reified T> ItemStack.addNBTTagCompound16(data: T): ItemStack {
     return asBukkitCopy16(asNMSCopy16(this)
             .apply {
-                tag = (tag ?: NBTTagCompound.newInstance())
-                    .also { it.setString(T::class.simpleName?: return@apply, Gson().toJson(data)) }
+                tag = (tag?: NBTTagCompound.newInstance()).also { it.setString(T::class.simpleName?: return@apply, Gson().toJson(data)) }
             }
     )
 }
