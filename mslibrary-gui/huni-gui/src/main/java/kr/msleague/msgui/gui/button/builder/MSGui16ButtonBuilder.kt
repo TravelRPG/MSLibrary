@@ -47,8 +47,10 @@ internal class MSGui16ButtonBuilder: MSGuiButtonBuilderABS {
         }).apply {
             val meta = itemMeta
             if(this@MSGui16ButtonBuilder.durability != 0) {
-                val field = meta.javaClass.getDeclaredMethod("setCustomModelData", Int::class.java)
+                val field = meta.javaClass.getDeclaredMethod("setCustomModelData", Integer::class.java)
+                field.isAccessible = true
                 field.invoke(meta, this@MSGui16ButtonBuilder.durability)
+                field.isAccessible = false
             }
             meta.run(this@MSGui16ButtonBuilder::setData)
             itemMeta = meta
