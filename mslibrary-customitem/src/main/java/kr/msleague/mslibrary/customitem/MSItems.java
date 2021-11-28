@@ -45,11 +45,12 @@ public class MSItems {
      * MySQL 기반 아이템 데이터베이스를 가져옵니다.
      *
      * @param database 데이터베이스
-     * @param table    테이블 이름
+     * @param indexTable 아이템 인덱스 테이블
+     * @param dataTable 아이템 데이터 테이블
      * @return 새로운 아이템 데이터베이스
      */
-    public static MySQLItemDatabase newMySQLDatabase(MySQLDatabase database, String table) {
-        return new MySQLItemDatabase(database, table);
+    public static MySQLItemDatabase newMySQLDatabase(MySQLDatabase database, String indexTable, String dataTable) {
+        return new MySQLItemDatabase(database, indexTable, dataTable);
     }
 
     /**

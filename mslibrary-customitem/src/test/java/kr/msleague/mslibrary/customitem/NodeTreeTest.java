@@ -1,5 +1,6 @@
 package kr.msleague.mslibrary.customitem;
 
+import com.google.gson.JsonObject;
 import kr.msleague.mslibrary.customitem.api.ItemNode;
 import kr.msleague.mslibrary.customitem.api.ItemNodeArray;
 import kr.msleague.mslibrary.customitem.impl.node.HashItemNode;

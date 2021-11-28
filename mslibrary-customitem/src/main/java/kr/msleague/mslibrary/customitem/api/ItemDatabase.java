@@ -3,6 +3,7 @@ package kr.msleague.mslibrary.customitem.api;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 /**
@@ -89,4 +90,9 @@ public interface ItemDatabase {
      * @return 아이템 개수 비동기 값
      */
     Future<Integer> size();
+
+    /**
+     * 새로운 아이템 아이디를 발급받습니다.
+     */
+    CompletableFuture<Integer> generateNewId();
 }
