@@ -17,7 +17,7 @@ import org.bukkit.entity.Player
 class MSMessageLib : MSPlugin() {
 
     override fun onEnable() {
-        registerAdapters(
+        if(getServer().version.contains("1.12")) registerAdapters(
             PlayerAdapter(),
             ItemStackAdapter(),
             CraftPlayerAdapter(),
