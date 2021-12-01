@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack
 
 class MSGuiButtonBuilder {
 
-    private lateinit var builder: MSGuiButtonBuilderABS
+    private var builder: MSGuiButtonBuilderABS
 
     constructor(material: Material) { builder = if(highVersion) MSGui16ButtonBuilder(material) else MSGui12ButtonBuilder(material) }
     constructor(baseItem: ItemStack) { builder = if(highVersion) MSGui16ButtonBuilder(baseItem) else MSGui12ButtonBuilder(baseItem) }
