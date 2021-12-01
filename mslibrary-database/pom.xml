@@ -31,6 +31,12 @@
             <version>3.4.5</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <!--
         <dependency>
             <groupId>org.mongodb</groupId>

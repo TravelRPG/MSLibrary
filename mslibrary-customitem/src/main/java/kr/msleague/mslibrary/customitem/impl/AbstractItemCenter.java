@@ -61,7 +61,7 @@ public abstract class AbstractItemCenter<T> implements ItemCenter<T> {
     @Override
     public int register(T item) throws IllegalArgumentException {
         try {
-            int id = database.size().get() + 1;
+            int id = database.generateNewId().get();
             MSItemData data = new MSLItemData(new HashItemNode(null, ""));
             data.getNodes().setPrimitive("id", id);
             data.getNodes().setPrimitive("version", 0);

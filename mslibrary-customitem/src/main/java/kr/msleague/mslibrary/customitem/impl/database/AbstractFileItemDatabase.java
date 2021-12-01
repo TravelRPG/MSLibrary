@@ -47,7 +47,7 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
     }
 
     List<MSItemData> loadAllInternally() {
-        List<MSItemData> datas = new ArrayList<>();
+        List<MSItemData> data = new ArrayList<>();
         List<File> files = Arrays.stream(Objects.requireNonNull(directory.listFiles())).sorted((f1, f2) -> {
             char a = f1.getName().charAt(0);
             char b = f2.getName().charAt(0);
@@ -61,12 +61,12 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
         }).collect(Collectors.toList());
         for (File file : files) {
             try {
-                datas.add(readFile(file));
+                data.add(readFile(file));
             } catch (IOException | IllegalArgumentException ignored) {
 
             }
         }
-        return datas;
+        return data;
     }
 
     @Override

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 public class MySQLItemDatabase implements ItemDatabase {
@@ -27,19 +28,30 @@ public class MySQLItemDatabase implements ItemDatabase {
     YamlSerializer yamlSerializer = new YamlSerializer();
     MappingSerializer remapper = new MappingSerializer();
     MySQLDatabase database;
-    String table;
+    String dataTable;
+    String indexTable;
 
-    public MySQLItemDatabase(MySQLDatabase database, String table) {
+    public MySQLItemDatabase(MySQLDatabase database, String indexTable, String dataTable) {
         this.database = database;
-        this.table = table;
+        this.dataTable = dataTable;
+        this.indexTable = indexTable;
         database.execute(connection -> {
-            PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + table +
+            PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + this.indexTable +
+                    " ( " +
+                    "`item_id` INT AUTO_INCREMENT UNIQUE, " +
+                    "PRIMARY KEY(`item_id`)) " +
+                    "charset=utf8mb4");
+            ps.execute();
+        });
+        database.execute(connection -> {
+            PreparedStatement ps = connection.prepareStatement("CREATE TABLE IF NOT EXISTS " + this.dataTable +
                     " ( " +
                     "`column_id` INT AUTO_INCREMENT UNIQUE, " +
                     "`item_id` INT, " +
                     "`key` VARCHAR(128), " +
                     "`value` VARCHAR(128), " +
-                    "PRIMARY KEY(`item_id`, `key`)) " +
+                    "PRIMARY KEY(`item_id`, `key`), " +
+                    "FOREIGN KEY (`item_id`) REFERENCES "+this.indexTable+"(`item_id`) ON DELETE CASCADE) " +
                     "charset=utf8mb4");
             ps.execute();
         });
@@ -49,7 +61,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     public Future<List<MSItemData>> loadAll() {
         return database.executeAsync(connection -> {
             List<MSItemData> list = new ArrayList<>();
-            PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM " + table);
+            PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM " + dataTable);
             ResultSet rs = ps.executeQuery();
             HashMap<Integer, ItemNode> map = new HashMap<>();
             while (rs.next()) {
@@ -71,7 +83,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<Boolean> newItem(int id, @Nonnull MSItemData item) {
         return database.executeAsync(connection -> {
-            PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM " + table + " WHERE `item_id`=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM " + dataTable + " WHERE `item_id`=?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
@@ -86,7 +98,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<MSItemData> load(int itemID) throws IllegalStateException {
         return database.executeAsync(connection -> {
-            PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM " + table + " WHERE `item_id`=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT `item_id`, `key`, `value` FROM " + dataTable + " WHERE `item_id`=?");
             ps.setInt(1, itemID);
             ResultSet rs = ps.executeQuery();
             ItemNode node = new HashItemNode(null, "");
@@ -124,7 +136,7 @@ public class MySQLItemDatabase implements ItemDatabase {
             }
         }
         for (String key : map.keySet()) {
-            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO " + table + " (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
+            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO " + dataTable + " (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
             ps2.setInt(1, itemID);
             ps2.setString(2, key);
             ps2.setString(3, map.get(key));
@@ -137,7 +149,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<Void> deleteItem(int itemID) {
         return database.executeAsync(connection -> {
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM " + table + " WHERE `item_id`=?");
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM " + dataTable + " WHERE `item_id`=?");
             ps.setInt(1, itemID);
             ps.execute();
             return null;
@@ -148,7 +160,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     public Future<List<Integer>> search(String path, String value) {
         return database.executeAsync(connection -> {
             List<Integer> list = new ArrayList<>();
-            PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM " + table + " WHERE `key`=? AND `value`=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT `item_id` FROM " + dataTable + " WHERE `key`=? AND `value`=?");
             ps.setString(1, path);
             ps.setString(2, value);
             ResultSet rs = ps.executeQuery();
@@ -162,7 +174,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<Void> modify(int itemID, @Nonnull String node, @Nullable String value) {
         return database.executeAsync(connection -> {
-            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO " + table + " (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
+            PreparedStatement ps2 = connection.prepareStatement("INSERT INTO " + dataTable + " (`item_id`, `key`, `value`) VALUES(?, ?, ?) ON DUPLICATE KEY UPDATE `key`=?, `value`=?");
             ps2.setInt(1, itemID);
             ps2.setString(2, node);
             ps2.setString(3, value);
@@ -176,7 +188,7 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<Boolean> has(int itemID) {
         return database.executeAsync(connection -> {
-            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM " + table + " WHERE `item_id`=?");
+            PreparedStatement ps = connection.prepareStatement("SELECT 1 FROM " + dataTable + " WHERE `item_id`=?");
             ps.setInt(1, itemID);
             return ps.executeQuery().next();
         });
@@ -185,8 +197,25 @@ public class MySQLItemDatabase implements ItemDatabase {
     @Override
     public Future<Integer> size() {
         return database.executeAsync(connection -> {
-            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS `cnt` FROM " + table + " WHERE `key`=?");
-            ps.setString(1, "id");
+            PreparedStatement ps = connection.prepareStatement("SELECT COUNT(*) AS `cnt` FROM " + indexTable);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 0;
+        });
+    }
+
+    @Override
+    public CompletableFuture<Integer> generateNewId() {
+        return database.executeAsync(connection -> {
+            /*
+             * INSERT INTO `insert_test` VALUES();
+             * SELECT LAST_INSERT_ID() AS id;
+             */
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO "+indexTable+" VALUES();"+
+                    "SELECT LAST_INSERT_ID() AS id;");
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 return rs.getInt(1);
