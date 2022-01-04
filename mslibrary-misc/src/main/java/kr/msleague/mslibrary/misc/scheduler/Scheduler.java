@@ -19,9 +19,7 @@ public class Scheduler {
     }
 
     private void onTick() {
-        ctx.forEach(context -> {
-            context.onTick(currentTick);
-        });
+        ctx.forEach(x->x.onTick(currentTick));
         currentTick++;
     }
 

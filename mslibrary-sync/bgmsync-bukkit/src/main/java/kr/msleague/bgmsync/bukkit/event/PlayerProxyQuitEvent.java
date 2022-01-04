@@ -10,9 +10,11 @@ import java.util.UUID;
 public class PlayerProxyQuitEvent extends Event {
     private static final HandlerList handlerList = new HandlerList();
     private UUID uuid;
+    private String userName;
 
-    public PlayerProxyQuitEvent(UUID uuid) {
+    public PlayerProxyQuitEvent(UUID uuid, String userName) {
         this.uuid = uuid;
+        this.userName = userName;
     }
 
     public static HandlerList getHandlerList() {

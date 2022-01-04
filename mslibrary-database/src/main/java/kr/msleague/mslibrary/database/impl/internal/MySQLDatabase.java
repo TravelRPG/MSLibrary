@@ -70,6 +70,7 @@ public class MySQLDatabase implements MSDatabase<Connection> {
                 future.complete(function.acceptThrowing(con));
             } catch (SQLException e) {
                 e.printStackTrace();
+                future.completeExceptionally(e);
             }
             return null;
         });

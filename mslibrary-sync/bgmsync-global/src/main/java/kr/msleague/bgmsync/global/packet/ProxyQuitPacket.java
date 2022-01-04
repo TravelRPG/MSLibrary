@@ -14,14 +14,17 @@ import java.util.UUID;
 @Getter
 public class ProxyQuitPacket extends AbstractPacket {
     private UUID uuid;
+    private String userName;
 
     @Override
     public void read(ByteBuf buf) {
         this.uuid = ByteBufUtility.readUUID(buf);
+        this.userName = ByteBufUtility.readString(buf);
     }
 
     @Override
     public void write(ByteBuf buf) {
         ByteBufUtility.writeUUID(this.uuid, buf);
+        ByteBufUtility.writeString(this.userName, buf);
     }
 }

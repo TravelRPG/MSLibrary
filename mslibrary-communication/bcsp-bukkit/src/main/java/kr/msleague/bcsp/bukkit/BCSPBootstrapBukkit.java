@@ -35,7 +35,7 @@ public class BCSPBootstrapBukkit extends MSPlugin {
         new BCSPBukkitAPI(this);
         BCSPLogManager.setLogger(new JavaUtilLogger(getLogger()));
         GlobalProperties.loadProperties(getDataFolder(), list -> {
-            list.add("netty.enabled=true");
+            list.add("netty.enabled=false");
             list.add("netty.targetServer.address=localhost");
             list.add("netty.targetServer.port=9090");
             list.add("handshake.id.a=123901248128");

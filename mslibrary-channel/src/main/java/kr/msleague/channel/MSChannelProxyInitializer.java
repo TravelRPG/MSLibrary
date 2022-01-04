@@ -26,10 +26,10 @@ public class MSChannelProxyInitializer extends Plugin {
     }
 
     public void onEnable() {
-        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9500, PacketIsServerExists.class, packet -> new PacketIsServerExists.Result(getServerInfoByString(packet.getServer()) != null));
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9501, PacketIsServerExists.Result.class);
+        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9500, PacketIsServerExists.class, PacketIsServerExists::new, packet -> new PacketIsServerExists.Result(getServerInfoByString(packet.getServer()) != null));
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9501, PacketIsServerExists.Result.class, PacketIsServerExists.Result::new);
 
-        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9502, PacketIsServerOnline.class, packet -> {
+        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9502, PacketIsServerOnline.class, PacketIsServerOnline::new, packet -> {
             try {
                 int port = Integer.parseInt(packet.getServer());
                 return new PacketIsServerOnline.Result(BCSPProxyAPI.Unsafe.getChannelContainer().getChannelByPort(port) != null);
@@ -37,9 +37,9 @@ public class MSChannelProxyInitializer extends Plugin {
                 return new PacketIsServerOnline.Result(BCSPProxyAPI.Unsafe.getChannelContainer().getChannelByServerName(packet.getServer()) != null);
             }
         });
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9503, PacketIsServerOnline.Result.class);
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9503, PacketIsServerOnline.Result.class, PacketIsServerOnline.Result::new);
 
-        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9504, PacketGetServerOnlineCount.class, packet -> {
+        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9504, PacketGetServerOnlineCount.class, PacketGetServerOnlineCount::new, packet -> {
             if (packet.getServer().equals("-1")) {
                 return new PacketGetServerOnlineCount.Result(ProxyServer.getInstance().getOnlineCount());
             } else {
@@ -50,9 +50,9 @@ public class MSChannelProxyInitializer extends Plugin {
                     return new PacketGetServerOnlineCount.Result(0);
             }
         });
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9505, PacketGetServerOnlineCount.Result.class);
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9505, PacketGetServerOnlineCount.Result.class, PacketGetServerOnlineCount.Result::new);
 
-        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9506, PacketGetServerUuids.class, packet -> {
+        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9506, PacketGetServerUuids.class, PacketGetServerUuids::new, packet -> {
             if (packet.getServer().equals("-1")) {
                 return new PacketGetServerUuids.Result(ProxyServer.getInstance().getPlayers().stream().map(ProxiedPlayer::getUniqueId).collect(Collectors.toList()));
             } else {
@@ -63,9 +63,9 @@ public class MSChannelProxyInitializer extends Plugin {
                     return new PacketGetServerUuids.Result(Collections.emptyList());
             }
         });
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9507, PacketGetServerUuids.Result.class);
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9507, PacketGetServerUuids.Result.class, PacketGetServerUuids.Result::new);
 
-        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9508, PacketGetServerUsernames.class, packet -> {
+        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9508, PacketGetServerUsernames.class, PacketGetServerUsernames::new, packet -> {
             if (packet.getServer().equals("-1")) {
                 return new PacketGetServerUsernames.Result(ProxyServer.getInstance().getPlayers().stream().map(ProxiedPlayer::getName).collect(Collectors.toList()));
             } else {
@@ -76,9 +76,9 @@ public class MSChannelProxyInitializer extends Plugin {
                     return new PacketGetServerUsernames.Result(Collections.emptyList());
             }
         });
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9509, PacketGetServerUsernames.Result.class);
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9509, PacketGetServerUsernames.Result.class, PacketGetServerUsernames.Result::new);
 
-        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9510, PacketIsUserOnline.class, packet -> {
+        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9510, PacketIsUserOnline.class, PacketIsUserOnline::new, packet -> {
             try {
                 UUID uuid = UUID.fromString(packet.getUsername());
                 return new PacketIsUserOnline.Result(ProxyServer.getInstance().getPlayer(uuid) != null);
@@ -86,9 +86,9 @@ public class MSChannelProxyInitializer extends Plugin {
                 return new PacketIsUserOnline.Result(ProxyServer.getInstance().getPlayer(packet.getUsername()) != null);
             }
         });
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9511, PacketIsUserOnline.Result.class);
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9511, PacketIsUserOnline.Result.class, PacketIsUserOnline.Result::new);
 
-        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9512, PacketGetUserServer.class, packet -> {
+        BCSPProxyAPI.getInst().registerCallBackProcessor(0x9512, PacketGetUserServer.class, PacketGetUserServer::new, packet -> {
             try {
                 UUID uuid = UUID.fromString(packet.getUsername());
                 ProxiedPlayer pp = ProxyServer.getInstance().getPlayer(uuid);
@@ -104,7 +104,7 @@ public class MSChannelProxyInitializer extends Plugin {
                     return new PacketGetUserServer.Result(pp.getServer().getInfo().getName());
             }
         });
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9513, PacketGetUserServer.Result.class);
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9513, PacketGetUserServer.Result.class, PacketGetUserServer.Result::new);
     }
 
 }

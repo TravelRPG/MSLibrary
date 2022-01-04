@@ -5,6 +5,7 @@ import kr.msleague.bcsp.internal.netty.channel.PacketCallBack;
 import kr.msleague.bcsp.internal.netty.packet.AbstractPacket;
 
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public interface BCSPApi {
     /**
@@ -37,7 +38,7 @@ public interface BCSPApi {
      *                 9000번대는 내부적으로 사용중입니다. 피해서 사용해주세요.
      * @param clazz    대상 패킷 클래스를 입력하세요.
      **/
-    void registerOuterPacket(int packetId, Class<? extends AbstractPacket> clazz);
+    <T extends AbstractPacket> void registerOuterPacket(int packetId, Class<T> clazz, Supplier<T> constructor);
 
     /**
      * 커스텀 패킷(외부->내부 방향)을 등록합니다.
@@ -46,7 +47,7 @@ public interface BCSPApi {
      *                 9000번대는 내부적으로 사용중입니다. 피해서 사용해주세요.
      * @param clazz    대상 패킷 클래스를 입력하세요.
      **/
-    <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz);
+    <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, Supplier<T> constructor);
 
     /**
      * 커스텀 패킷(외부->내부 방향)을 등록하고, 패킷이 수신되었을때 발동하는 Listener을 동시에 등록합니다.
@@ -55,7 +56,7 @@ public interface BCSPApi {
      *                 9000번대는 내부적으로 사용중입니다. 피해서 사용해주세요.
      * @param clazz    대상 패킷 클래스를 입력하세요.
      **/
-    <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, BiConsumer<T, ChannelWrapper> listener);
+    <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, Supplier<T> constructor, BiConsumer<T, ChannelWrapper> listener);
 
     /**
      * 패킷이 수신되었을때 발동하는 Listener을 추가합니다.

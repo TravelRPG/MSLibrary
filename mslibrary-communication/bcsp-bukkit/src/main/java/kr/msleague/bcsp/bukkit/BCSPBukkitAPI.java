@@ -9,6 +9,7 @@ import kr.msleague.bcsp.internal.netty.packet.sys.RelayingPacket;
 import lombok.Getter;
 
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public class BCSPBukkitAPI implements BCSPApi {
     @Getter
@@ -36,16 +37,16 @@ public class BCSPBukkitAPI implements BCSPApi {
         main.getChannelWrapper().sendPacket(new RelayingPacket(packet, serverName));
     }
 
-    public void registerOuterPacket(int packetId, Class<? extends AbstractPacket> clazz) {
-        Direction.OUTBOUND.registerPacket(packetId, clazz);
+    public <T extends AbstractPacket> void registerOuterPacket(int packetId, Class<T> clazz, Supplier<T> constructor) {
+        Direction.OUTBOUND.registerPacket(packetId, clazz, constructor);
     }
 
-    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz) {
-        Direction.INBOUND.registerPacket(packetId, clazz);
+    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, Supplier<T> constructor) {
+        Direction.INBOUND.registerPacket(packetId, clazz, constructor);
     }
 
-    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, BiConsumer<T, ChannelWrapper> listener) {
-        registerInnerPacket(packetId, clazz);
+    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, Supplier<T> constructor, BiConsumer<T, ChannelWrapper> listener) {
+        registerInnerPacket(packetId, clazz, constructor);
         addListener(clazz, listener);
     }
 
