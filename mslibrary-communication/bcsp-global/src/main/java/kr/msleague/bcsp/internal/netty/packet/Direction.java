@@ -5,6 +5,7 @@ import kr.msleague.bcsp.internal.netty.channel.ChannelWrapper;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public enum Direction {
     /**
@@ -12,7 +13,7 @@ public enum Direction {
      * OUTBOUND : 내쪽 -> 상대 방향 패킷
      */
     INBOUND, OUTBOUND;
-    protected HashMap<Integer, Class<? extends AbstractPacket>> intToPackMap;
+    protected HashMap<Integer, PacketWrapper<?>> intToPackMap;
     protected HashMap<Class<? extends AbstractPacket>, Integer> packToIntMap;
     protected HashMap<Class<? extends AbstractPacket>, LinkedList<BiConsumer<? extends AbstractPacket, ChannelWrapper>>> handlers = new HashMap<>();
 
@@ -21,11 +22,11 @@ public enum Direction {
         this.packToIntMap = new HashMap<>();
     }
 
-    public Direction registerPacket(int packetId, Class<? extends AbstractPacket> pack) {
+    public <T extends AbstractPacket> Direction  registerPacket(int packetId, Class<T> pack, Supplier<T> constructor) {
         if (intToPackMap.containsKey(packetId)) {
             System.err.println(packetId + "의 패킷 ID가 중복되었습니다. 일부 기능이 작동하지 않을 수 있습니다.");
         }
-        intToPackMap.put(packetId, pack);
+        intToPackMap.put(packetId, new PacketWrapper<T>(pack, constructor));
         packToIntMap.put(pack, packetId);
         return this;
     }

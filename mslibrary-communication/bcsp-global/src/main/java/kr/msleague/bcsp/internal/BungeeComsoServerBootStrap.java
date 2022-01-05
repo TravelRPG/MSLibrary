@@ -26,17 +26,17 @@ public class BungeeComsoServerBootStrap {
     private static EventLoopGroup group = new NioEventLoopGroup(0, new ThreadFactoryBuilder().setNameFormat("BCSB IO Thread #%1$d").build());
 
     static {
-        Direction.INBOUND.registerPacket(0x9000, HandShakePacket.class);
-        Direction.OUTBOUND.registerPacket(0x9000, HandShakePacket.class);
+        Direction.INBOUND.registerPacket(0x9000, HandShakePacket.class, HandShakePacket::new);
+        Direction.OUTBOUND.registerPacket(0x9000, HandShakePacket.class, HandShakePacket::new);
 
-        Direction.INBOUND.registerPacket(0x9001, PingPongPacket.class);
-        Direction.OUTBOUND.registerPacket(0x9001, PingPongPacket.class);
+        Direction.INBOUND.registerPacket(0x9001, PingPongPacket.class, PingPongPacket::new);
+        Direction.OUTBOUND.registerPacket(0x9001, PingPongPacket.class, PingPongPacket::new);
     }
 
     public static CompletableFuture<Channel> initClient(boolean isBootup) {
         if (isBootup) {
-            Direction.INBOUND.registerPacket(0x9003, ShutdownPacket.class);
-            Direction.OUTBOUND.registerPacket(0x9002, RelayingPacket.class);
+            Direction.INBOUND.registerPacket(0x9003, ShutdownPacket.class, ShutdownPacket::new);
+            Direction.OUTBOUND.registerPacket(0x9002, RelayingPacket.class, RelayingPacket::new);
             Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper) -> {
                 if (packet.getRecievedTime() == -1L) {
                     AbstractPacket rt = new PingPongPacket(packet.getTime(), System.currentTimeMillis());
@@ -74,8 +74,8 @@ public class BungeeComsoServerBootStrap {
     }
 
     public static CompletableFuture<Channel> initServer() {
-        Direction.INBOUND.registerPacket(0x9002, RelayingPacket.class);
-        Direction.OUTBOUND.registerPacket(0x9003, ShutdownPacket.class);
+        Direction.INBOUND.registerPacket(0x9002, RelayingPacket.class, RelayingPacket::new);
+        Direction.OUTBOUND.registerPacket(0x9003, ShutdownPacket.class, ShutdownPacket::new);
         Direction.INBOUND.addListener(PingPongPacket.class, (packet, wrapper) -> {
             //Proxy->Bukkit->Proxy last->curr == bungeeping
             wrapper.getChannel().writeAndFlush(new PingPongPacket(packet.getTime(), -1L));

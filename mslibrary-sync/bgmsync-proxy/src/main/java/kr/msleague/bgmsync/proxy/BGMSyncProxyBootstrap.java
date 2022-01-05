@@ -16,10 +16,10 @@ import net.md_5.bungee.api.plugin.Plugin;
 public class BGMSyncProxyBootstrap extends Plugin {
     public void onEnable() {
         getProxy().getPluginManager().registerListener(this, new JoinQuitListener());
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9005, ProxyJoinPacket.class);
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9006, ProxyQuitPacket.class);
-        BCSPProxyAPI.getInst().registerOuterPacket(0x9007, SyncRequestPacket.class);
-        BCSPProxyAPI.getInst().registerInnerPacket(0x9007, SyncRequestPacket.class, (pack, wrap) -> {
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9005, ProxyJoinPacket.class, ProxyJoinPacket::new);
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9006, ProxyQuitPacket.class, ProxyQuitPacket::new);
+        BCSPProxyAPI.getInst().registerOuterPacket(0x9007, SyncRequestPacket.class, SyncRequestPacket::new);
+        BCSPProxyAPI.getInst().registerInnerPacket(0x9007, SyncRequestPacket.class, SyncRequestPacket::new, (pack, wrap) -> {
             SyncRequestPacket rpack = new SyncRequestPacket(pack.getSyncClass(), pack.getFromPort(), pack.getUuid(), buf -> buf.writeBytes(pack.getBuf()));
             ProxiedPlayer pp = ProxyServer.getInstance().getPlayer(pack.getUuid());
             if (pp == null || pp.getServer() == null) {

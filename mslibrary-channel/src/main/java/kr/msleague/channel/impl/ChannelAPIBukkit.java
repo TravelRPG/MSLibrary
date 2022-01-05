@@ -19,222 +19,154 @@ public class ChannelAPIBukkit implements MSChannelAPI {
         return inst;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<Boolean> isServerExists(String server, Consumer<Boolean>... cons) {
+    public final CompletableFuture<Boolean> isServerExists(String server) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketIsServerExists(server), PacketIsServerExists.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.isResult());
-            }
             future.complete(res.isResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<Boolean> isServerExists(int port, Consumer<Boolean>... cons) {
+    public final CompletableFuture<Boolean> isServerExists(int port) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketIsServerExists(port), PacketIsServerExists.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.isResult());
-            }
             future.complete(res.isResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<Boolean> isServerOnline(String server, Consumer<Boolean>... cons) {
+    public final CompletableFuture<Boolean> isServerOnline(String server) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketIsServerOnline(server), PacketIsServerOnline.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.isResult());
-            }
             future.complete(res.isResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<Boolean> isServerOnline(int port, Consumer<Boolean>... cons) {
+    public final CompletableFuture<Boolean> isServerOnline(int port) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketIsServerOnline(port), PacketIsServerOnline.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.isResult());
-            }
             future.complete(res.isResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<Integer> getServerOnlineCount(String server, Consumer<Integer>... cons) {
+    public final CompletableFuture<Integer> getServerOnlineCount(String server) {
         CompletableFuture<Integer> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetServerOnlineCount(server), PacketGetServerOnlineCount.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getResult());
-            }
             future.complete(res.getResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<Integer> getServerOnlineCount(int port, Consumer<Integer>... cons) {
+    public final CompletableFuture<Integer> getServerOnlineCount(int port) {
         CompletableFuture<Integer> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetServerOnlineCount(port), PacketGetServerOnlineCount.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getResult());
-            }
             future.complete(res.getResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<Integer> getProxyOnlinePlayerCount(Consumer<Integer>... cons) {
+    public final CompletableFuture<Integer> getProxyOnlinePlayerCount() {
         CompletableFuture<Integer> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetServerOnlineCount(-1), PacketGetServerOnlineCount.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getResult());
-            }
             future.complete(res.getResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<List<UUID>> getAllUuidOfProxy(Consumer<List<UUID>>... cons) {
+    public final CompletableFuture<List<UUID>> getAllUuidOfProxy() {
         CompletableFuture<List<UUID>> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetServerUuids(-1), PacketGetServerUuids.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getResult());
-            }
             future.complete(res.getResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<List<String>> getAllUsernameOfProxy(Consumer<List<String>>... cons) {
+    public final CompletableFuture<List<String>> getAllUsernameOfProxy() {
         CompletableFuture<List<String>> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetServerUsernames(-1), PacketGetServerUsernames.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getResult());
-            }
             future.complete(res.getResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<List<UUID>> getAllUuidOfServer(String server, Consumer<List<UUID>>... cons) {
+    public final CompletableFuture<List<UUID>> getAllUuidOfServer(String server) {
         CompletableFuture<List<UUID>> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetServerUuids(server), PacketGetServerUuids.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getResult());
-            }
             future.complete(res.getResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<List<UUID>> getAllUuidOfServer(int port, Consumer<List<UUID>>... cons) {
+    public final CompletableFuture<List<UUID>> getAllUuidOfServer(int port) {
         CompletableFuture<List<UUID>> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetServerUuids(port), PacketGetServerUuids.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getResult());
-            }
             future.complete(res.getResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<List<String>> getAllUsernameOfServer(String server, Consumer<List<String>>... cons) {
+    public final CompletableFuture<List<String>> getAllUsernameOfServer(String server) {
         CompletableFuture<List<String>> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetServerUsernames(server), PacketGetServerUsernames.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getResult());
-            }
             future.complete(res.getResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<List<String>> getAllUsernameOfServer(int port, Consumer<List<String>>... cons) {
+    public final CompletableFuture<List<String>> getAllUsernameOfServer(int port) {
         CompletableFuture<List<String>> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetServerUsernames(port), PacketGetServerUsernames.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getResult());
-            }
             future.complete(res.getResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<Boolean> isUserOnline(UUID player, Consumer<Boolean>... cons) {
+    public final CompletableFuture<Boolean> isUserOnline(UUID player) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketIsUserOnline(player), PacketIsUserOnline.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.isResult());
-            }
             future.complete(res.isResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<Boolean> isUserOnline(String playerName, Consumer<Boolean>... cons) {
+    public final CompletableFuture<Boolean> isUserOnline(String playerName) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketIsUserOnline(playerName), PacketIsUserOnline.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.isResult());
-            }
             future.complete(res.isResult());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<String> getServerOfUser(UUID player, Consumer<String>... cons) {
+    public final CompletableFuture<String> getServerOfUser(UUID player) {
         CompletableFuture<String> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetUserServer(player), PacketGetUserServer.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getServer());
-            }
             future.complete(res.getServer());
         });
         return future;
     }
 
-    @SafeVarargs
     @Override
-    public final Future<String> getServerOfUser(String playerName, Consumer<String>... cons) {
+    public final CompletableFuture<String> getServerOfUser(String playerName) {
         CompletableFuture<String> future = new CompletableFuture<>();
         BCSPBukkitAPI.getInst().startCallBack(new PacketGetUserServer(playerName), PacketGetUserServer.Result.class, res -> {
-            if (cons.length > 0) {
-                cons[0].accept(res.getServer());
-            }
             future.complete(res.getServer());
         });
         return future;

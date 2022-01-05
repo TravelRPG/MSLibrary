@@ -10,9 +10,11 @@ import java.util.UUID;
 public class PlayerProxyJoinEvent extends Event {
     private static final HandlerList handlerList = new HandlerList();
     private UUID uuid;
+    private String userName;
 
-    public PlayerProxyJoinEvent(UUID uuid) {
+    public PlayerProxyJoinEvent(UUID uuid, String userName) {
         this.uuid = uuid;
+        this.userName = userName;
     }
 
     public static HandlerList getHandlerList() {

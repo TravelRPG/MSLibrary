@@ -26,7 +26,7 @@ public class JoinQuitListener implements Listener {
     public void onJoin(ServerConnectedEvent event) {
         if (event.getServer() != null && proxyJoin.remove(event.getPlayer())) {
             int port = event.getServer().getAddress().getPort();
-            BCSPProxyAPI.getInst().sendPacketToSpecificServers(port, new ProxyJoinPacket(event.getPlayer().getUniqueId()));
+            BCSPProxyAPI.getInst().sendPacketToSpecificServers(port, new ProxyJoinPacket(event.getPlayer().getUniqueId(), event.getPlayer().getName()));
         }
     }
 
@@ -35,6 +35,6 @@ public class JoinQuitListener implements Listener {
         if (event.getPlayer().getServer() == null)
             return;
         int port = event.getPlayer().getServer().getAddress().getPort();
-        BCSPProxyAPI.getInst().sendPacketToSpecificServers(port, new ProxyQuitPacket(event.getPlayer().getUniqueId()));
+        BCSPProxyAPI.getInst().sendPacketToSpecificServers(port, new ProxyQuitPacket(event.getPlayer().getUniqueId(), event.getPlayer().getName()));
     }
 }

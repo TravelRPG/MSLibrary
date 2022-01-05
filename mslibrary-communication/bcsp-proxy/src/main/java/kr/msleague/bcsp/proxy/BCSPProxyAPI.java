@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class BCSPProxyAPI implements BCSPApi {
     @Getter
@@ -48,16 +49,17 @@ public class BCSPProxyAPI implements BCSPApi {
             BCSPLogManager.getLogger().err("Target server not found! (Server: {0})", serverName);
     }
 
-    public void registerOuterPacket(int packetId, Class<? extends AbstractPacket> clazz) {
-        Direction.OUTBOUND.registerPacket(packetId, clazz);
+    public <T extends AbstractPacket> void registerOuterPacket(int packetId, Class<T> clazz, Supplier<T> constructor) {
+        Direction.OUTBOUND.registerPacket(packetId, clazz, constructor);
     }
 
-    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz) {
-        Direction.INBOUND.registerPacket(packetId, clazz);
+    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, Supplier<T> constructor) {
+        Direction.INBOUND.registerPacket(packetId, clazz, constructor);
     }
 
-    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, BiConsumer<T, ChannelWrapper> listener) {
-        registerInnerPacket(packetId, clazz);
+
+    public <T extends AbstractPacket> void registerInnerPacket(int packetId, Class<T> clazz, Supplier<T> constructor, BiConsumer<T, ChannelWrapper> listener) {
+        registerInnerPacket(packetId, clazz, constructor);
         addListener(clazz, listener);
     }
 
@@ -84,8 +86,8 @@ public class BCSPProxyAPI implements BCSPApi {
         }
     }
 
-    public <T extends AbstractPacket> void registerCallBackProcessor(int port, Class<T> targetPacket, Function<T, AbstractPacket> func) {
-        BCSPProxyAPI.getInst().registerInnerPacket(port, targetPacket, (pack, wrap) -> {
+    public <T extends AbstractPacket> void registerCallBackProcessor(int port, Class<T> targetPacket, Supplier<T> constructor, Function<T, AbstractPacket> func) {
+        BCSPProxyAPI.getInst().registerInnerPacket(port, targetPacket, constructor, (pack, wrap) -> {
             AbstractPacket res = null;
             try {
                 processCallBackResult(targetPacket, wrap);

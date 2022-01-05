@@ -1,9 +1,8 @@
 package kr.msleague.bcsp.internal.netty.packet;
 
 public class PacketMapper {
-    public static Class<? extends AbstractPacket> getPacketById(Direction direction, int id) {
-        Class<? extends AbstractPacket> pair = direction.intToPackMap.get(id);
-        return pair;
+    public static PacketWrapper<?> getPacketById(Direction direction, int id) {
+        return direction.intToPackMap.get(id);
     }
 
     public static Integer getIdByPacket(Direction direction, Class<? extends AbstractPacket> pack) {
