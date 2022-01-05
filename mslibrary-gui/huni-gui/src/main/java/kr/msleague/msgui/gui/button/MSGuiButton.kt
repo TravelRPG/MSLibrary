@@ -8,19 +8,19 @@ import org.bukkit.inventory.ItemStack
 
 class MSGuiButton internal constructor(
     val type: MSGuiButtonType,
-    private val makeFunc: () -> ItemStack,
+    private val itemStack: ItemStack,
     private val lateFunc: ((ItemStack)->Unit)?,
     private val action: MSGuiButtonAction?,
     private val cancellable: Boolean
 ) {
 
     fun setSlot(gui: MSGui<*>, vararg slots: Int) {
-        val itemStack = makeFunc()
+        val itemStack = itemStack.clone()
         slots.forEach { a(itemStack, it, gui) }
     }
 
     fun setSlot(gui: MSGui<*>, vararg slots: IntProgression) {
-        val itemStack = makeFunc()
+        val itemStack = itemStack.clone()
         slots.forEach { slotsIn -> slotsIn.forEach { a(itemStack, it, gui) } }
     }
 

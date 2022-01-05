@@ -1,5 +1,6 @@
 package kr.msleague.msgui.gui.button
 
+import kr.msleague.msgui.managers.SkullManager
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -7,6 +8,8 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.SkullMeta
+import kotlin.collections.ArrayList
+import kotlin.collections.HashSet
 
 abstract class MSGuiButtonBuilderABS {
 
@@ -34,6 +37,8 @@ abstract class MSGuiButtonBuilderABS {
         internal set
     var cleanable: Boolean = false
         internal set
+    var unbreakAble: Boolean = false
+        internal set
     private val baseFlags: MutableSet<ItemFlag> get() = itemFlags ?: HashSet<ItemFlag>().apply { itemFlags = this }
     private val baseLore: MutableList<String> get() = lore ?: ArrayList<String>().apply { lore = this }
     internal var owner: OfflinePlayer? = null
@@ -48,8 +53,7 @@ abstract class MSGuiButtonBuilderABS {
         }
     }
     fun addLore(line: String) {
-        if (baseItem != null && baseItem!!.hasItemMeta() && baseItem!!.itemMeta.hasLore()) lore =
-            baseItem!!.itemMeta.lore
+        if (lore == null) lore = baseItem?.itemMeta?.lore
         baseLore.add(line)
     }
     fun removeLore(index: Int) {
@@ -63,21 +67,30 @@ abstract class MSGuiButtonBuilderABS {
     fun setAmount(amount: Int) { this.amount = amount }
     fun setAction(ktFunc: (InventoryClickEvent)->Unit) { this.action = object: MSGuiButtonAction { override fun action(e: InventoryClickEvent) { ktFunc(e) } } }
     fun setCancellable(cancel: Boolean) { this.cancel = cancel }
+    fun setUnbreakAble(unbreakAble: Boolean) { this.unbreakAble = unbreakAble }
     fun setCleanable(clean: Boolean) { this.cleanable = clean }
     fun setData(meta: ItemMeta) {
         if (display != null) meta.setDisplayName(display)
         if(lore != null) meta.lore = lore
         if (itemFlags != null) itemFlags?.toTypedArray()?.apply { meta.addItemFlags(*this) }
         if (glow) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+        if(unbreakAble) meta.isUnbreakable = true
     }
-    internal abstract fun versionBuild(): ()-> ItemStack
+    internal abstract fun versionBuild(item: ItemStack?): Pair<ItemStack, Boolean>
     fun build(): MSGuiButton {
-        val lastFunc: ((ItemStack)->Unit)? =  if (type == MSGuiButtonType.PLAYER_HEAD) { item->
-            val meta = item.itemMeta as SkullMeta
-            meta.owningPlayer = owner
-            item.itemMeta = meta
+        var makeLastFunc = true
+        val func = versionBuild(if(type==MSGuiButtonType.PLAYER_HEAD) SkullManager.getHead(owner?.uniqueId) else null)
+        makeLastFunc = func.second
+        val item = func.first
+        val lastFunc: ((ItemStack?)->Unit)? = if(!makeLastFunc) { item->
+            if(item != null) {
+                val meta = item.itemMeta as SkullMeta
+                meta.owningPlayer = owner
+                item.itemMeta = meta
+                SkullManager.setHead(owner?.uniqueId, item.clone())
+            }
         } else null
-        return MSGuiButton(type, versionBuild(), lastFunc, action, cancel)
+        return MSGuiButton(type, item, lastFunc, action, cancel)
     }
 
 }

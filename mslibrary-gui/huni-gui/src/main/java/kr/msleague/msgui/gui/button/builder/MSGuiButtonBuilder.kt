@@ -72,6 +72,11 @@ class MSGuiButtonBuilder {
         return this
     }
 
+    fun unBreakAble(unbreakAble: Boolean): MSGuiButtonBuilder {
+        builder.setUnbreakAble(unbreakAble)
+        return this
+    }
+
     fun build(): MSGuiButton = builder.build()
 
 }

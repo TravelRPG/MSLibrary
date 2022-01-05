@@ -11,9 +11,13 @@ import java.util.*
 
 object SkullManager {
 
-    private val base64Method = Class.forName("org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64").getMethod("encodeBase64",ByteArray::class.java)
+    private val headCacheMap = HashMap<UUID, ItemStack>()
+    fun getHead(uuid: UUID?): ItemStack? = uuid?.run { headCacheMap[this] }
+    fun setHead(uuid: UUID?, head: ItemStack) = uuid?.apply { headCacheMap[this] = head }
+
+    private val base64Method by lazy { Class.forName("org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64").getMethod("encodeBase64",ByteArray::class.java) }
     private fun base64Func(array: ByteArray): ByteArray { return base64Method.invoke(null,array) as ByteArray }
-    private val getMaterialMethod = Class.forName("org.bukkit.Material").getDeclaredMethod("getMaterial", String::class.java, Boolean::class.java)
+    private val getMaterialMethod by lazy { Class.forName("org.bukkit.Material").getDeclaredMethod("getMaterial", String::class.java, Boolean::class.java) }
     private fun getMaterialFunc(name: String): Material = getMaterialMethod.invoke(null, name, false) as Material
 
     fun getSkull(temp: String, amount: Int): ItemStack {

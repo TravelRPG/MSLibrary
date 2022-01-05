@@ -8,6 +8,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 public class YamlFileItemDatabase extends AbstractFileItemDatabase<YamlConfiguration> {
@@ -25,6 +26,11 @@ public class YamlFileItemDatabase extends AbstractFileItemDatabase<YamlConfigura
     @Override
     void writeFile(File file, MSItemData data) throws IOException {
         serializer.write(file, adapter.serialize(data));
+    }
+
+    @Override
+    public CompletableFuture<Integer> generateNewId() {
+        return null;
     }
 
     public static class YamlFileSerializer extends JsonSerializer implements FileSerializer<YamlConfiguration> {

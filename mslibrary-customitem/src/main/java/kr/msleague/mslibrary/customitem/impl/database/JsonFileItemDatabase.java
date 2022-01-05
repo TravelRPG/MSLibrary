@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 public class JsonFileItemDatabase extends AbstractFileItemDatabase<JsonObject> {
@@ -30,6 +31,11 @@ public class JsonFileItemDatabase extends AbstractFileItemDatabase<JsonObject> {
     @Override
     void writeFile(File file, MSItemData data) throws IOException {
         serializer.write(file, adapter.serialize(data));
+    }
+
+    @Override
+    public CompletableFuture<Integer> generateNewId() {
+        return null;
     }
 
 

@@ -9,6 +9,8 @@ import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import java.util.*
+import kotlin.collections.HashMap
 
 internal class MSGui12ButtonBuilder: MSGuiButtonBuilderABS {
 
@@ -37,18 +39,20 @@ internal class MSGui12ButtonBuilder: MSGuiButtonBuilderABS {
         type = MSGuiButtonType.PLAYER_HEAD
         this.owner = offlinePlayer
     }
-
-    override fun versionBuild(): () -> ItemStack = {
+    override fun versionBuild(it: ItemStack?): Pair<ItemStack, Boolean> =
         (when (type) {
-            MSGuiButtonType.PLAYER_HEAD -> ItemStack(Material.SKULL_ITEM, amount, 3)
-            MSGuiButtonType.CUSTOM_HEAD -> SkullManager.getSkull(url?: "", amount)
-            else -> if(baseItem != null) baseItem!!.clone() else ItemStack(material, amount, durability.toShort())
+            MSGuiButtonType.PLAYER_HEAD -> {
+                if(it == null) ItemStack(Material.SKULL_ITEM, amount, 3) to false
+                else it.apply { amount = this@MSGui12ButtonBuilder.amount } to true
+            }
+            MSGuiButtonType.CUSTOM_HEAD -> SkullManager.getSkull(url?: "", amount) to true
+            else -> if(baseItem != null) baseItem!!.clone() to true else ItemStack(material, amount, durability.toShort()) to true
         }).apply {
-            val meta = itemMeta
+            val meta = first.itemMeta
             meta.run(this@MSGui12ButtonBuilder::setData)
-            itemMeta = meta
-            if (glow) addUnsafeEnchantment(Enchantment.LURE, 1)
-        }.run { addNBTTagCompound(MSGuiButtonData(cancel, cleanable)) }
-    }
+            first.itemMeta = meta
+            if (glow) first.addUnsafeEnchantment(Enchantment.LURE, 1)
+        }.run { first.addNBTTagCompound(MSGuiButtonData(cancel, cleanable)) to second }
+
 
 }
