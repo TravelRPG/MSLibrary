@@ -35,6 +35,11 @@ internal class MSGui12ButtonBuilder: MSGuiButtonBuilderABS {
         this.url = url
     }
 
+    constructor(uuid: UUID) {
+        type = MSGuiButtonType.PLAYER_HEAD
+        this.uuid = uuid
+    }
+
     constructor(offlinePlayer: OfflinePlayer) {
         type = MSGuiButtonType.PLAYER_HEAD
         this.owner = offlinePlayer

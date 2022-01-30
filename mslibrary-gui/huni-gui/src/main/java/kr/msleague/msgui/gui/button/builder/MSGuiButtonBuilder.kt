@@ -10,6 +10,7 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
+import java.util.*
 
 class MSGuiButtonBuilder {
 
@@ -19,6 +20,7 @@ class MSGuiButtonBuilder {
     constructor(baseItem: ItemStack) { builder = if(highVersion16) MSGui16ButtonBuilder(baseItem) else if(highVersion17) MSGui17ButtonBuilder(baseItem) else MSGui12ButtonBuilder(baseItem) }
     constructor(material: Material, durability: Int)  { builder = if(highVersion16) MSGui16ButtonBuilder(material, durability) else if(highVersion17) MSGui17ButtonBuilder(material, durability) else MSGui12ButtonBuilder(material, durability) }
     constructor(url: String) { builder = if(highVersion16) MSGui16ButtonBuilder(url) else if(highVersion17) MSGui17ButtonBuilder(url) else MSGui12ButtonBuilder(url) }
+    constructor(uuid: UUID) { builder = if(highVersion16) MSGui16ButtonBuilder(uuid) else if(highVersion17) MSGui17ButtonBuilder(uuid) else MSGui12ButtonBuilder(uuid) }
     constructor(offlinePlayer: OfflinePlayer) { builder = if(highVersion16) MSGui16ButtonBuilder(offlinePlayer) else if(highVersion17) MSGui17ButtonBuilder(offlinePlayer) else MSGui12ButtonBuilder(offlinePlayer) }
     fun setDisplayName(displayName: String?): MSGuiButtonBuilder {
         builder.setDisplayName(displayName)

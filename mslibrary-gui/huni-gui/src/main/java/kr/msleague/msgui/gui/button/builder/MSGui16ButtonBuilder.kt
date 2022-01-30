@@ -9,6 +9,7 @@ import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import java.util.*
 
 internal class MSGui16ButtonBuilder: MSGuiButtonBuilderABS {
 
@@ -36,6 +37,11 @@ internal class MSGui16ButtonBuilder: MSGuiButtonBuilderABS {
     constructor(offlinePlayer: OfflinePlayer) {
         type = MSGuiButtonType.PLAYER_HEAD
         this.owner = offlinePlayer
+    }
+
+    constructor(uuid: UUID) {
+        type = MSGuiButtonType.PLAYER_HEAD
+        this.uuid = uuid
     }
 
     //: (UUID, ItemStack?) -> Pair<ItemStack, Boolean> = { uuid, it ->

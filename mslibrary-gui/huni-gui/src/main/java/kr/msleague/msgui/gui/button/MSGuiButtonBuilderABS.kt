@@ -1,6 +1,10 @@
 package kr.msleague.msgui.gui.button
 
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import kr.msleague.msgui.managers.SkullManager
+import kr.msleague.msgui.server
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -8,8 +12,12 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.inventory.meta.SkullMeta
-import kotlin.collections.ArrayList
-import kotlin.collections.HashSet
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.URL
+import java.nio.charset.StandardCharsets
+import java.util.*
+
 
 abstract class MSGuiButtonBuilderABS {
 
@@ -38,6 +46,8 @@ abstract class MSGuiButtonBuilderABS {
     var cleanable: Boolean = false
         internal set
     var unbreakAble: Boolean = false
+        internal set
+    var uuid: UUID? = null
         internal set
     private val baseFlags: MutableSet<ItemFlag> get() = itemFlags ?: HashSet<ItemFlag>().apply { itemFlags = this }
     private val baseLore: MutableList<String> get() = lore ?: ArrayList<String>().apply { lore = this }
@@ -79,18 +89,48 @@ abstract class MSGuiButtonBuilderABS {
     internal abstract fun versionBuild(item: ItemStack?): Pair<ItemStack, Boolean>
     fun build(): MSGuiButton {
         var makeLastFunc = true
-        val func = versionBuild(if(type==MSGuiButtonType.PLAYER_HEAD) SkullManager.getHead(owner?.uniqueId) else null)
+        val func = versionBuild(if(type==MSGuiButtonType.PLAYER_HEAD) SkullManager.getHead(owner?.uniqueId?: uuid) else null)
         makeLastFunc = func.second
         val item = func.first
         val lastFunc: ((ItemStack?)->Unit)? = if(!makeLastFunc) { item->
             if(item != null) {
                 val meta = item.itemMeta as SkullMeta
-                meta.owningPlayer = owner
-                item.itemMeta = meta
-                SkullManager.setHead(owner?.uniqueId, item.clone())
+                val targetUUID = owner?.run {
+                    meta.owningPlayer = owner
+                    item.itemMeta = meta
+                    uniqueId
+                }?: uuid.run {
+                    try {
+                        val s = getURLContents("https://sessionserver.mojang.com/session/minecraft/profile/$this")
+                        val g = Gson()
+                        val obj = g.fromJson(s, JsonObject::class.java)
+                        val value = obj.getAsJsonArray("properties").get(0).asJsonObject.get("value").asString
+                        val decoded = String(Base64.getDecoder().decode(value))
+                        val newObj = g.fromJson(decoded, JsonObject::class.java)
+                        val skinURL = newObj.getAsJsonObject("textures").getAsJsonObject("SKIN").get("url").asString
+                        val skin = ("{\"textures\":{\"SKIN\":{\"url\":\"$skinURL\"}}}").toByteArray()
+                        val l = Base64.getEncoder().encode(skin)
+                        val hash = l.hashCode().toLong()
+                        val hashAsId = UUID(hash, hash)
+                        server.unsafe.modifyItemStack(item, "{SkullOwner:{Id:\"$hashAsId\",Properties:{textures:[{Value:\"$value\"}]}}}")
+                        this
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+                SkullManager.setHead(targetUUID, item.clone())
             }
         } else null
         return MSGuiButton(type, item, lastFunc, action, cancel)
+    }
+
+    private fun getURLContents(stringURL: String): String {
+        val url = URL(stringURL)
+        val stringBuilder = StringBuilder()
+        BufferedReader(InputStreamReader(url.openStream(), StandardCharsets.UTF_8)).use { input ->
+            input.readLines().forEach(stringBuilder::append)
+        }
+        return stringBuilder.toString()
     }
 
 }

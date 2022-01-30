@@ -9,6 +9,7 @@ import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
+import java.util.*
 
 internal class MSGui17ButtonBuilder: MSGuiButtonBuilderABS {
 
@@ -31,6 +32,11 @@ internal class MSGui17ButtonBuilder: MSGuiButtonBuilderABS {
     constructor(url: String) {
         type = MSGuiButtonType.CUSTOM_HEAD
         this.url = url
+    }
+
+    constructor(uuid: UUID) {
+        type = MSGuiButtonType.PLAYER_HEAD
+        this.uuid = uuid
     }
 
     constructor(offlinePlayer: OfflinePlayer) {
