@@ -2,7 +2,8 @@ package kr.msleague.msgui.managers
 
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
-import kr.msleague.msgui.highVersion
+import kr.msleague.msgui.highVersion16
+import kr.msleague.msgui.highVersion17
 import org.apache.commons.codec.binary.Base64
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -21,13 +22,13 @@ object SkullManager {
     private fun getMaterialFunc(name: String): Material = getMaterialMethod.invoke(null, name, false) as Material
 
     fun getSkull(temp: String, amount: Int): ItemStack {
-        val head = if(highVersion) ItemStack(getMaterialFunc("PLAYER_HEAD"), amount) else ItemStack(Material.SKULL_ITEM, amount, 3.toShort())
+        val head = if(highVersion16 || highVersion17) ItemStack(getMaterialFunc("PLAYER_HEAD"), amount) else ItemStack(Material.SKULL_ITEM, amount, 3.toShort())
         if (temp.isEmpty()) return head
         val url = "https://textures.minecraft.net/texture/$temp"
         val headMeta = head.itemMeta!!
         val profile = GameProfile(UUID.randomUUID(), null)
         val array = String.format("{textures:{SKIN:{url:\"%s\"}}}", url).toByteArray()
-        val encodedData = if(highVersion) base64Func(array) else Base64.encodeBase64(array)
+        val encodedData = if(highVersion16 || highVersion17) base64Func(array) else Base64.encodeBase64(array)
         profile.properties.put("textures", Property("textures", String(encodedData)))
         var profileField: Field? = null
         try {

@@ -1,9 +1,7 @@
 package kr.msleague.msgui.gui.button
 
+import kr.msleague.msgui.*
 import kr.msleague.msgui.gui.MSGui
-import kr.msleague.msgui.highVersion
-import kr.msleague.msgui.plugin
-import kr.msleague.msgui.server
 import org.bukkit.inventory.ItemStack
 
 class MSGuiButton internal constructor(
@@ -28,7 +26,7 @@ class MSGuiButton internal constructor(
         if (gui.size > it) {
             if (action != null) gui.addButtonAction(it, action)
             val current = gui.inventory.getItem(it)
-            if (current != null && current.type == itemStack.type && (!highVersion && current.durability == itemStack.durability)) current.itemMeta = itemStack.itemMeta
+            if (current != null && current.type == itemStack.type && (!highVersion16 && !highVersion17 && current.durability == itemStack.durability)) current.itemMeta = itemStack.itemMeta
             else gui.inventory.setItem(it, itemStack.clone())
             server.scheduler.runTaskAsynchronously(plugin){ lateFunc?.let { it1 -> it1(gui.inventory.getItem(it)) } }
         }

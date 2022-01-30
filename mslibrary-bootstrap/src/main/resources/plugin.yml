@@ -2,5 +2,6 @@ name: MSLibrary
 version: '1.0'
 author: HuNi_C, BGMSound, Arkarang, ChuYong, Dan_So
 website: https://msleague.kr
+api-version: 1.13
 description: MSLibrary for bukkit
 main: kr.msleague.bootstrap.MSLibraryBukkitBootstrap
