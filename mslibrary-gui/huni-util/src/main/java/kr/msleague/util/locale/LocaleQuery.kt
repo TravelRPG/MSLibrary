@@ -1,6 +1,7 @@
 package kr.msleague.util.locale
 
 import kr.msleague.bootstrap.MSPlugin
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
@@ -15,13 +16,15 @@ object LocaleQuery {
     private val potionMap = potionKeys
     private val lingeringPotionMap = lingeringPotionKeys
     private val splashPotionMap = splashPotionKeys
+    private val lowVersion by lazy { Bukkit.getServer().version.contains("1.12") }
 
     private val folder by lazy { File(MSPlugin.getDataFolder(), "lang").apply { if (!exists()) mkdirs() } }
     private val file by lazy {
         File(folder, "ko_kr.yml").apply {
+            val name = if(lowVersion) "ko_kr12.yml" else "ko_kr13+.yml"
             if (!exists()) {
-                MSPlugin.getPlugin().saveResource("ko_kr.yml", true)
-                val temp = File(MSPlugin.getDataFolder(), "ko_kr.yml")
+                MSPlugin.getPlugin().saveResource(name, true)
+                val temp = File(MSPlugin.getDataFolder(), name)
                 temp.copyTo(this, true)
                 temp.delete()
             }
@@ -31,7 +34,10 @@ object LocaleQuery {
 
     internal fun getItemKey(material: Material, durability: Short, default: String): String =
         langYaml.getString(
-            if (material.isBlock) blockMap[material.name + "." + durability] ?: blockMap[material.name] ?: default
+            if(!lowVersion) {
+                (if(material.isBlock) "block.minecraft."+ material.name.lowercase()
+                else "item.minecraft."+material.name.lowercase())
+            } else if (material.isBlock) blockMap[material.name + "." + durability] ?: blockMap[material.name] ?: default
             else {
                 val i = ItemStack(material, 1, durability)
                 if (durability >= 0 && i.itemMeta is PotionMeta) {
