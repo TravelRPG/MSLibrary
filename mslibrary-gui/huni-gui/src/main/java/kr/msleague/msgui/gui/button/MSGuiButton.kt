@@ -28,7 +28,7 @@ class MSGuiButton internal constructor(
             val current = gui.inventory.getItem(it)
             if (current != null && current.type == itemStack.type && (!highVersion16 && !highVersion17 && current.durability == itemStack.durability)) current.itemMeta = itemStack.itemMeta
             else gui.inventory.setItem(it, itemStack.clone())
-            server.scheduler.runTaskAsynchronously(plugin){ lateFunc?.let { it1 -> it1(gui.inventory.getItem(it)) } }
+            server.scheduler.runTaskAsynchronously(plugin) { lateFunc?.let { it1 -> it1(gui.inventory.getItem(it)) } }
         }
     }
 

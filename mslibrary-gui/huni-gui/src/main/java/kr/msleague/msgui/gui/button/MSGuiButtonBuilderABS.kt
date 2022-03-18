@@ -7,6 +7,7 @@ import kr.msleague.msgui.server
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -86,18 +87,17 @@ abstract class MSGuiButtonBuilderABS {
         if (glow) meta.addItemFlags(ItemFlag.HIDE_ENCHANTS)
         if(unbreakAble) meta.isUnbreakable = true
     }
-    internal abstract fun versionBuild(item: ItemStack?): Pair<ItemStack, Boolean>
+    internal abstract fun versionBuild(item: String?): Pair<ItemStack, Boolean>
     fun build(): MSGuiButton {
-        var makeLastFunc = true
         val func = versionBuild(if(type==MSGuiButtonType.PLAYER_HEAD) SkullManager.getHead(owner?.uniqueId?: uuid) else null)
-        makeLastFunc = func.second
+        val makeLastFunc = func.second
         val item = func.first
-        val lastFunc: ((ItemStack?)->Unit)? = if(!makeLastFunc) { item->
-            if(item != null) {
-                val meta = item.itemMeta as SkullMeta
-                val targetUUID = owner?.run {
+        val lastFunc: ((ItemStack?)->Unit)? = if(!makeLastFunc) { tempItem->
+            if(tempItem != null) {
+                val meta = tempItem.itemMeta as SkullMeta
+                owner?.run {
                     meta.owningPlayer = owner
-                    item.itemMeta = meta
+                    tempItem.itemMeta = meta
                     uniqueId
                 }?: uuid.run {
                     try {
@@ -112,13 +112,17 @@ abstract class MSGuiButtonBuilderABS {
                         val l = Base64.getEncoder().encode(skin)
                         val hash = l.hashCode().toLong()
                         val hashAsId = UUID(hash, hash)
-                        server.unsafe.modifyItemStack(item, "{SkullOwner:{Id:\"$hashAsId\",Properties:{textures:[{Value:\"$value\"}]}}}")
+                        val tag = "{SkullOwner:{Id:\"$hashAsId\",Properties:{textures:[{Value:\"$value\"}]}}}"
+                        //server.unsafe.modifyItemStack(tempItem, tag)
+                        SkullManager.setHead(this, tag)
+                        meta.owningPlayer = server.getOfflinePlayer(uuid)
+                        tempItem.itemMeta = meta
                         this
                     } catch (e: Exception) {
                         null
                     }
                 }
-                SkullManager.setHead(targetUUID, item.clone())
+                //SkullManager.setHead(targetUUID, tempItem.clone())
             }
         } else null
         return MSGuiButton(type, item, lastFunc, action, cancel)

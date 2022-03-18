@@ -4,6 +4,7 @@ import kr.msleague.msgui.gui.button.MSGuiButtonBuilderABS
 import kr.msleague.msgui.gui.button.MSGuiButtonData
 import kr.msleague.msgui.gui.button.MSGuiButtonType
 import kr.msleague.msgui.managers.SkullManager
+import kr.msleague.msgui.server
 import kr.msleague.util.extensions.addNBTTagCompound17
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
@@ -41,7 +42,7 @@ internal class MSGui17ButtonBuilder: MSGuiButtonBuilderABS {
 
     constructor(offlinePlayer: OfflinePlayer) {
         type = MSGuiButtonType.PLAYER_HEAD
-        this.owner = offlinePlayer
+        this.uuid = offlinePlayer.uniqueId
     }
 
     //: (UUID, ItemStack?) -> Pair<ItemStack, Boolean> = { uuid, it ->
@@ -60,11 +61,15 @@ internal class MSGui17ButtonBuilder: MSGuiButtonBuilderABS {
     //        }.run { first.addNBTTagCompound(MSGuiButtonData(cancel, cleanable)) to second }
     //    }
 
-    override fun versionBuild(item: ItemStack?): Pair<ItemStack, Boolean> =
+    override fun versionBuild(item: String?): Pair<ItemStack, Boolean> =
         (when (type) {
             MSGuiButtonType.PLAYER_HEAD -> {
                 if(item == null) ItemStack(Material.valueOf("PLAYER_HEAD"), amount) to false
-                else item.apply{ amount = this@MSGui17ButtonBuilder.amount } to true
+                else item.run{
+                    server.unsafe.modifyItemStack(ItemStack(Material.valueOf("PLAYER_HEAD"), amount), this).apply {
+                        amount = this@MSGui17ButtonBuilder.amount
+                    }
+                } to true
             }
             MSGuiButtonType.CUSTOM_HEAD -> SkullManager.getSkull(url?: "", amount) to true
             else -> baseItem?.clone()?.run { this to true }?: ItemStack(material, amount) to true

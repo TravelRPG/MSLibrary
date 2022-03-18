@@ -12,9 +12,9 @@ import java.util.*
 
 object SkullManager {
 
-    private val headCacheMap = HashMap<UUID, ItemStack>()
-    fun getHead(uuid: UUID?): ItemStack? = uuid?.run { headCacheMap[this] }
-    fun setHead(uuid: UUID?, head: ItemStack) = uuid?.apply { headCacheMap[this] = head }
+    private val headCachedMap = HashMap<UUID, String>()
+    fun getHead(uuid: UUID?): String? = uuid?.run { headCachedMap[this] }
+    fun setHead(uuid: UUID?, tag: String) = uuid?.apply { headCachedMap[this] = tag }
 
     private val base64Method by lazy { Class.forName("org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64").getMethod("encodeBase64",ByteArray::class.java) }
     private fun base64Func(array: ByteArray): ByteArray { return base64Method.invoke(null,array) as ByteArray }
