@@ -123,6 +123,33 @@ abstract class MSGui<V>(
         initializer()
     }
 
+    private val listener = object: Listener {
+        @EventHandler
+        fun onClick(e: InventoryClickEvent) {
+            if (viewers[e.whoClicked.uniqueId] != this@MSGui) return
+            if (cancelGUI) e.isCancelled = true
+            guiClick(e)
+        }
+
+        @EventHandler
+        fun onDrag(e: InventoryDragEvent) {
+            if (viewers[e.whoClicked.uniqueId] != this@MSGui) return
+            guiDrag(e)
+        }
+
+        @EventHandler
+        fun onClose(e: InventoryCloseEvent) {
+            if (viewers[e.player.uniqueId] != this@MSGui) return
+            viewers.remove(e.player.uniqueId)
+            if (viewers.filter { it.value == this@MSGui }.isEmpty()) {
+                InventoryClickEvent.getHandlerList().unregister(this)
+                InventoryCloseEvent.getHandlerList().unregister(this)
+                InventoryOpenEvent.getHandlerList().unregister(this)
+            }
+            guiClose(e)
+        }
+    }
+
     private fun initializer() {
         who.closeInventory()
         cancelList.add(who.uniqueId)
@@ -131,6 +158,15 @@ abstract class MSGui<V>(
             val preOpenEvent = MSGuiOpenEvent(who, this, System.currentTimeMillis())
             pluginManager.callEvent(preOpenEvent)
             if (preOpenEvent.isCancelled) return
+            if(viewers.containsKey(who.uniqueId)) {
+                viewers.remove(who.uniqueId)?.also { gui ->
+                    if (viewers.filter { it.value == it }.isEmpty()) {
+                        InventoryClickEvent.getHandlerList().unregister(gui.listener)
+                        InventoryCloseEvent.getHandlerList().unregister(gui.listener)
+                        InventoryOpenEvent.getHandlerList().unregister(gui.listener)
+                    }
+                }
+            }
             viewers[who.uniqueId] = this
             val delay = if (who.openInventory.topInventory.type != InventoryType.CRAFTING) 1L else 0
             server.scheduler.runTaskLater(plugin, {
@@ -144,32 +180,7 @@ abstract class MSGui<V>(
                         currentPage = 1
                         pages?.get(page)?.invoke(this)
                     }
-                    pluginManager.registerEvents(object : Listener {
-                        @EventHandler
-                        fun onClick(e: InventoryClickEvent) {
-                            if (viewers[e.whoClicked.uniqueId] != this@MSGui) return
-                            if (cancelGUI) e.isCancelled = true
-                            guiClick(e)
-                        }
-
-                        @EventHandler
-                        fun onDrag(e: InventoryDragEvent) {
-                            if (viewers[e.whoClicked.uniqueId] != this@MSGui) return
-                            guiDrag(e)
-                        }
-
-                        @EventHandler
-                        fun onClose(e: InventoryCloseEvent) {
-                            if (viewers[e.player.uniqueId] != this@MSGui) return
-                            viewers.remove(e.player.uniqueId)
-                            if (viewers.filter { it.value == this@MSGui }.isEmpty()) {
-                                InventoryClickEvent.getHandlerList().unregister(this)
-                                InventoryCloseEvent.getHandlerList().unregister(this)
-                                InventoryOpenEvent.getHandlerList().unregister(this)
-                            }
-                            guiClose(e)
-                        }
-                    }, plugin)
+                    pluginManager.registerEvents(listener, plugin)
                     who.openInventory(inventory)
                     pluginManager.callEvent(MSGuiOpenedEvent(who, this, System.currentTimeMillis()))
                 } catch (e: Exception) { who.closeInventory() } finally { cancelList.remove(who.uniqueId) }
