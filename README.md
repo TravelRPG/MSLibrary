@@ -15,7 +15,7 @@
 ### Timer
 > Kotlin
 ```kotlin
-class TestPlugin: JavaPlugin(), TimeEventHandler {
+class TestPlugin: JavaPlugin(), TimeListener {
 
   override fun onEnable() {
     timerManager.registerTimeListener(this, this)
@@ -30,7 +30,7 @@ class TestPlugin: JavaPlugin(), TimeEventHandler {
 ```
 > Java
 ```java
-public class TestPlugin extends JavaPlugin implements TimeEventHandler {
+public class TestPlugin extends JavaPlugin implements TimeListener {
   @Override
   public void onEnable() {
       JavaPluginExtensionKt.getTimerManager(this).registerTimeListener(this, this);
