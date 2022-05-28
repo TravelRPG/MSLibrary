@@ -12,6 +12,37 @@
 > - HuNi_C
 > - Soa_
 
+### Timer
+> Kotlin
+```kotlin
+class TestPlugin: JavaPlugin(), TimeEventHandler {
+
+  override fun onEnable() {
+    timerManager.registerTimeListener(this, this)
+  }
+  
+  @TimeEventHandler(hour = 17)
+  fun test() {
+    TODO()
+  }
+
+}
+```
+> Java
+```java
+public class TestPlugin extends JavaPlugin implements TimeEventHandler {
+  @Override
+  public void onEnable() {
+      JavaPluginExtensionKt.getTimerManager(this).registerTimeListener(this, this);
+  }
+  
+  @TimeEventHandler(hour = 15, min = 30)
+  public void test() {
+    //TODO
+  }
+}
+```
+
 ### License
 
 > - MIT License
