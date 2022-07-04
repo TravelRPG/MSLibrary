@@ -21,6 +21,7 @@ var Any.tag: Any?
     set(value) { setTagMethod(this, value) }
 
 
+@Deprecated("걍 버전안적어두댐", ReplaceWith("ItemStack#addNBTTagCompound"))
 inline fun <reified T> ItemStack.addNBTTagCompound16(data: T): ItemStack {
     return asBukkitCopy16(asNMSCopy16(this)
             .apply {
@@ -28,7 +29,7 @@ inline fun <reified T> ItemStack.addNBTTagCompound16(data: T): ItemStack {
             }
     )
 }
-
+@Deprecated("걍 버전안적어두댐", ReplaceWith("ItemStack#addNBTTagCompound"))
 inline fun <reified T> ItemStack.getNBTTagCompound16(data: Class<T>): T? {
     val jsonData = asNMSCopy16(this).tag?.getString(T::class.simpleName?: return null) ?: return null
     return Gson().fromJson(jsonData, data)

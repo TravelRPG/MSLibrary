@@ -23,7 +23,6 @@
             <artifactId>zstd-jni</artifactId>
             <version>1.5.0-4</version>
             <scope>compile</scope>
-            <classifier>win_amd64</classifier>
         </dependency>
         <dependency>
             <groupId>kr.msleague</groupId>
