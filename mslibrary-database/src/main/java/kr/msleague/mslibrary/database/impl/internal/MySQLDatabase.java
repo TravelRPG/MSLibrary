@@ -9,16 +9,15 @@ import kr.msleague.mslibrary.database.api.ThrowingFunction;
 import lombok.RequiredArgsConstructor;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 @RequiredArgsConstructor
 public class MySQLDatabase implements MSDatabase<Connection> {
 
     protected final ExecutorService service;
     HikariDataSource dataSource;
+
     public void shutdown(){
         dataSource.close();
     }
@@ -38,6 +37,7 @@ public class MySQLDatabase implements MSDatabase<Connection> {
             hikariConfig.setJdbcUrl("jdbc:mysql://" + address + ":" + port + "/" + database + "?autoReconnect=" + autoReconnect + "&allowMultiQueries=" + allowMultiQueries);
             hikariConfig.setUsername(username);
             hikariConfig.setPassword(password);
+            hikariConfig.addDataSourceProperty("useSSL", config.get("useSSL", "true"));
             hikariConfig.addDataSourceProperty("maximumPoolSize", config.get("maximumPoolSize", "10"));
             hikariConfig.addDataSourceProperty("cachePrepStmts", config.get("cachePrepStmts", "true"));
             hikariConfig.addDataSourceProperty("prepStmtCacheSize", config.get("prepStmtCacheSize", "250"));
@@ -66,10 +66,11 @@ public class MySQLDatabase implements MSDatabase<Connection> {
     public <R> CompletableFuture<R> executeAsync(ThrowingFunction<Connection, R> function) {
         CompletableFuture<R> future = new CompletableFuture<>();
         service.submit(() -> {
-            try (Connection con = dataSource.getConnection()) {
-                future.complete(function.acceptThrowing(con));
-            } catch (SQLException e) {
-                e.printStackTrace();
+            try {
+                try (Connection con = dataSource.getConnection()) {
+                    future.complete(function.acceptThrowing(con));
+                }
+            }catch (Throwable e){
                 future.completeExceptionally(e);
             }
             return null;
@@ -86,6 +87,7 @@ public class MySQLDatabase implements MSDatabase<Connection> {
                 e.printStackTrace();
             }
         });
+
     }
 
     @Override

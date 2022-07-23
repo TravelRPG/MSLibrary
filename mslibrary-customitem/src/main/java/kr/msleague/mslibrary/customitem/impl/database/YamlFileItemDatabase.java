@@ -28,11 +28,6 @@ public class YamlFileItemDatabase extends AbstractFileItemDatabase<YamlConfigura
         serializer.write(file, adapter.serialize(data));
     }
 
-    @Override
-    public CompletableFuture<Integer> generateNewId() {
-        return null;
-    }
-
     public static class YamlFileSerializer extends JsonSerializer implements FileSerializer<YamlConfiguration> {
 
         @Override
