@@ -30,7 +30,7 @@ public class BCSPBootstrapProxy extends Plugin {
     @Override
     public void onEnable() {
         BCSPLogManager.setLogger(new JavaUtilLogger(getLogger()));
-        new BCSPProxyAPI(this);
+        BCSPProxyAPI.setPluginInstance(this);
         GlobalProperties.loadProperties(getDataFolder(), list -> {
             list.add("netty.server.address=localhost");
             list.add("netty.server.port=9090");
@@ -40,6 +40,11 @@ public class BCSPBootstrapProxy extends Plugin {
         });
         this.authCodeA = Long.parseLong(GlobalProperties.getProperties("handshake.id.a"));
         this.authCodeB = Long.parseLong(GlobalProperties.getProperties("handshake.id.b"));
+        initializeServer();
+        registerDefaultListeners();
+
+    }
+    private void initializeServer(){
         CompletableFuture<Channel> future = BungeeComsoServerBootStrap.initServer();
         future.whenCompleteAsync((channel, throwable) -> {
             if (throwable != null) {
@@ -49,6 +54,9 @@ public class BCSPBootstrapProxy extends Plugin {
             }
             BCSPLogManager.getLogger().info("BSCP Server Initialization Success!");
         });
+    }
+
+    private void registerDefaultListeners(){
         Direction.INBOUND.addListener(HandShakePacket.class, (pack, wrap) -> {
             if (pack.getAuthCodeA() == authCodeA && pack.getAuthCodeB() == authCodeB) {
                 wrap.setPort(pack.getServerPort());
