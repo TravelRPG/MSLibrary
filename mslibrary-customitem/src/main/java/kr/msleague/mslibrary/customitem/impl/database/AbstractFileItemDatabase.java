@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -183,6 +184,13 @@ public abstract class AbstractFileItemDatabase<T> implements ItemDatabase {
         return service.submit(() -> {
             return directory.listFiles().length;
         });
+    }
+
+    @Override
+    public CompletableFuture<Integer> generateNewId() {
+        return CompletableFuture.supplyAsync(() -> {
+            return directory.listFiles().length +1;
+        }, service);
     }
 
     abstract MSItemData readFile(File file) throws IOException;

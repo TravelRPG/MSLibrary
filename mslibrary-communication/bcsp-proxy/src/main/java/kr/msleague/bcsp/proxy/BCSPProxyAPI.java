@@ -21,9 +21,13 @@ public class BCSPProxyAPI implements BCSPApi {
     private static BCSPBootstrapProxy main;
     private HashMap<ChannelWrapper, HashMap<Class<? extends AbstractPacket>, ReadWriteLock>> lockMap = new HashMap<>();
 
-    public BCSPProxyAPI(BCSPBootstrapProxy xmain) {
-        inst = this;
-        main = xmain;
+    private BCSPProxyAPI() {}
+
+    public static void setPluginInstance(BCSPBootstrapProxy plugin){
+        if(inst == null){
+            inst = new BCSPProxyAPI();
+        }
+        main = plugin;
     }
 
     @Override

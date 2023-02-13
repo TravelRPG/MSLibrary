@@ -45,6 +45,7 @@ public class MinecraftItemFactory implements ItemFactory<ItemStack> {
         factory.add("lore", new LoreAdapter());
         factory.add("attribute", new v1_16AttributeAdapter());
         factory.add("unbreakable", new UnbreakableAdapter());
+        factory.add("customModelData", new CustomModelDataAdapter());
         factory.add("itemflag", new ItemFlagAdapter());
         return factory;
     }

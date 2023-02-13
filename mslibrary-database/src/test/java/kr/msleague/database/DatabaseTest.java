@@ -5,6 +5,7 @@ import kr.msleague.mslibrary.database.MSLDatabases;
 import kr.msleague.mslibrary.database.api.DatabaseConfig;
 import kr.msleague.mslibrary.database.impl.internal.MySQLDatabase;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ public class DatabaseTest {
 
 
     @Test
+    @Ignore
     public void mysqlTest(){
         DatabaseConfig config = MSLDatabases.HIKARI;
         config.setAddress("localhost");

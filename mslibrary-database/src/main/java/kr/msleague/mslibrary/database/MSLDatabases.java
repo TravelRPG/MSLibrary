@@ -23,8 +23,6 @@ public class MSLDatabases {
 
     private final ConcurrentHashMap<String, MSDatabase<?>> databases = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<String, DatabaseConfig> defaultConfigs = new ConcurrentHashMap<>();
-
-
     private MSLDatabases() {
         addDefaultConfig("hikari-default", HIKARI);
     }
