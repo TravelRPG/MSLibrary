@@ -1,5 +1,3 @@
-class MSGui17ButtonBuilder
-/*
 package kr.msleague.msgui.gui.button.builder
 
 import kr.msleague.msgui.gui.button.MSGuiButtonBuilderABS
@@ -7,14 +5,14 @@ import kr.msleague.msgui.gui.button.MSGuiButtonData
 import kr.msleague.msgui.gui.button.MSGuiButtonType
 import kr.msleague.msgui.managers.SkullManager
 import kr.msleague.msgui.server
-import kr.msleague.util.extensions.addNBTTagCompound19
+import kr.msleague.util.extensions.ItemStackExtension19.addNBTTagCompound19
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
-internal class MSGui17ButtonBuilder: MSGuiButtonBuilderABS {
+internal class MSGui19ButtonBuilder: MSGuiButtonBuilderABS {
 
     constructor(material: Material) {
         type = MSGuiButtonType.ITEM_STACK
@@ -69,7 +67,7 @@ internal class MSGui17ButtonBuilder: MSGuiButtonBuilderABS {
                 if(item == null) ItemStack(Material.valueOf("PLAYER_HEAD"), amount) to false
                 else item.run{
                     server.unsafe.modifyItemStack(ItemStack(Material.valueOf("PLAYER_HEAD"), amount), this).apply {
-                        amount = this@MSGui17ButtonBuilder.amount
+                        amount = this@MSGui19ButtonBuilder.amount
                     }
                 } to true
             }
@@ -78,16 +76,16 @@ internal class MSGui17ButtonBuilder: MSGuiButtonBuilderABS {
         //if(baseItem != null) baseItem!!.clone() else ItemStack(material, amount)
         }).apply {
             val meta = first.itemMeta
-            if(this@MSGui17ButtonBuilder.durability != 0) {
+            if(this@MSGui19ButtonBuilder.durability != 0) {
                 val field = meta.javaClass.getDeclaredMethod("setCustomModelData", Integer::class.java)
                 field.isAccessible = true
-                field.invoke(meta, this@MSGui17ButtonBuilder.durability)
+                field.invoke(meta, this@MSGui19ButtonBuilder.durability)
                 field.isAccessible = false
             }
-            meta.run(this@MSGui17ButtonBuilder::setData)
+            meta.run(this@MSGui19ButtonBuilder::setData)
             first.itemMeta = meta
             if (glow) first.addUnsafeEnchantment(Enchantment.LURE, 1)
         }.run { first.addNBTTagCompound19(MSGuiButtonData(cancel, cleanable)) to second }
 
 
-}*/
+}

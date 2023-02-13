@@ -38,12 +38,12 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
-<!--        <dependency>-->
-<!--            <artifactId>bcsp-assembly</artifactId>-->
-<!--            <groupId>kr.msleague</groupId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--            <scope>compile</scope>-->
-<!--        </dependency>-->
+        <dependency>
+            <artifactId>bcsp-assembly</artifactId>
+            <groupId>kr.msleague</groupId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <artifactId>mslibrary-bootstrap</artifactId>
             <groupId>kr.msleague</groupId>

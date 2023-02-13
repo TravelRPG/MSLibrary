@@ -16,12 +16,12 @@ class MSGuiButtonBuilder {
 
     private var builder: MSGuiButtonBuilderABS
 
-    constructor(material: Material) { builder = if(highVersion16) MSGui16ButtonBuilder(material) else if(highVersion17) MSGui17ButtonBuilder(material) else MSGui12ButtonBuilder(material) }
-    constructor(baseItem: ItemStack) { builder = if(highVersion16) MSGui16ButtonBuilder(baseItem) else if(highVersion17) MSGui17ButtonBuilder(baseItem) else MSGui12ButtonBuilder(baseItem) }
-    constructor(material: Material, durability: Int)  { builder = if(highVersion16) MSGui16ButtonBuilder(material, durability) else if(highVersion17) MSGui17ButtonBuilder(material, durability) else MSGui12ButtonBuilder(material, durability) }
-    constructor(url: String) { builder = if(highVersion16) MSGui16ButtonBuilder(url) else if(highVersion17) MSGui17ButtonBuilder(url) else MSGui12ButtonBuilder(url) }
-    constructor(uuid: UUID) { builder = if(highVersion16) MSGui16ButtonBuilder(uuid) else if(highVersion17) MSGui17ButtonBuilder(uuid) else MSGui12ButtonBuilder(uuid) }
-    constructor(offlinePlayer: OfflinePlayer) { builder = if(highVersion16) MSGui16ButtonBuilder(offlinePlayer) else if(highVersion17) MSGui17ButtonBuilder(offlinePlayer) else MSGui12ButtonBuilder(offlinePlayer) }
+    constructor(material: Material) { builder = if(highVersion16) MSGui16ButtonBuilder(material) else if(highVersion17) MSGui19ButtonBuilder(material) else MSGui12ButtonBuilder(material) }
+    constructor(baseItem: ItemStack) { builder = if(highVersion16) MSGui16ButtonBuilder(baseItem) else if(highVersion17) MSGui19ButtonBuilder(baseItem) else MSGui12ButtonBuilder(baseItem) }
+    constructor(material: Material, durability: Int)  { builder = if(highVersion16) MSGui16ButtonBuilder(material, durability) else if(highVersion17) MSGui19ButtonBuilder(material, durability) else MSGui12ButtonBuilder(material, durability) }
+    constructor(url: String) { builder = if(highVersion16) MSGui16ButtonBuilder(url) else if(highVersion17) MSGui19ButtonBuilder(url) else MSGui12ButtonBuilder(url) }
+    constructor(uuid: UUID) { builder = if(highVersion16) MSGui16ButtonBuilder(uuid) else if(highVersion17) MSGui19ButtonBuilder(uuid) else MSGui12ButtonBuilder(uuid) }
+    constructor(offlinePlayer: OfflinePlayer) { builder = if(highVersion16) MSGui16ButtonBuilder(offlinePlayer) else if(highVersion17) MSGui19ButtonBuilder(offlinePlayer) else MSGui12ButtonBuilder(offlinePlayer) }
     fun setDisplayName(displayName: String?): MSGuiButtonBuilder {
         builder.setDisplayName(displayName)
         return this

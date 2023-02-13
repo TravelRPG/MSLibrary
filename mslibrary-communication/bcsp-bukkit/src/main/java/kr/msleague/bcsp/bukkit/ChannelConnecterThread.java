@@ -58,8 +58,10 @@ public class ChannelConnecterThread implements Runnable {
                 }
             });
             handlerBoss.setPacketPreProcessHandler((handler, wrapper) -> {
-                Bukkit.getPluginManager().callEvent(new ASyncPacketReceivedEvent(handler, wrapper));
-                Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), () -> Bukkit.getPluginManager().callEvent(new PacketReceivedEvent(handler, wrapper)));
+                Bukkit.getScheduler().runTask(MSLibraryBukkitBootstrap.getPlugin(), () -> {
+                    Bukkit.getPluginManager().callEvent(new ASyncPacketReceivedEvent(handler, wrapper));
+                    Bukkit.getPluginManager().callEvent(new PacketReceivedEvent(handler, wrapper));
+                });
             });
             BCSPLogManager.getLogger().info("BSCP Server Initialization Success!");
             handlerBoss.setConnectionState(ConnectionState.HANDSHAKING);

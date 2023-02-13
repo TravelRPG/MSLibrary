@@ -5,9 +5,9 @@ import kr.msleague.msgui.api.annotations.MSGuiPage
 import kr.msleague.msgui.api.event.*
 import kr.msleague.msgui.gui.button.MSGuiButtonAction
 import kr.msleague.msgui.gui.button.MSGuiButtonData
+import kr.msleague.util.extensions.ItemStackExtension19.getNBTTagCompound19
 import kr.msleague.util.extensions.getNBTTagCompound
 import kr.msleague.util.extensions.getNBTTagCompound16
-import kr.msleague.util.extensions.getNBTTagCompound17
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -261,6 +261,7 @@ abstract class MSGui<V>(
 
     open fun guiClose(e: InventoryCloseEvent) {
         pluginManager.callEvent(MSGuiCloseEvent(e.player as Player, this, System.currentTimeMillis()))
+        (e.player as Player).updateInventory()
     }
 
     open fun guiDrag(e: InventoryDragEvent) {
@@ -272,7 +273,7 @@ abstract class MSGui<V>(
     private val ItemStack?.guiButtonData: MSGuiButtonData?
         get() = if (this == null || type == Material.AIR) null else {
             if(highVersion16) getNBTTagCompound16(MSGuiButtonData::class.java)
-            else if(highVersion17) getNBTTagCompound17(MSGuiButtonData::class.java)
+            else if(highVersion17) getNBTTagCompound19(MSGuiButtonData::class.java)
             else getNBTTagCompound(MSGuiButtonData::class.java)
         }
 

@@ -1,3 +1,5 @@
+class ItemStackExtension17
+/*
 package kr.msleague.util.extensions
 
 import com.google.gson.Gson
@@ -32,4 +34,4 @@ inline fun <reified T> ItemStack.addNBTTagCompound17(data: T): ItemStack {
 inline fun <reified T> ItemStack.getNBTTagCompound17(data: Class<T>): T? {
     val jsonData = asNMSCopy17(this).tag17?.getString17(T::class.simpleName?: return null) ?: return null
     return Gson().fromJson(jsonData, data)
-}
+}*/

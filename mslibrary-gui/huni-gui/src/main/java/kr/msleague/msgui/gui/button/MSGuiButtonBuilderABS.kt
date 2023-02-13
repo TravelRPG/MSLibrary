@@ -4,10 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kr.msleague.msgui.managers.SkullManager
 import kr.msleague.msgui.server
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
-import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -89,7 +87,7 @@ abstract class MSGuiButtonBuilderABS {
     }
     internal abstract fun versionBuild(item: String?): Pair<ItemStack, Boolean>
     fun build(): MSGuiButton {
-        val func = versionBuild(if(type==MSGuiButtonType.PLAYER_HEAD) SkullManager.getHead(owner?.uniqueId?: uuid) else null)
+        val func = versionBuild(if(type==MSGuiButtonType.PLAYER_HEAD) SkullManager.getTag(owner?.uniqueId?: uuid) else null)
         val makeLastFunc = func.second
         val item = func.first
         val lastFunc: ((ItemStack?)->Unit)? = if(!makeLastFunc) { tempItem->

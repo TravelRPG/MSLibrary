@@ -39,6 +39,7 @@ object LocaleQuery {
                 else "item.minecraft."+material.name.lowercase())
             } else if (material.isBlock) blockMap[material.name + "." + durability] ?: blockMap[material.name] ?: default
             else {
+
                 val i = ItemStack(material, 1, durability)
                 if (durability >= 0 && i.itemMeta is PotionMeta) {
                     when (material) {
@@ -51,7 +52,7 @@ object LocaleQuery {
                     }
                 } else itemMap[material.name + "." + durability] ?: itemMap[material.name] ?: default
             }, default
-        )
+        )?: ""
 
 
     private val blockKeys: LinkedHashMap<String, String>
@@ -747,6 +748,7 @@ object LocaleQuery {
             keys["FIREWORK_CHARGE"] = "item.fireworksCharge.name"
             keys["NETHER_BRICK_ITEM"] = "item.netherbrick.name"
             keys["QUARTZ_ORE"] = "item.netherquartz.name"
+            keys["NETHER_STALK"] = "tile.netherStalk.name"
             keys["ARMOR_STAND"] = "item.armorStand.name"
             keys["IRON_BARDING"] = "item.horsearmormetal.name"
             keys["GOLD_BARDING"] = "item.horsearmorgold.name"

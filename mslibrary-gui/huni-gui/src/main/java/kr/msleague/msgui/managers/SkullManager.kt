@@ -20,9 +20,10 @@ import java.util.*
 object SkullManager {
 
     private val headCachedMap = HashMap<UUID, String>()
-    fun getHead(uuid: UUID?): String? = uuid?.run {
+    fun getTag(uuid: UUID?): String? = uuid?.run {
         headCachedMap[this]
     }
+    fun getHead(uuid:UUID): ItemStack = getSkull(uuid, 1)
     fun setHead(uuid: UUID?, tag: String) = uuid?.apply { headCachedMap[this] = tag }
 
     private val base64Method by lazy { Class.forName("org.bukkit.craftbukkit.libs.org.apache.commons.codec.binary.Base64").getMethod("encodeBase64",ByteArray::class.java) }
@@ -61,8 +62,8 @@ object SkullManager {
         return head
     }
 
-    fun getSkull(temp: UUID, amount: Int): ItemStack {
-        val tag = getHead(temp)?: run {
+    fun getSkull(temp: UUID?, amount: Int): ItemStack {
+        val tag = getTag(temp)?: run {
             val s = getURLContents("https://sessionserver.mojang.com/session/minecraft/profile/$temp")
             val g = Gson()
             val obj = g.fromJson(s, JsonObject::class.java)

@@ -6,6 +6,7 @@ import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.reflections.Reflections;
 import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.util.*;
 
@@ -60,8 +61,8 @@ public final class MSLibraryBukkitBootstrap extends JavaPlugin {
     private final void loadClasses() {
         getLogger().info("Started loadup plugin & modules...");
         try {
-            Reflections.class.getDeclaredField("log").set(null, null);
-            Reflections rf = new Reflections(ClasspathHelper.forPackage("kr.msleague"));
+            //Reflections.class.getDeclaredField("log").set(null, null);
+            Reflections rf = new Reflections(new ConfigurationBuilder().forPackages("kr.msleague", "com.huni"));
 
             Set<Class<? extends MSPlugin>> clazzes = rf.getSubTypesOf(MSPlugin.class);
             getLogger().info("System found total " + clazzes.size() + " modules.");

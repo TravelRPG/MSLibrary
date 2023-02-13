@@ -52,7 +52,7 @@ public final class MSLibraryBungeeBootstrap extends Plugin {
     private final void loadClasses() {
         getLogger().info("Started loadup plugin & modules...");
         try {
-            Reflections.class.getDeclaredField("log").set(null, null);
+            //Reflections.class.getDeclaredField("log").set(null, null);
             Reflections rf = new Reflections(ClasspathHelper.forPackage("kr.msleague"));
 
             //Classes which extends Plugin.class

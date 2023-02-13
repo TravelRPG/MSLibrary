@@ -8,10 +8,10 @@ val NBTTagCompound: Class<*> = Class.forName("net.minecraft.server.v1_16_R3.NBTT
 private val NMSItemStack: Class<*> = Class.forName("net.minecraft.server.v1_16_R3.ItemStack")
 private val bukkitCopyMethod = CraftItemStack.getDeclaredMethod("asBukkitCopy", NMSItemStack)
 private val nmsCopyMethod = CraftItemStack.getDeclaredMethod("asNMSCopy", ItemStack::class.java)
-private val setTagMethod = NMSItemStack.getDeclaredMethod("setTag", NBTTagCompound)
+private val setTagMethod = NMSItemStack.getDeclaredMethod("setTag", NBTTagCompound12)
 private val getTagMethod = NMSItemStack.getDeclaredMethod("getTag")
-private val setStringMethod = NBTTagCompound.getDeclaredMethod("setString", String::class.java, String::class.java)
-private val getStringMethod = NBTTagCompound.getDeclaredMethod("getString", String::class.java)
+private val setStringMethod = NBTTagCompound12.getDeclaredMethod("setString", String::class.java, String::class.java)
+private val getStringMethod = NBTTagCompound12.getDeclaredMethod("getString", String::class.java)
 val asBukkitCopy16: (Any)->ItemStack = { bukkitCopyMethod.invoke(null, it) as ItemStack }
 val asNMSCopy16: (ItemStack)->Any = { nmsCopyMethod.invoke(null, it) }
 fun Any.getString(key: String): String? = getStringMethod.invoke(this, key)?.run { try { this as String } catch (e: Exception) { null } }
@@ -25,7 +25,7 @@ var Any.tag: Any?
 inline fun <reified T> ItemStack.addNBTTagCompound16(data: T): ItemStack {
     return asBukkitCopy16(asNMSCopy16(this)
             .apply {
-                tag = (tag?: NBTTagCompound.newInstance()).also { it.setString(T::class.simpleName?: return@apply, Gson().toJson(data)) }
+                tag = (tag?: NBTTagCompound12.newInstance()).also { it.setString(T::class.simpleName?: return@apply, Gson().toJson(data)) }
             }
     )
 }
